@@ -179,7 +179,7 @@ export const DU_AN: readonly Du_an[] = [
     },
     so_lieu: [
       { so: { vi: '14', en: '14' }, nhan: { vi: 'dashboard dùng hằng ngày', en: 'dashboards in daily use' } },
-      { so: { vi: '100+', en: '100+' }, nhan: { vi: 'quản lý salon là người dùng', en: 'store managers as users' } },
+      { so: { vi: '100+', en: '100+' }, nhan: { vi: 'quản lý salon là người dùng', en: 'salon managers as users' } },
       { so: { vi: '10 triệu', en: '10 million' }, nhan: { vi: 'dòng tích luỹ trong kho dữ liệu', en: 'rows accumulated in the warehouse' } },
       { so: { vi: '4', en: '4' }, nhan: { vi: 'hệ nguồn độc lập gom về một mối', en: 'source systems consolidated into one' } },
     ],

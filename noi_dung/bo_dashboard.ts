@@ -6,13 +6,39 @@
 // Bộ của VETC lắp lại từ các hằng đã có trong quy_trinh.ts chứ không chép lại,
 // nên sửa số ở đó là đổi luôn ở đây, và tệp kia không phải động tới.
 
-import type { Bo_dashboard } from './kieu.ts'
+import type { Bo_dashboard, Song } from './kieu.ts'
 import {
   CHUOI_CANH_BAO,
   DOANH_THU_THANG,
   KENH_DOANH_THU,
   NHAN_QUY_TRINH,
 } from './quy_trinh.ts'
+
+// Nhãn tháng trên trục hoành. Bản tiếng Việt viết tắt kiểu T4, nhưng người đọc
+// tiếng Anh không đoán được T4 là tháng nào, nên bản tiếng Anh phải là tên tháng.
+const THANG_TIENG_ANH = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+] as const
+
+/** Đổi nhãn kiểu T4 sang cặp song ngữ. Nhãn không theo dạng đó thì giữ nguyên. */
+function nhan_thang(thang: string): Song {
+  const khop = /^T(\d{1,2})$/.exec(thang)
+  const so = khop?.[1]
+  if (so === undefined) return { vi: thang, en: thang }
+  const en = THANG_TIENG_ANH[Number(so) - 1]
+  return { vi: thang, en: en ?? thang }
+}
 
 export const BO_VETC: Bo_dashboard = {
   ma: 'vetc',
@@ -27,7 +53,7 @@ export const BO_VETC: Bo_dashboard = {
     // Một chuỗi theo thời gian thì con số đáng nói là kỳ gần nhất.
     so_noi_bat: 'cuoi',
     muc: DOANH_THU_THANG.map((c) => ({
-      nhan: { vi: c.thang, en: c.thang },
+      nhan: nhan_thang(c.thang),
       gia_tri: c.ty_dong,
     })),
   },
@@ -58,7 +84,7 @@ export const BO_SHINE: Bo_dashboard = {
   ma: 'shine',
   tieu_de: {
     vi: 'Dashboard dựng cho quản lý chuỗi',
-    en: 'The dashboards the chain runs on',
+    en: 'Dashboards built for chain managers',
   },
   ghi_chu: {
     vi: 'Số liệu mô phỏng, không phải số thật của chuỗi.',
