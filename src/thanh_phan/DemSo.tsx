@@ -45,12 +45,14 @@ export function DemSo({ dich, ngon_ngu, className }: Tham_so) {
     const phan_tu = tham_chieu.current
     const { so, duoi } = boc_so(dich)
 
+    // Đổi ngôn ngữ là chuỗi đích đổi theo, nên đặt lại ngay chuỗi đang hiện.
+    // Thiếu dòng này thì con số nằm ngoài tầm mắt không có lần đếm nào chạy để
+    // cập nhật, và nó đứng nguyên bản tiếng Việt giữa trang tiếng Anh.
+    dat_dang_hien(dich)
+
     // Chuỗi không bóc được số, hoặc người dùng đã xin giảm chuyển động: hiện
     // thẳng chuỗi đích, không đếm.
-    if (phan_tu === null || so === null || giam_chuyen_dong()) {
-      dat_dang_hien(dich)
-      return
-    }
+    if (phan_tu === null || so === null || giam_chuyen_dong()) return
 
     const dinh_dang = new Intl.NumberFormat(ngon_ngu === 'vi' ? 'vi-VN' : 'en-US')
     let ma_khung = 0
