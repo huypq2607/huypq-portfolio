@@ -22,9 +22,23 @@ function MotDuAn({ du_an }: { du_an: Du_an_noi_bat }) {
         </span>
       </div>
 
-      <p className="mt-3 leading-relaxed text-chu-mo">{chu(du_an.viec)}</p>
+      {/* Giá trị đứng ngay dưới tên dự án, trước cả đoạn mô tả.
+          Cùng một luật với phần kinh nghiệm: thứ đáng đọc nhất nằm trên cùng,
+          để người lướt đọc hai dòng đầu mỗi thẻ là đủ. Mô tả và bảng công cụ
+          tụt xuống dưới, dành cho ai đọc kỹ. */}
+      <ul className="mt-3 space-y-1.5">
+        {du_an.gia_tri.map((muc, i) => (
+          <li key={i} className="gach-dau-dong text-[0.98rem] leading-snug font-semibold">
+            {chu(muc)}
+          </li>
+        ))}
+      </ul>
 
-      <dl className="ma mt-4 space-y-1 text-[0.74rem] text-chu-mo">
+      <p className="mt-4 text-[0.92rem] leading-relaxed text-chu-mo">{chu(du_an.viec)}</p>
+
+      {/* mt-auto đẩy bảng công cụ xuống đáy thẻ, để các thẻ cùng hàng có đường
+          kẻ nằm ngang nhau dù đoạn mô tả dài ngắn khác nhau. */}
+      <dl className="ma mt-auto space-y-1 border-t border-vien pt-4 text-[0.74rem] text-chu-mo">
         <div className="flex gap-2">
           <dt className="w-[5.9rem] shrink-0">{chu(NHAN.nhan_cong_cu)}</dt>
           <dd className="min-w-0">{du_an.cong_cu.join(', ')}</dd>
@@ -38,19 +52,6 @@ function MotDuAn({ du_an }: { du_an: Du_an_noi_bat }) {
           <dd className="min-w-0">{chu(du_an.quy_mo)}</dd>
         </div>
       </dl>
-
-      {/* mt-auto đẩy khối giá trị xuống đáy thẻ, để các thẻ cùng hàng có đường
-          kẻ nằm ngang nhau dù đoạn mô tả dài ngắn khác nhau. */}
-      <div className="mt-auto border-t border-vien pt-4">
-        <p className="ma text-[0.7rem] text-chu-mo">{chu(NHAN.nhan_gia_tri)}</p>
-        <ul className="mt-2 space-y-1.5">
-          {du_an.gia_tri.map((muc, i) => (
-            <li key={i} className="gach-dau-dong text-[0.92rem] leading-snug font-medium">
-              {chu(muc)}
-            </li>
-          ))}
-        </ul>
-      </div>
     </article>
   )
 }

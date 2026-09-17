@@ -78,6 +78,8 @@ export interface Chuyen_bien {
   readonly nhan: Song
   readonly truoc?: Song
   readonly sau: Song
+  /** Nơi làm ra con số này. Không dịch, nên để chuỗi trần. */
+  readonly noi: string
 }
 
 /** Một con số đáng nói của một nơi làm việc, hiện dưới dạng chữ số lớn. */

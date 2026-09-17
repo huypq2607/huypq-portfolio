@@ -11,6 +11,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { NHAN, QUY_TRINH } from '../../noi_dung/noi_dung.ts'
+import { BieuTuongChang } from './BieuTuongChang.tsx'
 import { giam_chuyen_dong } from '../hieu_ung.ts'
 import { dung_ngon_ngu } from '../ngon_ngu.tsx'
 
@@ -65,7 +66,7 @@ export function SoDoQuyTrinh() {
                 <>
                   <span
                     aria-hidden="true"
-                    className={`absolute top-[0.34rem] left-3 hidden h-px md:block ${da_chay ? 'duong-chay' : ''}`}
+                    className={`absolute top-[1.12rem] left-10 hidden h-px md:block ${da_chay ? 'duong-chay' : ''}`}
                     style={{
                       right: '-0.75rem',
                       background: `linear-gradient(90deg, ${mau}, var(--tang-${thu_tu + 2}))`,
@@ -75,7 +76,7 @@ export function SoDoQuyTrinh() {
                   />
                   <span
                     aria-hidden="true"
-                    className="absolute top-[1.1rem] -bottom-[1.25rem] left-[0.32rem] w-px md:hidden"
+                    className="absolute top-10 -bottom-[1.25rem] left-[1.12rem] w-px md:hidden"
                     style={{
                       background: `linear-gradient(180deg, ${mau}, var(--tang-${thu_tu + 2}))`,
                       opacity: 0.5,
@@ -84,15 +85,21 @@ export function SoDoQuyTrinh() {
                 </>
               )}
 
+              {/* Biểu tượng nằm trong một ô tròn có viền cùng màu bậc. Ô tròn
+                  giữ vai trò cái chấm cũ, tức điểm neo của đường nối, còn hình
+                  bên trong nói chặng này làm gì. */}
               <span
-                aria-hidden="true"
-                className={`relative block h-[0.7rem] w-[0.7rem] rounded-full ${da_chay ? 'nut-tang' : ''}`}
+                className={`relative flex h-9 w-9 items-center justify-center rounded-full border ${da_chay ? 'nut-tang' : ''}`}
                 style={{
-                  backgroundColor: mau,
-                  boxShadow: `0 0 14px -2px ${mau}`,
+                  color: mau,
+                  borderColor: mau,
+                  backgroundColor: 'var(--be-mat)',
+                  boxShadow: `0 0 18px -6px ${mau}`,
                   animationDelay: `${thu_tu * 120}ms`,
                 }}
-              />
+              >
+                <BieuTuongChang ma={chang.ma} className="h-[1.15rem] w-[1.15rem]" />
+              </span>
 
               {/* Chốt cứng chiều cao hai dòng khi xếp ngang, để dòng nhịp chạy
                   bên dưới luôn bắt đầu cùng một độ cao dù tên chặng dài ngắn

@@ -285,34 +285,58 @@ export const QUY_TRINH: readonly Chang[] = [
 // Những con số đã đổi được
 // ---------------------------------------------------------------------------
 //
+// Khối này đứng ngay dưới phần mở đầu, trước mọi đoạn chữ. Người lướt trang
+// dừng lại ở đây là đã nắm được toàn bộ câu chuyện, không cần đọc câu nào.
+//
 // Hai dạng nằm chung một danh sách: cặp trước và sau khi đo được cả hai đầu,
 // và một mức chênh khi chỉ đo được phần thay đổi. Không ép dạng thứ hai thành
 // dạng thứ nhất, vì làm thế là bịa ra một mốc trước mà không ai từng đo.
 
 export const CHUYEN_BIEN: readonly Chuyen_bien[] = [
   {
+    noi: 'VETC',
+    nhan: { vi: 'Giờ làm báo cáo tay mỗi tuần' },
+    sau: { vi: '-30%' },
+  },
+  {
+    noi: 'VETC',
+    nhan: { vi: 'Tỷ lệ tái tục mảng bảo hiểm' },
+    sau: { vi: '+60%' },
+  },
+  {
+    noi: 'VETC',
     nhan: { vi: 'Thời gian phát hiện sai lệch' },
     truoc: { vi: '5 ngày' },
     sau: { vi: 'Trong ngày' },
   },
   {
+    noi: 'VETC',
     nhan: { vi: 'Thời gian tải dashboard' },
     truoc: { vi: 'Phút' },
     sau: { vi: 'Giây' },
   },
   {
-    nhan: { vi: 'Giờ làm báo cáo tay mỗi tuần' },
-    sau: { vi: '-30%' },
+    noi: '30Shine',
+    nhan: { vi: 'Thời gian xử lý dữ liệu thủ công mỗi tháng' },
+    sau: { vi: '-70%' },
   },
   {
-    nhan: { vi: 'Tỷ lệ tái tục mảng bảo hiểm' },
-    sau: { vi: '+60%' },
+    noi: '30Shine',
+    nhan: { vi: 'Ngân sách vận hành tiết kiệm mỗi quý' },
+    sau: { vi: '10-15%' },
   },
   {
-    nhan: { vi: 'Yêu cầu báo cáo gửi về đội data' },
-    sau: { vi: '-20%' },
+    noi: '30Shine',
+    nhan: { vi: 'Hiệu quả vận hành toàn chuỗi' },
+    sau: { vi: '+15%' },
+  },
+  {
+    noi: '30Shine',
+    nhan: { vi: 'Thời gian mỗi quản lý vùng lấy lại' },
+    sau: { vi: '4-6 giờ/tuần' },
   },
 ]
+
 
 // ---------------------------------------------------------------------------
 // Kỹ năng chuyên môn
@@ -600,12 +624,11 @@ export const NHAN = {
   nhan_cong_cu: { vi: 'Công cụ' } satisfies Song,
   nhan_nguon: { vi: 'Nguồn dữ liệu' } satisfies Song,
   nhan_quy_mo: { vi: 'Quy mô' } satisfies Song,
-  nhan_gia_tri: { vi: 'Giá trị mang lại' } satisfies Song,
   nhan_hoc_van: { vi: 'Học vấn' } satisfies Song,
   nhan_chung_chi: { vi: 'Chứng chỉ' } satisfies Song,
   nhan_san_pham_rieng: { vi: 'Sản phẩm cá nhân' } satisfies Song,
   nhan_quy_trinh: { vi: 'Dây chuyền dữ liệu, sáu chặng' } satisfies Song,
-  nhan_chuyen_bien: { vi: 'Những con số đã đổi được' } satisfies Song,
+  muc_ket_qua: { vi: 'Bốn năm vừa rồi đổi được gì' } satisfies Song,
   nhan_dong_thoi_gian: { vi: 'Bốn năm vừa rồi' } satisfies Song,
 
   bo_qua_dau_trang: { vi: 'Bỏ qua phần đầu trang' } satisfies Song,

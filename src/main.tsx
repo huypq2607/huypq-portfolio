@@ -10,6 +10,7 @@ import { NHAN } from '../noi_dung/noi_dung.ts'
 import { theo_doi_hien_ra } from './hieu_ung.ts'
 import { Cung_cap_ngon_ngu, dung_ngon_ngu } from './ngon_ngu.tsx'
 import { Cung_cap_nen } from './nen.tsx'
+import { ChuyenBien } from './thanh_phan/ChuyenBien.tsx'
 import { DuAnNoiBat } from './thanh_phan/DuAnNoiBat.tsx'
 import { HocVan } from './thanh_phan/HocVan.tsx'
 import { KhungMuc } from './thanh_phan/KhungMuc.tsx'
@@ -48,28 +49,35 @@ function Trang() {
       <main>
         <MoDau />
 
-        <KhungMuc ma="muc-tieu" tieu_de={NHAN.muc_muc_tieu} nen_diu>
+        {/* Dải kết quả đứng ngay sau phần mở đầu, trước mọi đoạn chữ. Người lướt
+            trang dừng ở đây là đã nắm được câu chuyện bốn năm mà không phải đọc
+            câu nào; phần bên dưới là để trả lời câu hỏi làm thế nào. */}
+        <KhungMuc ma="ket-qua" tieu_de={NHAN.muc_ket_qua} nen_diu>
+          <ChuyenBien />
+        </KhungMuc>
+
+        <KhungMuc ma="muc-tieu" tieu_de={NHAN.muc_muc_tieu}>
           <MucTieu />
         </KhungMuc>
 
-        <KhungMuc ma="kinh-nghiem" tieu_de={NHAN.muc_kinh_nghiem}>
+        <KhungMuc ma="kinh-nghiem" tieu_de={NHAN.muc_kinh_nghiem} nen_diu>
           <KinhNghiem />
         </KhungMuc>
 
-        <KhungMuc ma="du-an" tieu_de={NHAN.muc_du_an} nen_diu>
+        <KhungMuc ma="du-an" tieu_de={NHAN.muc_du_an}>
           <DuAnNoiBat />
           <SanPhamRieng />
         </KhungMuc>
 
-        <KhungMuc ma="ky-nang" tieu_de={NHAN.muc_ky_nang}>
+        <KhungMuc ma="ky-nang" tieu_de={NHAN.muc_ky_nang} nen_diu>
           <KyNang />
         </KhungMuc>
 
-        <KhungMuc ma="hoc-van" tieu_de={NHAN.muc_hoc_van} nen_diu>
+        <KhungMuc ma="hoc-van" tieu_de={NHAN.muc_hoc_van}>
           <HocVan />
         </KhungMuc>
 
-        <KhungMuc ma="lien-he" tieu_de={NHAN.muc_lien_he}>
+        <KhungMuc ma="lien-he" tieu_de={NHAN.muc_lien_he} nen_diu>
           <LienHe />
         </KhungMuc>
       </main>

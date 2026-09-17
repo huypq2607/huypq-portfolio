@@ -12,7 +12,6 @@
 import type { Kinh_nghiem } from '../../noi_dung/kieu.ts'
 import { KINH_NGHIEM, NHAN } from '../../noi_dung/noi_dung.ts'
 import { dung_ngon_ngu } from '../ngon_ngu.tsx'
-import { ChuyenBien } from './ChuyenBien.tsx'
 import { DemSo } from './DemSo.tsx'
 import { SoDoQuyTrinh } from './SoDoQuyTrinh.tsx'
 
@@ -47,13 +46,12 @@ function MotNoi({ noi }: { noi: Kinh_nghiem }) {
         </dl>
       )}
 
-      {/* Hai khối hình chỉ gắn cho VETC, vì dây chuyền sáu chặng và các con số
-          đổi được đều là chuyện của nơi ấy. Gắn theo mã chứ không theo chỉ số,
-          để đảo thứ tự trong tệp nội dung không làm hình lạc sang nơi khác. */}
+      {/* Sơ đồ dây chuyền chỉ gắn cho VETC, vì đó là chuyện của nơi ấy. Gắn
+          theo mã chứ không theo chỉ số, để đảo thứ tự trong tệp nội dung không
+          làm hình lạc sang nơi khác. */}
       {noi.ma === 'vetc' && (
-        <div className="mt-5 space-y-5">
+        <div className="mt-5">
           <SoDoQuyTrinh />
-          <ChuyenBien />
         </div>
       )}
 
@@ -63,12 +61,25 @@ function MotNoi({ noi }: { noi: Kinh_nghiem }) {
             {vai.ten !== undefined && (
               <h4 className="ma mb-3 text-[0.78rem] tracking-wide text-chu-mo">{chu(vai.ten)}</h4>
             )}
-            <ul className="space-y-4">
+            {/* Kết quả đứng TRÊN, việc làm đứng dưới.
+                Người lướt đọc dòng đầu của mỗi gạch rồi đi tiếp, nên dòng đầu
+                phải là thứ đáng đọc nhất. Để việc làm lên trước thì họ đọc mất
+                năm dòng mô tả kỹ thuật rồi mới tới chỗ nói nó đổi được gì, và
+                phần lớn sẽ bỏ đi trước khi tới đó. */}
+            <ul className="space-y-5">
               {vai.viec.map((viec, i) => (
                 <li key={i} className="gach-dau-dong max-w-[72ch]">
-                  <p className="leading-relaxed text-chu-mo">{chu(viec.lam)}</p>
-                  {viec.ket_qua !== undefined && (
-                    <p className="ket-qua mt-1.5 leading-snug font-medium">{chu(viec.ket_qua)}</p>
+                  {viec.ket_qua === undefined ? (
+                    <p className="leading-relaxed text-chu-mo">{chu(viec.lam)}</p>
+                  ) : (
+                    <>
+                      <p className="text-[1.02rem] leading-snug font-semibold">
+                        {chu(viec.ket_qua)}
+                      </p>
+                      <p className="mt-1.5 text-[0.9rem] leading-relaxed text-chu-mo">
+                        {chu(viec.lam)}
+                      </p>
+                    </>
                   )}
                 </li>
               ))}
