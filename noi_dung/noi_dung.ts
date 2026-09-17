@@ -628,7 +628,7 @@ export const NHAN = {
   nhan_chung_chi: { vi: 'Chứng chỉ' } satisfies Song,
   nhan_san_pham_rieng: { vi: 'Sản phẩm cá nhân' } satisfies Song,
   nhan_quy_trinh: { vi: 'Dây chuyền dữ liệu, sáu chặng' } satisfies Song,
-  muc_ket_qua: { vi: 'Bốn năm vừa rồi đổi được gì' } satisfies Song,
+  muc_ket_qua: { vi: 'Tôi đã đóng góp cho Tổ chức trong 4 năm qua' } satisfies Song,
   nhan_dong_thoi_gian: { vi: 'Bốn năm vừa rồi' } satisfies Song,
 
   bo_qua_dau_trang: { vi: 'Bỏ qua phần đầu trang' } satisfies Song,
