@@ -49,6 +49,10 @@ export const GIOI_THIEU: readonly Song[] = [
 
 export const HO_SO: readonly Dong_ho_so[] = [
   {
+    nhan: { vi: 'Năm sinh', en: 'Born' },
+    gia_tri: { vi: '1997', en: '1997' },
+  },
+  {
     nhan: { vi: 'Kinh nghiệm', en: 'Experience' },
     gia_tri: { vi: '4 năm, kỹ thuật dữ liệu và phân tích', en: '4 years, data engineering and analytics' },
   },
