@@ -201,7 +201,7 @@ export const DU_AN: readonly Du_an[] = [
         },
       },
       {
-        so: { vi: '-20% giờ mỗi tuần', en: '4 to 6 hours a week' },
+        so: { vi: '-20% giờ mỗi tuần', en: '-20% hours a week' },
         nhan: {
           vi: 'Thời gian mỗi quản lý vùng lấy lại được',
           en: 'Time given back to each regional manager',
@@ -339,6 +339,6 @@ export const NHAN = {
   anh_chan_dung: { vi: 'Ảnh chân dung Phạm Quang Huy', en: 'Portrait of Phạm Quang Huy' } satisfies Song,
   chan_trang: {
     vi: 'made by HuyPQ',
-    en: 'This page is hand-built with React and Tailwind, released through GitHub Actions.',
+    en: 'made by HuyPQ',
   } satisfies Song,
 }
