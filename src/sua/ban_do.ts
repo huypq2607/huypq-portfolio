@@ -9,7 +9,6 @@
 // module nên module này chạy lại từ đầu và bản đồ tự mới.
 
 import * as noi_dung from '../../noi_dung/noi_dung.ts'
-import * as quy_trinh from '../../noi_dung/quy_trinh.ts'
 
 export type Doan = string | number
 
@@ -18,12 +17,11 @@ export interface Vi_tri {
   readonly duong_dan: readonly Doan[]
 }
 
-function la_song(gia_tri: unknown): gia_tri is { vi: string; en: string } {
+function la_song(gia_tri: unknown): gia_tri is { vi: string } {
   if (typeof gia_tri !== 'object' || gia_tri === null) return false
   const khoa = Object.keys(gia_tri)
-  if (khoa.length !== 2 || !khoa.includes('vi') || !khoa.includes('en')) return false
-  const o = gia_tri as Record<string, unknown>
-  return typeof o.vi === 'string' && typeof o.en === 'string'
+  if (khoa.length !== 1 || khoa[0] !== 'vi') return false
+  return typeof (gia_tri as Record<string, unknown>).vi === 'string'
 }
 
 function duyet(gia_tri: unknown, duong_dan: Doan[], tep: string, ban_do: Map<object, Vi_tri>): void {
@@ -48,9 +46,6 @@ function dung_ban_do(): Map<object, Vi_tri> {
   const moi = new Map<object, Vi_tri>()
   for (const [ten, gia_tri] of Object.entries(noi_dung)) {
     duyet(gia_tri, [ten], 'noi_dung/noi_dung.ts', moi)
-  }
-  for (const [ten, gia_tri] of Object.entries(quy_trinh)) {
-    duyet(gia_tri, [ten], 'noi_dung/quy_trinh.ts', moi)
   }
   return moi
 }

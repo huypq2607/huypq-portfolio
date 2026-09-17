@@ -12,6 +12,7 @@ import { dung_ngon_ngu } from '../ngon_ngu.tsx'
 import { dung_nen } from '../nen.tsx'
 
 const MUC_NHAY = [
+  { dia_chi: '#kinh-nghiem', nhan: NHAN.dieu_huong_kinh_nghiem },
   { dia_chi: '#du-an', nhan: NHAN.dieu_huong_du_an },
   { dia_chi: '#lien-he', nhan: NHAN.muc_lien_he },
 ] as const
@@ -34,7 +35,7 @@ function BieuTuongTrang() {
 }
 
 export function ThanhTren() {
-  const { ngon_ngu, chu, chu_tho, doi_ngon_ngu } = dung_ngon_ngu()
+  const { chu, chu_tho } = dung_ngon_ngu()
   const { nen, doi_nen } = dung_nen()
   const vach = useRef<HTMLDivElement | null>(null)
 
@@ -73,24 +74,6 @@ export function ThanhTren() {
             className="flex h-10 w-10 items-center justify-center rounded-md border border-vien text-chu-mo transition-colors hover:border-vien-ro hover:text-nhan sm:h-8 sm:w-8"
           >
             {nen === 'toi' ? <BieuTuongMatTroi /> : <BieuTuongTrang />}
-          </button>
-
-          <button
-            type="button"
-            onClick={doi_ngon_ngu}
-            aria-label={chu_tho(NHAN.doi_ngon_ngu)}
-            className="ma flex h-10 items-center overflow-hidden rounded-md border border-vien text-[0.72rem] font-medium sm:h-8"
-          >
-            <span
-              className={`flex h-full items-center px-2.5 transition-colors ${ngon_ngu === 'en' ? 'bg-nhan text-nen' : 'text-chu-mo'}`}
-            >
-              EN
-            </span>
-            <span
-              className={`flex h-full items-center px-2.5 transition-colors ${ngon_ngu === 'vi' ? 'bg-nhan text-nen' : 'text-chu-mo'}`}
-            >
-              VI
-            </span>
           </button>
         </div>
       </div>

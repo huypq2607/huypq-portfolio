@@ -1,11 +1,13 @@
 # Trang giới thiệu cá nhân
 
-Một trang tĩnh song ngữ Việt và Anh, giới thiệu Phạm Quang Huy và hai dự án:
-lakehouse Iceberg quy mô tập đoàn tại VETC, và dapractice, nền tảng luyện SQL
-tự dựng và tự vận hành.
+Một trang tĩnh giới thiệu Phạm Quang Huy, kỹ sư dữ liệu và phân tích dữ liệu.
 
-Người đọc chính là nhà tuyển dụng nước ngoài và các vị trí remote, nên bản
-tiếng Anh là bản mặc định. Bản tiếng Việt bật bằng nút trên thanh đầu trang.
+Các mục của trang bám theo các mục của CV, cùng thứ tự: mục tiêu nghề nghiệp,
+kinh nghiệm làm việc, dự án nổi bật, kỹ năng chuyên môn, học vấn và chứng chỉ.
+Nhà tuyển dụng hay đọc CV trước rồi mới mở trang, hoặc ngược lại, và hai bên
+nói khác nhau một con số là hỏng niềm tin vào cả hai.
+
+Trang chỉ có tiếng Việt. Bản tiếng Anh từng tồn tại và đã gỡ hẳn.
 
 - Địa chỉ công khai dự kiến: `https://huypq.dapractice.site`
 - Phát hành: GitHub Actions đẩy thẳng bản dựng lên GitHub Pages
@@ -35,14 +37,12 @@ Không có máy chủ, không có cơ sở dữ liệu, không có API. Toàn b�
 một thư mục tệp tĩnh.
 
 ```
-noi_dung/        Toàn bộ chữ nghĩa, song ngữ, gom một chỗ
-  kieu.ts        Kiểu dữ liệu, trong đó Song là cặp { vi, en }
-  noi_dung.ts    Nội dung thật: hồ sơ, sáu tầng, hai dự án, kỹ năng
-  quy_trinh.ts   Dây chuyền sáu chặng và ba dashboard minh hoạ của dự án VETC
-  quy_trinh.ts   Dây chuyền sáu chặng và ba dashboard minh hoạ của dự án VETC
+noi_dung/        Toàn bộ chữ nghĩa gom một chỗ
+  kieu.ts        Kiểu dữ liệu, trong đó Song là một câu chữ
+  noi_dung.ts    Nội dung thật: hồ sơ, mục tiêu, kinh nghiệm, dự án, kỹ năng
 
 src/
-  ngon_ngu.tsx   Ngôn ngữ đang hiển thị, nhớ trong localStorage
+  ngon_ngu.tsx   Lấy chữ ra khỏi tệp nội dung, và chế độ sửa chữ tại chỗ
   nen.tsx        Chế độ nền sáng và nền tối
   hieu_ung.ts    Lộ ra khi cuộn, vạch tiến độ, quầng sáng theo con trỏ
   giao_dien.css  Dải màu sáu bậc, phông chữ, chuyển động
@@ -51,7 +51,7 @@ src/
 
 scripts/
   kiem_tra_moi_truong.ts   Cổng 1, chạy trước khi dev và build
-  cham_thu_noi_dung.ts     Cổng 2, kiểm nội dung song ngữ
+  cham_thu_noi_dung.ts     Cổng 2, kiểm nội dung
   do_kich_thuoc.ts         Cổng 3, đo dung lượng và canh rò rỉ sau khi dựng
 
 plugins/         Chỉ chạy lúc phát triển
@@ -59,7 +59,7 @@ plugins/         Chỉ chạy lúc phát triển
   thay_chuoi_trong_ma.ts   Thay đúng một chuỗi qua cây cú pháp TypeScript
 
 src/sua/         Phần sửa chữ, chỉ có lúc phát triển
-  ban_do.ts                Tra từ một cặp song ngữ ra vị trí của nó trong nguồn
+  ban_do.ts                Tra từ một câu chữ ra vị trí của nó trong nguồn
   TrangSua.tsx             Bảng liệt kê toàn bộ chuỗi tại /sua
 
 cong_khai/       Tệp tĩnh chép nguyên sang dist
@@ -69,13 +69,16 @@ docker/          Dockerfile và Caddyfile cho đường lui về VPS
 
 ### Vì sao mọi chữ nghĩa nằm trong một tệp
 
-Trang song ngữ, và mỗi lần sửa một câu là phải sửa cả hai bản. Nếu chữ nằm lẫn
-trong JSX thì việc đó thành lần mò, và bản tiếng Việt sẽ dần tụt lại sau bản
-tiếng Anh mà không ai nhận ra.
+Chữ nằm lẫn trong JSX thì sửa một câu là phải đi lần mò qua các thành phần, và
+người sửa không bao giờ đọc được toàn bộ nội dung trang trong một lượt. Gom một
+chỗ thì đọc từ trên xuống là thấy hết, kể cả chỗ viết hớ.
 
-Hai bản nằm **cạnh nhau** trong cùng một đối tượng chứ không phải hai tệp song
-song, vì hai tệp song song chắc chắn sẽ lệch: người sửa một câu tiếng Anh
-không có gì nhắc rằng câu tiếng Việt tương ứng đang ở đâu.
+Mỗi câu chữ là một **đối tượng** `{ vi }` chứ không phải chuỗi trần, dù bên
+trong chỉ có đúng một trường. Đó là điều kiện để chế độ sửa tại chỗ chạy được:
+nó tra ngược từ chính đối tượng ấy ra đường dẫn khoá trong tệp nguồn, mà tra
+ngược theo danh tính đối tượng thì chỉ làm được với đối tượng. Chuỗi trần thì
+hai câu giống hệt nhau ở hai chỗ khác nhau là cùng một giá trị, và không cách
+nào biết người ta đang sửa câu nào.
 
 ### Vì sao không có bộ định tuyến
 
@@ -93,7 +96,7 @@ không ai phát hiện ra.
 | Cổng | Lệnh | Bắt được gì |
 |---|---|---|
 | Môi trường | `npm run kiem-tra-moi-truong` | Thiếu `VITE_DIA_CHI_TRANG`, hoặc địa chỉ không phải https, hoặc thừa dấu gạch chéo cuối |
-| Nội dung | `npm run cham-thu-noi-dung` | Chuỗi thiếu một bản ngôn ngữ; hai bản dài giống hệt nhau, tức quên dịch; khối số liệu không đủ bốn ô; bảy lớp hộp cát đánh số đứt quãng; địa chỉ thư sai dạng |
+| Nội dung | `npm run cham-thu-noi-dung` | Câu chữ rỗng; còn chỗ trống chưa điền số, dấu `__`; thiếu một nơi làm việc; dự án không nêu được giá trị mang lại; mã dự án trùng nhau; địa chỉ thư sai dạng |
 | Dung lượng | `npm run do-kich-thuoc` | Gói vượt 110 KB sau khi nén; ảnh nào đó vượt 120 KB; ảnh gốc chưa xử lý lọt vào bản dựng; `index.html` mất thẻ canonical hoặc còn chuỗi `%VITE_...%` chưa điền |
 
 `npm run build` gọi cả ba theo đúng thứ tự, nên lệnh chạy trên máy phát triển
@@ -152,16 +155,17 @@ thẻ hướng trong EXIF, bỏ bước này thì ảnh cắt ra bị xoay ngang
 
 ### Dải màu là thông tin, không phải trang trí
 
-Sáu tầng dữ liệu là một chuỗi **có thứ tự**: đầu này là dữ liệu thô lạnh ngắt,
-đầu kia là bảng phục vụ nơi nghiệp vụ chạm vào. Nên bảng màu của trang không
-phải một màu nhấn cộng xám, mà là một **dải liên tục từ xanh băng tới hổ phách**
-trải đúng theo sáu tầng đó. Hai đầu dải trở thành màu nhấn của cả trang.
+Dây chuyền dữ liệu sáu chặng là một chuỗi **có thứ tự**: đầu này là dữ liệu thô
+lạnh ngắt vừa lấy về, đầu kia là lúc một con người nhận được cảnh báo. Nên bảng
+màu của trang không phải một màu nhấn cộng xám, mà là một **dải liên tục từ xanh
+băng tới hổ phách** trải đúng theo sáu chặng đó. Hai đầu dải trở thành màu nhấn
+của cả trang.
 
 Nhờ vậy màu ở đây mang thông tin: nhìn một đốm hổ phách là biết nó thuộc bậc
 cuối của một chuỗi, nhìn một đốm xanh băng là biết nó thuộc bậc đầu. Dải ấy
-xuất hiện lại ở bảng bảy lớp hộp cát, ở bốn ô số liệu của mỗi dự án, ở bốn thẻ
-liên hệ, và ở vạch tiến độ cuộn — mỗi nơi vẫn mang đúng một nghĩa là **vị trí
-trong một chuỗi có thứ tự**.
+xuất hiện lại ở ba chỗ, và mỗi chỗ vẫn mang đúng một nghĩa là **vị trí trong
+một chuỗi có thứ tự**: sơ đồ dây chuyền sáu chặng, dòng thời gian nghề nghiệp,
+và vạch tiến độ cuộn.
 
 Đây cũng là cách tô màu đúng cho dữ liệu có thứ tự, giống hệt cách chọn bảng
 màu cho một biểu đồ.
@@ -189,7 +193,7 @@ vài trăm byte.
 ### Chữ
 
 **Be Vietnam Pro** lo toàn bộ phần chữ nghĩa, từ tiêu đề lớn nhất tới đoạn văn,
-vì trang song ngữ và phông này được dựng riêng cho dấu tiếng Việt. Cá tính của
+vì phông này được dựng riêng cho dấu tiếng Việt. Cá tính của
 tiêu đề đến từ độ đậm 800 cộng khoảng chữ âm chứ không đến từ một phông thứ hai.
 
 **Cao dòng của tiêu đề là chỗ dễ hỏng nhất của một trang tiếng Việt.** Chữ có cả
@@ -205,13 +209,13 @@ một lớp trang trí giả vờ kỹ thuật.
 
 ### Hai hình mang toàn bộ phần táo bạo
 
-- **Sơ đồ sáu tầng** ngay dưới phần mở đầu. Chiều cao cột tỷ lệ **thẳng** với
-  số model, không lấy căn bậc hai cho dễ nhìn. Tầng landing chỉ có 3 model nên
-  cột của nó gần như một vạch, và đó là sự thật đáng thấy chứ không phải khuyết
-  điểm của hình.
-- **Bảng bảy lớp hộp cát** trong dự án thứ hai. Mỗi hàng thụt vào sâu hơn hàng
-  trên một nấc và mang một màu nội suy trên dải, nên bảng tự nói ra rằng đây là
-  bảy lớp bọc lấy nhau.
+- **Sơ đồ dây chuyền sáu chặng** trong khối VETC. Màu gán theo thứ tự chặng
+  trong tệp nội dung, nên đảo hai chặng là hình đảo theo: hình không bao giờ nói
+  khác dữ liệu. Có đúng một khoảnh khắc chuyển động trên cả trang, là vệt sáng
+  chạy dọc dây chuyền một lần khi cuộn tới.
+- **Dòng thời gian nghề nghiệp** cạnh đoạn mục tiêu. Bốn mốc dựng lại từ chính
+  HOC_VAN, CHUNG_CHI và KINH_NGHIEM chứ không chép tay, nên sửa một nơi là nó
+  đổi theo.
 
 Màn hẹp đổi hẳn bố cục sơ đồ thành danh sách dọc thay vì bắt cuộn ngang. Ép
 người xem cuộn ngang để đọc một sơ đồ là cách chắc chắn khiến họ bỏ qua nó.
@@ -221,9 +225,10 @@ người xem cuộn ngang để đọc một sơ đồ là cách chắc chắn k
 Bốn quyết định riêng cho màn hẹp, và cả bốn đều là thay đổi thật chứ không phải
 để mặc lưới tự co:
 
-- **Sơ đồ sáu tầng đổi hẳn bố cục** thành danh sách dọc với thanh ngang. Sáu cột
-  nhồi vào ba trăm điểm ảnh thì nhãn tầng nào cũng vỡ chữ, và ép người xem cuộn
-  ngang để đọc một sơ đồ là cách chắc chắn khiến họ bỏ qua nó.
+- **Sơ đồ dây chuyền đổi hẳn bố cục** thành danh sách dọc, kèm đường nối dọc
+  riêng cho trạng thái ấy. Sáu cột nhồi vào ba trăm điểm ảnh thì nhãn chặng nào
+  cũng vỡ chữ, và ép người xem cuộn ngang để đọc một sơ đồ là cách chắc chắn
+  khiến họ bỏ qua nó.
 - **Ảnh và hồ sơ chen lên trước phần giới thiệu dài.** Giữ nguyên thứ tự của màn
   rộng thì khuôn mặt bị đẩy xuống dưới hai đoạn văn, tức người xem phải cuộn qua
   gần một màn hình mới thấy mình đang đọc về ai.
@@ -247,7 +252,7 @@ Bốn nhóm, và mỗi nhóm chỉ chạy một lần:
 | Mở màn | Lúc tải trang | Từng khối của phần mở đầu dựng lên lần lượt theo đúng thứ tự người ta đọc |
 | Sơ đồ | Lúc tải trang | Đường dữ liệu chạy từ trái sang phải, các cột dựng lên theo khi đường đi qua |
 | Lộ ra | Khi cuộn tới | Các khối hiện dần, so le nhau, gắn bằng `IntersectionObserver` nên không chạy lại khi cuộn ngược lên |
-| Đếm số | Khi con số lọt vào tầm mắt | Bốn ô số liệu của mỗi dự án đếm lên rồi dừng |
+| Đếm số | Khi con số lọt vào tầm mắt | Ba ô số liệu của mỗi nơi làm việc đếm lên rồi dừng |
 
 Thêm hai thứ chạy liên tục nhưng rất nhẹ: quầng sáng đi theo con trỏ trong phần
 mở đầu, và vạch tiến độ cuộn trên thanh đầu trang.
@@ -263,64 +268,23 @@ Hai chi tiết kỹ thuật đáng nhớ nếu sau này sửa:
 - Quầng sáng chỉ ghi hai biến CSS từ sự kiện con trỏ, phần vẽ để CSS lo. Làm
   bằng trạng thái React thì mỗi lần chuột nhúc nhích là một lần vẽ lại cây.
 
-## Biểu đồ và số liệu minh hoạ
+## Hai hình trên trang
 
-Dự án VETC có hai khối riêng: **dây chuyền sáu chặng** từ lấy dữ liệu tới hộp
-thư lúc bảy giờ sáng và tới cảnh báo bất thường, rồi **ba dashboard minh hoạ**
-cho thấy bộ dữ liệu ấy trả lời được loại câu hỏi nào.
+Cả hai đều là SVG và CSS thuần, không kéo thêm thư viện vẽ nào, và cả hai đều
+dựng lại từ chính tệp nội dung chứ không chép số sang một chỗ riêng.
 
-### Số liệu là số mô phỏng, và trang nói rõ điều đó
+**Sơ đồ dây chuyền sáu chặng** trong khối VETC. Sáu chấm nối nhau, màu lấy theo
+thứ tự chặng trên dải màu của trang. Từ 768px trở lên xếp ngang đủ sáu cột, hẹp
+hơn thì xếp dọc, và mỗi trạng thái có đường nối riêng để chiều đi của dữ liệu
+luôn nhìn ra được. Ba cột thì không làm, vì đường nối dọc khi ấy sẽ nối xuống ô
+cách ba chặng, tức hình nói sai thứ tự.
 
-Ba dashboard dùng **số mô phỏng, không phải số thật của VETC**. Dữ liệu thật là
-dữ liệu nội bộ và có thông tin cá nhân, không được phép rời khỏi hệ thống.
+**Dòng thời gian nghề nghiệp** cạnh đoạn mục tiêu. Bốn mốc dựng lại từ HOC_VAN,
+CHUNG_CHI và KINH_NGHIEM, nên sang năm sửa một nơi là nó đổi theo.
 
-Điều đó được ghi ngay trên từng khối chứ không giấu xuống chân trang, vì một
-người tuyển dụng đọc lướt mà tưởng đây là số thật rồi sau mới biết là số bịa thì
-mất niềm tin vào cả trang, kể cả những phần hoàn toàn đúng.
-
-### Ba khối, ba thể loại hình, ba luật tô màu
-
-Thể loại hình chọn theo việc của dữ liệu chứ không theo cái nào đẹp hơn:
-
-| Khối | Dữ liệu làm việc gì | Thể loại | Màu |
-|---|---|---|---|
-| Phễu tái tục | Cùng một phép đo ở bốn bậc | Thanh ngang thu dần | Dải tuần tự một sắc |
-| Cơ cấu kênh | Bốn thực thể khác loại | Thanh xếp chồng | Bảng phân loại bốn sắc |
-| Theo dõi lệch | Chuỗi thời gian có dải kỳ vọng | Đường kèm dải | Một sắc, cộng màu trạng thái |
-
-Ba bảng màu khai riêng trong `src/giao_dien.css`, tách khỏi dải sáu tầng của
-trang, và **tính riêng cho từng chế độ nền** chứ không lật ngược bộ của nền tối:
-màu sáng trên nền trắng tụt cả độ tương phản lẫn khoảng cách nhận biết.
-
-Cả ba bộ đã chạy qua bộ kiểm dải màu: dải độ sáng, sàn độ bão hoà, khoảng cách
-giữa các cặp kề nhau dưới mô phỏng mù màu, và độ tương phản với nền của khối
-biểu đồ. Đổi một mã màu trong đó thì **phải chạy lại bộ kiểm**, đừng ước lượng
-bằng mắt.
-
-Ba luật không được phá:
-
-- **Bảng phân loại giữ thứ tự cố định, không bao giờ xoay vòng.** Kênh nào cũng
-  giữ nguyên màu của nó kể cả khi bộ lọc bỏ bớt kênh khác đi.
-- **Dải tuần tự là một sắc chạy từ nhạt tới đậm**, tuyệt đối không phải cầu vồng.
-- **Màu trạng thái là màu dành riêng.** Không bao giờ mượn nó làm màu thứ năm
-  của bảng phân loại, và nó luôn đi kèm biểu tượng với chữ, không bao giờ chỉ
-  nói bằng màu.
-
-### Mọi giá trị đều có mặt dưới dạng chữ
-
-Không giá trị nào chỉ tồn tại trong hình. Người không rê được chuột, người dùng
-trình đọc màn hình và người in trang ra giấy đều đọc đủ số. Phần rê chuột chỉ là
-lớp tiện thêm, và vùng rê là cả hàng chứ không phải riêng thanh màu, vì thanh
-chỉ cao vài điểm ảnh.
-
-### Cổng canh gác cho phần số liệu
-
-`npm run cham-thu-noi-dung` kiểm thêm ba điều mà chỉ nhìn ảnh chụp mới thấy:
-
-- Bốn kênh phải cộng lại đúng 100 phần trăm, nếu không thanh xếp chồng vẽ ra
-  một tỷ lệ không có thật.
-- Phễu phải thu dần, vì một bậc sau lớn hơn bậc trước là phễu phình ra.
-- Điểm được đánh dấu cảnh báo phải thật sự nằm ngoài dải kỳ vọng.
+Ngoài ra còn **dải những con số đã đổi được**: năm ô, ô nào đo được cả hai đầu
+thì vẽ mức cũ mờ rồi một vạch dẫn sang mức mới. Ô nào chỉ đo được phần chênh thì
+để nguyên mức chênh, không bịa ra một mốc "trước" mà không ai từng đo.
 
 ---
 
@@ -375,37 +339,6 @@ lớn giá trị của hai tệp ấy nằm ở lý do viết trong chú thích 
 - `npm run do-kich-thuoc` trượt nếu tìm thấy dấu vết trang sửa trong `dist`.
   Đã đo có kiểm soát: bật hay tắt trang sửa thì tệp JS **y hệt nhau**, chỉ CSS
   chênh 0,8 KB do Tailwind quét thêm lớp của nó.
-
----
-
-## Biểu đồ minh hoạ
-
-Dự án VETC có hai khối riêng: **dây chuyền sáu chặng** từ lấy dữ liệu tới báo
-cáo Outlook và cảnh báo bất thường, rồi **ba dashboard** vẽ bằng SVG nội tuyến
-với CSS, không kéo thêm thư viện nào.
-
-**Số liệu là số mô phỏng, không phải số thật của VETC**, và trang nói rõ điều đó
-ngay trên khối chứ không giấu xuống chân trang.
-
-Thể loại hình chọn theo việc của dữ liệu:
-
-| Khối | Dữ liệu | Màu |
-|---|---|---|
-| Cột, doanh thu theo tháng | Một chuỗi theo thời gian | Một sắc duy nhất |
-| Tròn, cơ cấu theo kênh | Bốn phần của một tổng | Bảng phân loại bốn sắc |
-| Đường, cảnh báo bất thường | Chuỗi thời gian có dải kỳ vọng | Một sắc, cộng màu trạng thái |
-
-Ba bảng màu khai riêng trong `src/giao_dien.css`, tính riêng cho từng chế độ nền
-chứ không lật ngược bộ của nền tối, và đã chạy qua bộ kiểm dải màu: độ sáng, độ
-bão hoà, khoảng cách giữa các cặp kề nhau dưới mô phỏng mù màu, độ tương phản
-với nền. **Đổi một mã màu thì phải chạy lại bộ kiểm**, đừng ước lượng bằng mắt.
-
-Ba luật không phá: bảng phân loại giữ thứ tự cố định không xoay vòng; cột của
-một chuỗi duy nhất dùng một sắc, không tô theo thứ hạng; màu trạng thái là màu
-dành riêng và luôn đi kèm biểu tượng với chữ.
-
-`npm run cham-thu-noi-dung` kiểm thêm: bốn kênh cộng đúng 100 phần trăm, cột nào
-cũng lớn hơn 0, và điểm đánh dấu cảnh báo thật sự nằm ngoài dải kỳ vọng.
 
 ---
 
@@ -484,13 +417,13 @@ npm run cham-thu-noi-dung
 
 Vài điều dễ quên:
 
-- **Con số cũng phải có hai bản.** Dấu phân cách hàng nghìn khác nhau giữa hai
-  ngôn ngữ: viết `12.027` cho người đọc tiếng Anh là mười hai phẩy không hai
-  bảy, tức sai đi một nghìn lần.
-- **Khối số liệu của mỗi dự án phải đúng bốn ô**, vì nó là lưới bốn cột. Thừa
-  hay thiếu một ô là hàng cuối lệch hẳn.
-- **Hai dự án phải giữ mã `vetc` và `dapractice`**, vì `main.tsx` lấy chúng
-  theo mã để gắn sơ đồ hộp cát vào đúng dự án.
+- **Khối số liệu của một nơi làm việc cần từ hai ô trở lên**, vì nó là lưới ba
+  cột. Một con số đứng lẻ trông như phần còn lại chưa nạp xong.
+- **Hai nơi làm việc phải giữ mã `vetc` và `shine`.** Sơ đồ dây chuyền và dải
+  con số gắn vào khối VETC theo mã, nên đổi mã là hình lạc sang nơi khác.
+- **Mỗi dự án nổi bật phải nêu được giá trị mang lại.** Dự án không đổi được gì
+  cho doanh nghiệp thì thuộc về phần kinh nghiệm, không thuộc mục này, và cổng
+  canh gác chặn lệnh dựng khi danh sách ấy rỗng.
 - **Đừng làm tròn số lên cho đẹp.** Một con số sai trên trang giới thiệu làm
   hỏng niềm tin vào mọi con số còn lại.
 

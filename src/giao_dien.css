@@ -322,32 +322,12 @@ body {
   animation: dung-len 760ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.cot-tang {
-  transform-origin: bottom;
-  animation: dung-cot 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
-
-  /* Quầng sáng dưới chân cột. Trên nền tối nó làm cột trông như đang phát
-     sáng thật; trên nền trắng nó chỉ thành một vệt bẩn, nên tắt hẳn. */
-  box-shadow: 0 0 26px -6px var(--mau-tang, var(--nhan));
-}
-
-[data-giao-dien='sang'] .cot-tang,
-[data-giao-dien='sang'] .thanh-tang {
-  box-shadow: none;
-}
-
-.thanh-tang {
-  box-shadow: 0 0 20px -6px var(--mau-tang, var(--nhan));
-}
-
-.thanh-tang {
-  transform-origin: left;
-  animation: chay-ngang 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
+/* Đường nối giữa hai chặng của dây chuyền. Chạy từ trái sang, mỗi chặng lệch
+   nhau một nhịp, nên nhìn ra là dữ liệu đi theo một chiều chứ không phải sáu
+   chấm rời nhau. Chạy đúng một lần rồi đứng yên. */
 .duong-chay {
   transform-origin: left;
-  animation: chay-ngang 1600ms cubic-bezier(0.33, 1, 0.68, 1) both;
+  animation: chay-ngang 620ms cubic-bezier(0.33, 1, 0.68, 1) both;
 }
 
 .nut-tang {
@@ -379,8 +359,6 @@ body {
   }
 
   .mo-man,
-  .cot-tang,
-  .thanh-tang,
   .duong-chay,
   .nut-tang,
   .nhip-song {
@@ -433,15 +411,61 @@ body {
   box-shadow: inset 0 1px 0 0 color-mix(in oklab, var(--chu) 6%, transparent);
 }
 
-.hang-lop {
-  border-left: 2px solid var(--mau-lop, var(--nhan));
-  margin-left: calc(var(--muc-thut) * 0.3rem);
+
+/* Một ô của bảng chỉ số.
+   Con trỏ đi tới thì cả ô sáng lên một nấc và quầng sáng sau con số đậm thêm.
+   Đây là chuyển động đáp lại người dùng chứ không phải chuyển động tự chạy, nên
+   nó được phép có mặt ở mọi ô mà không làm trang nhấp nháy. Không đổi con trỏ
+   thành hình bàn tay, vì ô này không bấm được và giả vờ bấm được là nói dối. */
+.o-chi-so {
+  --do-sang-so: 40%;
+  transition: background-color 220ms ease;
 }
 
-@media (min-width: 768px) {
-  .hang-lop {
-    margin-left: calc(var(--muc-thut) * 0.9rem);
+.o-chi-so:hover {
+  --do-sang-so: 75%;
+  background-color: var(--be-mat-cao);
+}
+
+/* Con số của dải kết quả. Quầng sáng rất nhạt sau chữ, đủ để con số trông như
+   đang phát sáng trên nền tối chứ không phải nằm dẹt trên đó. Trên nền trắng
+   quầng ấy chỉ thành một vệt bẩn, nên tắt hẳn. */
+.so-noi-bat {
+  text-shadow: 0 0 28px color-mix(in oklab, var(--nhan) var(--do-sang-so, 40%), transparent);
+  transition: text-shadow 220ms ease;
+}
+
+[data-giao-dien='sang'] .so-noi-bat {
+  text-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .o-chi-so,
+  .so-noi-bat {
+    transition: none;
   }
+}
+
+/* Gạch đầu dòng vẽ bằng pseudo-element chứ không dùng list-style, vì hai lý
+   do: dấu chấm nhận được màu nhấn thay vì màu chữ, và dòng thứ hai của một ý
+   dài thụt thẳng cột với dòng đầu chứ không chui xuống dưới dấu chấm. */
+.gach-dau-dong {
+  position: relative;
+  padding-left: 1.05rem;
+}
+
+.gach-dau-dong::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  /* 0.62em tính từ đỉnh dòng là ngang tầm mắt chữ thường, hợp hơn là căn giữa
+     theo chiều cao dòng vì chiều cao dòng đổi theo từng cỡ chữ. */
+  top: 0.62em;
+  width: 0.3rem;
+  height: 0.3rem;
+  border-radius: 50%;
+  background-color: var(--nhan);
+  opacity: 0.85;
 }
 
 /* ===========================================================================

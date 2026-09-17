@@ -6,38 +6,21 @@ import { createRoot } from 'react-dom/client'
 import type { Root } from 'react-dom/client'
 
 import './giao_dien.css'
-import type { Du_an } from '../noi_dung/kieu.ts'
-import { BO_SHINE, BO_VETC } from '../noi_dung/bo_dashboard.ts'
-import { DU_AN, NHAN } from '../noi_dung/noi_dung.ts'
+import { NHAN } from '../noi_dung/noi_dung.ts'
 import { theo_doi_hien_ra } from './hieu_ung.ts'
 import { Cung_cap_ngon_ngu, dung_ngon_ngu } from './ngon_ngu.tsx'
 import { Cung_cap_nen } from './nen.tsx'
-import { BangHopCat } from './thanh_phan/BangHopCat.tsx'
-import { DashboardMau } from './thanh_phan/DashboardMau.tsx'
-import { DuAn } from './thanh_phan/DuAn.tsx'
+import { ChuyenBien } from './thanh_phan/ChuyenBien.tsx'
+import { DuAnNoiBat } from './thanh_phan/DuAnNoiBat.tsx'
+import { HocVan } from './thanh_phan/HocVan.tsx'
 import { KhungMuc } from './thanh_phan/KhungMuc.tsx'
+import { KinhNghiem } from './thanh_phan/KinhNghiem.tsx'
 import { KyNang } from './thanh_phan/KyNang.tsx'
 import { LienHe } from './thanh_phan/LienHe.tsx'
 import { MoDau } from './thanh_phan/MoDau.tsx'
-import { QuyTrinh } from './thanh_phan/QuyTrinh.tsx'
-import { SoDoTang } from './thanh_phan/SoDoTang.tsx'
+import { MucTieu } from './thanh_phan/MucTieu.tsx'
+import { SanPhamRieng } from './thanh_phan/SanPhamRieng.tsx'
 import { ThanhTren } from './thanh_phan/ThanhTren.tsx'
-
-/** Lấy dự án theo mã chứ không theo chỉ số, để đổi thứ tự trong tệp nội dung
- *  không làm sơ đồ hộp cát gắn nhầm sang dự án kia. Ném lỗi ngay khi nạp trang
- *  thay vì vẽ ra một khoảng trống: thiếu một dự án là lỗi soạn nội dung, và nó
- *  phải lộ ra ở lần mở đầu tiên chứ không phải khi có người cuộn tới đó. */
-function lay_du_an(ma: string): Du_an {
-  const tim_thay = DU_AN.find((d) => d.ma === ma)
-  if (tim_thay === undefined) {
-    throw new Error(`Thiếu dự án ${ma} trong noi_dung/noi_dung.ts`)
-  }
-  return tim_thay
-}
-
-const DU_AN_VETC = lay_du_an('vetc')
-const DU_AN_SHINE = lay_du_an('shine')
-const DU_AN_DAPRACTICE = lay_du_an('dapractice')
 
 function Trang() {
   const { chu, dang_sua, bat_tat_sua } = dung_ngon_ngu()
@@ -60,40 +43,41 @@ function Trang() {
 
       <ThanhTren />
 
+      {/* Thứ tự các mục bám theo thứ tự trong CV. Ai đọc CV trước rồi mở
+          trang sẽ thấy đúng mạch ấy, và không phải tìm xem phần nào ứng với
+          phần nào. Nền xen kẽ để hai mục liền nhau tự tách ra. */}
       <main>
         <MoDau />
-        <SoDoTang />
 
-        <KhungMuc ma="du-an" tieu_de={NHAN.muc_du_an}>
-          <DuAn du_an={DU_AN_VETC}>
-            <QuyTrinh />
-            <DashboardMau bo={BO_VETC} />
-          </DuAn>
+        {/* Dải kết quả đứng ngay sau phần mở đầu, trước mọi đoạn chữ. Người lướt
+            trang dừng ở đây là đã nắm được câu chuyện bốn năm mà không phải đọc
+            câu nào; phần bên dưới là để trả lời câu hỏi làm thế nào. */}
+        <KhungMuc ma="ket-qua" tieu_de={NHAN.muc_ket_qua} nen_diu>
+          <ChuyenBien />
         </KhungMuc>
 
-        {/* Ba dự án xen kẽ nền để mỗi dự án tự tách khỏi dự án kề nó. Chỉ dự
-            án đầu mang tiêu đề mục, hai dự án sau nối tiếp bên dưới. */}
-        <section className="bg-nen-diu">
-          <div className="mx-auto max-w-[78rem] px-5 py-16 sm:px-8 sm:py-24">
-            <DuAn du_an={DU_AN_SHINE}>
-              <DashboardMau bo={BO_SHINE} />
-            </DuAn>
-          </div>
-        </section>
+        <KhungMuc ma="muc-tieu" tieu_de={NHAN.muc_muc_tieu}>
+          <MucTieu />
+        </KhungMuc>
 
-        <section>
-          <div className="mx-auto max-w-[78rem] px-5 py-16 sm:px-8 sm:py-24">
-            <DuAn du_an={DU_AN_DAPRACTICE}>
-              <BangHopCat />
-            </DuAn>
-          </div>
-        </section>
+        <KhungMuc ma="kinh-nghiem" tieu_de={NHAN.muc_kinh_nghiem} nen_diu>
+          <KinhNghiem />
+        </KhungMuc>
 
-        <KhungMuc ma="cong-cu" tieu_de={NHAN.muc_ky_nang} nen_diu>
+        <KhungMuc ma="du-an" tieu_de={NHAN.muc_du_an}>
+          <DuAnNoiBat />
+          <SanPhamRieng />
+        </KhungMuc>
+
+        <KhungMuc ma="ky-nang" tieu_de={NHAN.muc_ky_nang} nen_diu>
           <KyNang />
         </KhungMuc>
 
-        <KhungMuc ma="lien-he" tieu_de={NHAN.muc_lien_he}>
+        <KhungMuc ma="hoc-van" tieu_de={NHAN.muc_hoc_van}>
+          <HocVan />
+        </KhungMuc>
+
+        <KhungMuc ma="lien-he" tieu_de={NHAN.muc_lien_he} nen_diu>
           <LienHe />
         </KhungMuc>
       </main>
