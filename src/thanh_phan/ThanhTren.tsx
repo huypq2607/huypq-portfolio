@@ -13,7 +13,6 @@ import { dung_nen } from '../nen.tsx'
 
 const MUC_NHAY = [
   { dia_chi: '#du-an', nhan: NHAN.dieu_huong_du_an },
-  { dia_chi: '#cach-lam', nhan: NHAN.muc_cach_lam },
   { dia_chi: '#lien-he', nhan: NHAN.muc_lien_he },
 ] as const
 

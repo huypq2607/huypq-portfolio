@@ -29,13 +29,6 @@ export interface Tang_du_lieu {
   readonly vai_tro: Song
 }
 
-/** Một ý có tiêu đề riêng, hiện thành một hàng hai cột trong danh sách. Dùng
- *  cho phần cách làm việc và cho các quyết định trong mỗi dự án. */
-export interface Nang_luc {
-  readonly tieu_de: Song
-  readonly than: Song
-}
-
 /** Một lớp của hộp cát SQL, dùng cho sơ đồ trong dự án thứ hai. */
 export interface Lop_hop_cat {
   readonly so: number

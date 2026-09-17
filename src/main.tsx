@@ -7,12 +7,11 @@ import type { Root } from 'react-dom/client'
 
 import './giao_dien.css'
 import type { Du_an } from '../noi_dung/kieu.ts'
-import { CACH_LAM, DU_AN, NHAN } from '../noi_dung/noi_dung.ts'
+import { DU_AN, NHAN } from '../noi_dung/noi_dung.ts'
 import { theo_doi_hien_ra } from './hieu_ung.ts'
 import { Cung_cap_ngon_ngu, dung_ngon_ngu } from './ngon_ngu.tsx'
 import { Cung_cap_nen } from './nen.tsx'
 import { BangHopCat } from './thanh_phan/BangHopCat.tsx'
-import { DanhSachY } from './thanh_phan/DanhSachY.tsx'
 import { DashboardMau } from './thanh_phan/DashboardMau.tsx'
 import { DuAn } from './thanh_phan/DuAn.tsx'
 import { KhungMuc } from './thanh_phan/KhungMuc.tsx'
@@ -78,11 +77,7 @@ function Trang() {
           </div>
         </section>
 
-        <KhungMuc ma="cach-lam" tieu_de={NHAN.muc_cach_lam}>
-          <DanhSachY muc={CACH_LAM} />
-        </KhungMuc>
-
-        <KhungMuc ma="cong-cu" tieu_de={NHAN.muc_ky_nang} nen_diu>
+        <KhungMuc ma="cong-cu" tieu_de={NHAN.muc_ky_nang}>
           <KyNang />
         </KhungMuc>
 

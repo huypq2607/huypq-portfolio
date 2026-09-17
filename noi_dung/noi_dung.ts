@@ -12,7 +12,6 @@ import type {
   Dong_ho_so,
   Du_an,
   Lop_hop_cat,
-  Nang_luc,
   Nhom_ky_nang,
   Song,
   Tang_du_lieu,
@@ -174,37 +173,6 @@ export const DU_AN: readonly Du_an[] = [
   },
 ]
 
-export const CACH_LAM: readonly Nang_luc[] = [
-  {
-    tieu_de: { vi: 'Viết ra lý do, không chỉ viết ra kết quả', en: 'Write down the why, not just the what' },
-    than: {
-      vi: 'Một commit message ghi “update” hôm nay không tốn gì và tám tháng sau tốn tất cả. Commit của tôi nói cái gì đổi và vì sao phải đổi. Bộ quy tắc dựng model tôi viết cho đội dữ liệu dài hơn một nghìn dòng lý lẽ, còn README của sản phẩm có hẳn một mục liệt kê những thứ đã bỏ và vì sao bỏ, để không ai vô tình mang chúng về.',
-      en: 'A commit message that says “update” costs nothing today and everything eight months from now. Mine say what changed and why it had to. The build standard I wrote for the data team runs to over a thousand lines of reasoning, and the product README has a section listing what was removed and why, so nobody brings it back by accident.',
-    },
-  },
-  {
-    tieu_de: { vi: 'Đặt cổng ở đúng chỗ hỏng mà không kêu', en: 'Put a gate exactly where failure is silent' },
-    than: {
-      vi: 'Lỗi đáng sợ là loại báo thành công. Một lần nạp tăng dần không khớp dòng nào. Một bộ chấm đánh trượt người làm đúng. Một bảng đáp án lọt vào gói JavaScript. Mỗi thứ đó bây giờ đều có một phép kiểm trong CI chuyển đỏ khi nó xảy ra.',
-      en: 'The bugs worth fearing are the ones that report success. An incremental run that matched zero rows. A grader that fails correct answers. An answer key that slipped into a JavaScript bundle. Each of those now has a check in CI that goes red when it happens.',
-    },
-  },
-  {
-    tieu_de: { vi: 'Chọn ranh giới không thể đặt sai', en: 'Prefer the boundary that cannot be misconfigured' },
-    than: {
-      vi: 'Hai tiến trình Postgres tách hẳn thay vì một tiến trình với các quyền đặt cẩn thận, vì ranh giới tiến trình không hỏng khi một lệnh cấp quyền rơi nhầm chỗ. Để Postgres từ chối câu lệnh thay vì một danh sách từ cấm, vì chỉ nó hiểu đúng cú pháp của chính nó.',
-      en: 'Two separate Postgres processes rather than one with carefully chosen grants, because a process boundary does not break when a single grant lands in the wrong place. Let Postgres reject the statement rather than a denylist, because it is the only thing that understands its own grammar.',
-    },
-  },
-  {
-    tieu_de: { vi: 'Xoá thứ không ai đọc', en: 'Delete what nobody reads' },
-    than: {
-      vi: 'Một bảng vẫn build mỗi đêm, một thư viện giữ lại vì đúng một tính năng, một trang chỉ tồn tại để chứng minh một điều. Mỗi thứ là một chi phí tới đều đặn. Gỡ chúng đi là việc rẻ nhất có thể làm, và gần như không ai làm.',
-      en: 'A table that still builds every night, a library kept for exactly one feature, a page that only existed to prove a point. Each is a cost that keeps arriving. Removing them is the cheapest work available, and almost nobody does it.',
-    },
-  },
-]
-
 export const KY_NANG: readonly Nhom_ky_nang[] = [
   {
     ten: { vi: 'Nền tảng dữ liệu', en: 'Data platform' },
@@ -247,8 +215,7 @@ export const NHAN = {
     vi: 'Hơn ba năm xây nền tảng dữ liệu và đường ống dữ liệu từ nguồn tới biểu đồ. Hiện làm tại VETC, tập đoàn Tasco.',
     en: 'Three years building data platforms and pipelines from source system to chart. Currently at VETC, Tasco group.',
   } satisfies Song,
-  muc_du_an: { vi: 'Hai thứ tôi đã dựng', en: 'Two things I have built' } satisfies Song,
-  muc_cach_lam: { vi: 'Cách tôi làm việc', en: 'How I work' } satisfies Song,
+  muc_du_an: { vi: 'Dự án tiêu biểu', en: 'Two things I have built' } satisfies Song,
   muc_ky_nang: { vi: 'Công cụ', en: 'Tools' } satisfies Song,
   muc_lien_he: { vi: 'Liên hệ', en: 'Get in touch' } satisfies Song,
   so_do_tang: {
