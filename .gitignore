@@ -10,3 +10,7 @@ dist/
 # CV bản PDF: chứa số điện thoại và địa chỉ nhà, mà kho phải công khai thì
 # GitHub Pages mới phục vụ miễn phí. Giữ nó ngoài kho.
 *.pdf
+
+# Ảnh gốc chưa nén. Trang chỉ dùng bản đã nén trong cong_khai/, và kho phải
+# công khai nên không có lý do đưa bản gốc gần một megabyte lên đó.
+*.JPG
