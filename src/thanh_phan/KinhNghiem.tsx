@@ -17,7 +17,7 @@ import { DemSo } from './DemSo.tsx'
 import { SoDoQuyTrinh } from './SoDoQuyTrinh.tsx'
 
 function MotNoi({ noi }: { noi: Kinh_nghiem }) {
-  const { ngon_ngu, chu, chu_tho } = dung_ngon_ngu()
+  const { chu, chu_tho } = dung_ngon_ngu()
 
   return (
     <article className="cho-hien">
@@ -34,14 +34,10 @@ function MotNoi({ noi }: { noi: Kinh_nghiem }) {
       {noi.so_lieu !== undefined && (
         <dl className="the-noi mt-6 grid grid-cols-2 overflow-hidden rounded-xl sm:grid-cols-3">
           {noi.so_lieu.map((muc) => (
-            <div key={muc.nhan.en} className="border-vien px-4 py-4 not-last:border-r odd:border-r">
+            <div key={muc.nhan.vi} className="border-vien px-4 py-4 not-last:border-r odd:border-r">
               <dt className="sr-only">{chu_tho(muc.nhan)}</dt>
               <dd>
-                <DemSo
-                  dich={chu_tho(muc.so)}
-                  ngon_ngu={ngon_ngu}
-                  className="so-lieu block text-[1.7rem] leading-none"
-                />
+                <DemSo dich={chu_tho(muc.so)} className="so-lieu block text-[1.7rem] leading-none" />
                 <span className="mt-1.5 block text-[0.78rem] leading-snug text-chu-mo">
                   {chu(muc.nhan)}
                 </span>
@@ -63,7 +59,7 @@ function MotNoi({ noi }: { noi: Kinh_nghiem }) {
 
       <div className="mt-7 space-y-7">
         {noi.vai_tro.map((vai, thu_tu) => (
-          <div key={vai.ten?.en ?? thu_tu}>
+          <div key={vai.ten?.vi ?? thu_tu}>
             {vai.ten !== undefined && (
               <h4 className="ma mb-3 text-[0.78rem] tracking-wide text-chu-mo">{chu(vai.ten)}</h4>
             )}

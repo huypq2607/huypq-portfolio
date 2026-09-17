@@ -1,10 +1,8 @@
-// Quản lý ngôn ngữ đang hiển thị, và chế độ sửa chữ ngay trên trang.
+// Lấy chữ ra khỏi tệp nội dung, và chế độ sửa chữ ngay trên trang.
 //
-// Mặc định là tiếng Anh, vì người đọc chính của trang là nhà tuyển dụng nước
-// ngoài. Lựa chọn của người xem được nhớ trong localStorage, và mọi lần đọc
-// ghi đều bọc try catch: ở cửa sổ ẩn danh hoặc khi người dùng chặn dữ liệu
-// trang, các lời gọi này ném lỗi chứ không trả về giá trị rỗng, và một trang
-// giới thiệu không được phép trắng vì chuyện đó.
+// Trang từng có hai bản Việt và Anh kèm nút chuyển. Nay chỉ còn tiếng Việt,
+// nên phần chọn ngôn ngữ đã gỡ hẳn, còn lại đúng hai việc: lấy chữ ra, và cho
+// sửa chữ tại chỗ lúc phát triển.
 //
 // CHẾ ĐỘ SỬA TẠI CHỖ chỉ tồn tại khi chạy npm run dev. Bật lên thì mọi câu chữ
 // trên trang thành ô gõ được, rời con trỏ là ghi thẳng vào tệp nguồn.
@@ -19,42 +17,26 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import type { Ngon_ngu, Song } from '../noi_dung/kieu.ts'
+import type { Song } from '../noi_dung/kieu.ts'
 import { NHAN } from '../noi_dung/noi_dung.ts'
 import { ghi_chuoi, vi_tri_cua } from './sua/ban_do.ts'
 
-const KHOA_NHO = 'ngon_ngu_v1'
 const KHOA_SUA = 'sua_tai_cho_v1'
-// Người xem chưa từng chọn thì mở ra bản tiếng Việt. Đây là lựa chọn của chủ
-// trang, không phải suy ra từ ngôn ngữ trình duyệt.
-const MAC_DINH: Ngon_ngu = 'vi'
 
 /** Chỉ có trang chạy lúc phát triển mới sửa được chữ. */
 const CHO_PHEP_SUA = import.meta.env.DEV
 
 interface Gia_tri_boi_canh {
-  readonly ngon_ngu: Ngon_ngu
   /** Chữ hiển thị. Thành ô gõ được khi đang bật chế độ sửa tại chỗ. */
   readonly chu: (song: Song) => ReactNode
   /** Chuỗi trần, dùng cho thuộc tính. Không bao giờ thành ô gõ được. */
   readonly chu_tho: (song: Song) => string
-  readonly doi_ngon_ngu: () => void
   readonly cho_phep_sua: boolean
   readonly dang_sua: boolean
   readonly bat_tat_sua: () => void
 }
 
 const Boi_canh = createContext<Gia_tri_boi_canh | null>(null)
-
-function doc_lua_chon_da_nho(): Ngon_ngu {
-  try {
-    const da_nho = window.localStorage.getItem(KHOA_NHO)
-    if (da_nho === 'vi' || da_nho === 'en') return da_nho
-  } catch {
-    // Không đọc được thì dùng mặc định, không có gì phải báo cho người xem.
-  }
-  return MAC_DINH
-}
 
 function doc_dang_sua(): boolean {
   if (!CHO_PHEP_SUA) return false
@@ -73,10 +55,10 @@ function doc_dang_sua(): boolean {
  * và người sửa không còn thấy câu chữ trong đúng bối cảnh của nó nữa, mà bối
  * cảnh mới là lý do người ta muốn sửa tại chỗ thay vì sửa trong bảng.
  */
-function O_sua({ song, ngon_ngu }: { song: Song; ngon_ngu: Ngon_ngu }) {
+function O_sua({ song }: { song: Song }) {
   const tham_chieu = useRef<HTMLSpanElement | null>(null)
   const [hong, dat_hong] = useState('')
-  const van = song[ngon_ngu]
+  const van = song.vi
   const vi_tri = vi_tri_cua(song)
 
   // Thẻ span này cố ý KHÔNG có con trong JSX, và chữ được đặt bằng tay ở đây.
@@ -104,7 +86,7 @@ function O_sua({ song, ngon_ngu }: { song: Song; ngon_ngu: Ngon_ngu }) {
       phan_tu.textContent = van
       return
     }
-    void ghi_chuoi(vi_tri.tep, [...vi_tri.duong_dan, ngon_ngu], moi)
+    void ghi_chuoi(vi_tri.tep, [...vi_tri.duong_dan, 'vi'], moi)
       .then(() => dat_hong(''))
       .catch((loi: unknown) => {
         phan_tu.textContent = van
@@ -158,26 +140,16 @@ function O_sua({ song, ngon_ngu }: { song: Song; ngon_ngu: Ngon_ngu }) {
 }
 
 export function Cung_cap_ngon_ngu({ children }: { children: ReactNode }) {
-  const [ngon_ngu, dat_ngon_ngu] = useState<Ngon_ngu>(doc_lua_chon_da_nho)
   const [dang_sua, dat_dang_sua] = useState<boolean>(doc_dang_sua)
 
-  // Ba thứ ngoài phần thân trang cũng phải đổi theo ngôn ngữ.
-  //
-  // Thuộc tính lang là thứ trình đọc màn hình dùng để chọn giọng đọc. Sai nó
-  // thì người dùng trình đọc nghe tiếng Việt phát âm bằng bộ đọc tiếng Anh,
-  // gần như không hiểu được.
-  //
-  // Tiêu đề và mô tả thì đổi vì người xem hay mở nhiều tab khi so sánh ứng
-  // viên, và tiêu đề tab là thứ duy nhất họ thấy khi trang không ở trước mặt.
+  // Tiêu đề và mô tả đã nằm sẵn trong tệp HTML tĩnh, nhưng vẫn đặt lại từ tệp
+  // nội dung ở đây, để sửa chúng tại chỗ lúc phát triển là thấy đổi ngay chứ
+  // không phải mở tệp HTML ra sửa thêm một lần nữa.
   useEffect(() => {
-    document.documentElement.lang = ngon_ngu
-    document.title = NHAN.tieu_de_trang[ngon_ngu]
-
+    document.title = NHAN.tieu_de_trang.vi
     const the_mo_ta = document.querySelector('meta[name="description"]')
-    if (the_mo_ta !== null) {
-      the_mo_ta.setAttribute('content', NHAN.mo_ta_trang[ngon_ngu])
-    }
-  }, [ngon_ngu])
+    if (the_mo_ta !== null) the_mo_ta.setAttribute('content', NHAN.mo_ta_trang.vi)
+  }, [])
 
   // Cờ trên thẻ html, để CSS tô viền cho mọi ô sửa được bằng một luật duy nhất
   // thay vì mỗi ô tự mang lớp riêng.
@@ -185,18 +157,6 @@ export function Cung_cap_ngon_ngu({ children }: { children: ReactNode }) {
     if (dang_sua) document.documentElement.dataset.dangSua = '1'
     else delete document.documentElement.dataset.dangSua
   }, [dang_sua])
-
-  const doi_ngon_ngu = useCallback(() => {
-    dat_ngon_ngu((cu) => {
-      const moi: Ngon_ngu = cu === 'en' ? 'vi' : 'en'
-      try {
-        window.localStorage.setItem(KHOA_NHO, moi)
-      } catch {
-        // Không ghi nhớ được thì lần sau mở lại về mặc định, chấp nhận được.
-      }
-      return moi
-    })
-  }, [])
 
   const bat_tat_sua = useCallback(() => {
     dat_dang_sua((cu) => {
@@ -212,16 +172,13 @@ export function Cung_cap_ngon_ngu({ children }: { children: ReactNode }) {
 
   const gia_tri = useMemo<Gia_tri_boi_canh>(
     () => ({
-      ngon_ngu,
-      chu: (song: Song) =>
-        CHO_PHEP_SUA && dang_sua ? <O_sua song={song} ngon_ngu={ngon_ngu} /> : song[ngon_ngu],
-      chu_tho: (song: Song) => song[ngon_ngu],
-      doi_ngon_ngu,
+      chu: (song: Song) => (CHO_PHEP_SUA && dang_sua ? <O_sua song={song} /> : song.vi),
+      chu_tho: (song: Song) => song.vi,
       cho_phep_sua: CHO_PHEP_SUA,
       dang_sua,
       bat_tat_sua,
     }),
-    [ngon_ngu, dang_sua, doi_ngon_ngu, bat_tat_sua],
+    [dang_sua, bat_tat_sua],
   )
 
   return <Boi_canh.Provider value={gia_tri}>{children}</Boi_canh.Provider>

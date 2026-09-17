@@ -1,21 +1,20 @@
 // Kiểu dữ liệu cho toàn bộ nội dung của trang.
 //
-// Mọi chuỗi hiển thị đều là một cặp Việt và Anh nằm cạnh nhau trong cùng một
-// đối tượng, thay vì hai tệp nội dung song song. Hai tệp song song chắc chắn
-// sẽ lệch nhau: người sửa một câu tiếng Anh không có gì nhắc rằng câu tiếng
-// Việt tương ứng đang ở đâu. Nằm cạnh nhau thì chỗ thiếu lộ ra ngay khi đọc,
-// và cổng canh gác trong scripts/cham_thu_noi_dung.ts bắt được phần còn lại.
-//
 // Các mục của trang bám theo các mục của CV: mục tiêu, kinh nghiệm, kỹ năng,
 // dự án, học vấn. Ai đọc CV rồi mở trang sẽ thấy đúng thứ tự ấy, và ngược lại.
 
-/** Hai ngôn ngữ trang phục vụ. */
-export type Ngon_ngu = 'en' | 'vi'
-
-/** Một chuỗi có đủ hai bản. Không cho phép thiếu bản nào. */
+/**
+ * Một câu chữ trên trang.
+ *
+ * Là một đối tượng chứ không phải chuỗi trần, dù bên trong chỉ có đúng một
+ * trường. Lý do là chế độ sửa tại chỗ: nó tra ngược từ chính đối tượng này ra
+ * đường dẫn khoá của nó trong tệp nguồn, mà tra ngược theo danh tính đối tượng
+ * thì chỉ làm được với đối tượng. Chuỗi trần thì hai câu giống hệt nhau ở hai
+ * chỗ khác nhau là cùng một giá trị, và không cách nào biết người ta đang sửa
+ * câu nào.
+ */
 export interface Song {
   readonly vi: string
-  readonly en: string
 }
 
 /** Một dòng trong khối thông tin tóm tắt ở đầu trang. */

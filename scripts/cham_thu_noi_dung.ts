@@ -1,9 +1,9 @@
 // Cổng canh gác nội dung, chạy trước mỗi lần dựng bản phát hành.
 //
-// Trang song ngữ hỏng theo một kiểu rất lặng lẽ: người sửa một câu tiếng Anh
-// quên câu tiếng Việt tương ứng, trang vẫn dựng được, vẫn chạy được, và chỉ
-// người bấm sang bản còn lại mới thấy một ô trống. Đó đúng là kiểu hỏng báo
-// thành công, nên nó phải có một phép kiểm chuyển đỏ.
+// Nội dung hỏng theo kiểu rất lặng lẽ: một câu bị xoá trắng, một chỗ trống
+// chưa điền số, một dự án không nói được nó đổi gì. Cả ba đều dựng được, chạy
+// được, và chỉ lộ ra khi có người lạ đọc trang. Đó đúng là kiểu hỏng báo thành
+// công, nên phải có một phép kiểm chuyển đỏ.
 //
 // Nội dung trang bám theo bản CV, nên các phép kiểm ở đây cũng canh đúng những
 // chỗ hai bên dễ lệch nhau nhất: thiếu một nơi làm việc, một dự án không nói
@@ -11,37 +11,27 @@
 
 import * as noi_dung from '../noi_dung/noi_dung.ts'
 
-/** Ngưỡng độ dài để coi hai bản giống hệt nhau là quên dịch chứ không phải cố
- *  ý. Chuỗi ngắn như "534" hay "Data Analyst" giống nhau là bình thường. */
-const NGUONG_NGHI_QUEN_DICH = 40
-
 const loi: string[] = []
 
-function la_song(gia_tri: unknown): gia_tri is { vi: unknown; en: unknown } {
+function la_song(gia_tri: unknown): gia_tri is { vi: unknown } {
   if (typeof gia_tri !== 'object' || gia_tri === null) return false
   const khoa = Object.keys(gia_tri)
-  return khoa.length === 2 && khoa.includes('vi') && khoa.includes('en')
+  return khoa.length === 1 && khoa[0] === 'vi'
 }
 
 function duyet(gia_tri: unknown, duong_dan: string): void {
   if (la_song(gia_tri)) {
-    const { vi, en } = gia_tri
+    const { vi } = gia_tri
 
-    if (typeof vi !== 'string' || typeof en !== 'string') {
-      loi.push(`${duong_dan}: cặp song ngữ phải là hai chuỗi`)
+    if (typeof vi !== 'string') {
+      loi.push(`${duong_dan}: câu chữ phải là một chuỗi`)
       return
     }
-    if (vi.trim() === '') loi.push(`${duong_dan}: thiếu bản tiếng Việt`)
-    if (en.trim() === '') loi.push(`${duong_dan}: thiếu bản tiếng Anh`)
-    if (vi === en && vi.length > NGUONG_NGHI_QUEN_DICH) {
-      loi.push(`${duong_dan}: hai bản giống hệt nhau, nhiều khả năng quên dịch`)
-    }
+    if (vi.trim() === '') loi.push(`${duong_dan}: câu chữ rỗng`)
 
     // Dấu gạch dưới đôi là chỗ chờ một con số thật. Một trang giới thiệu ra
     // mắt với "__ giờ mỗi tuần" còn tệ hơn là không có mục ấy.
-    if (vi.includes('__') || en.includes('__')) {
-      loi.push(`${duong_dan}: còn chỗ trống chưa điền, dấu __`)
-    }
+    if (vi.includes('__')) loi.push(`${duong_dan}: còn chỗ trống chưa điền, dấu __`)
     return
   }
 
@@ -156,4 +146,4 @@ if (loi_rieng.length > 0) {
   process.exit(1)
 }
 
-console.log('Nội dung đạt: mọi chuỗi có đủ hai bản, các phép kiểm riêng đều qua.')
+console.log('Nội dung đạt: không câu nào rỗng, các phép kiểm riêng đều qua.')

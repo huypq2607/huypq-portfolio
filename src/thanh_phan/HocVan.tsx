@@ -25,7 +25,7 @@ export function HocVan() {
         <h3 className="ma text-[0.72rem] text-chu-mo">{chu(NHAN.nhan_chung_chi)}</h3>
         <div className="mt-3 space-y-3">
           {CHUNG_CHI.map((muc) => (
-            <div key={muc.ten.en} className="border-t border-vien pt-3">
+            <div key={muc.ten.vi} className="border-t border-vien pt-3">
               <div className="flex flex-wrap items-baseline justify-between gap-x-4">
                 <p className="text-[1.02rem] font-semibold">{chu(muc.ten)}</p>
                 <p className="ma text-[0.78rem] text-chu-mo">{muc.nam}</p>

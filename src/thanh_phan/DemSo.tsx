@@ -1,22 +1,19 @@
 // Con số đếm lên khi lọt vào tầm mắt.
 //
-// Chuỗi đích là chuỗi đã định dạng sẵn theo ngôn ngữ đang hiển thị, ví dụ
-// "12,027" hay "12.027". Ở đây bóc lấy phần số, đếm lên, rồi định dạng lại
-// bằng Intl theo đúng vùng ngôn ngữ đó, nên dấu phân cách hàng nghìn trong lúc
-// đếm không bao giờ lệch với chuỗi đích.
+// Chuỗi đích là chuỗi đã định dạng sẵn, ví dụ "12.027". Ở đây bóc lấy phần
+// số, đếm lên, rồi định dạng lại bằng Intl theo vùng tiếng Việt, nên dấu phân
+// cách hàng nghìn trong lúc đếm không bao giờ lệch với chuỗi đích.
 //
 // Phần đuôi không phải chữ số, ví dụ dấu nhân trong "22×", được giữ nguyên và
 // gắn lại ở cuối.
 
 import { useEffect, useRef, useState } from 'react'
-import type { Ngon_ngu } from '../../noi_dung/kieu.ts'
 import { giam_chuyen_dong } from '../hieu_ung.ts'
 
 const THOI_LUONG_MS = 1100
 
 interface Tham_so {
   readonly dich: string
-  readonly ngon_ngu: Ngon_ngu
   readonly className?: string
 }
 
@@ -37,7 +34,7 @@ function boc_so(chuoi: string): { so: number | null; duoi: string } {
   return { so: Number(chi_chu_so), duoi }
 }
 
-export function DemSo({ dich, ngon_ngu, className }: Tham_so) {
+export function DemSo({ dich, className }: Tham_so) {
   const tham_chieu = useRef<HTMLSpanElement | null>(null)
   const [dang_hien, dat_dang_hien] = useState(dich)
 
@@ -54,7 +51,7 @@ export function DemSo({ dich, ngon_ngu, className }: Tham_so) {
     // thẳng chuỗi đích, không đếm.
     if (phan_tu === null || so === null || giam_chuyen_dong()) return
 
-    const dinh_dang = new Intl.NumberFormat(ngon_ngu === 'vi' ? 'vi-VN' : 'en-US')
+    const dinh_dang = new Intl.NumberFormat('vi-VN')
     let ma_khung = 0
 
     const theo_doi = new IntersectionObserver(
@@ -80,7 +77,7 @@ export function DemSo({ dich, ngon_ngu, className }: Tham_so) {
       theo_doi.disconnect()
       if (ma_khung !== 0) cancelAnimationFrame(ma_khung)
     }
-  }, [dich, ngon_ngu])
+  }, [dich])
 
   // aria-label giữ chuỗi đích đầy đủ, vì trình đọc màn hình không nên phải
   // nghe một con số đang nhảy.

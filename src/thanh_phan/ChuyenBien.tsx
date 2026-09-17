@@ -25,7 +25,7 @@ export function ChuyenBien() {
           đi hết chiều ngang mới nối được cặp. */}
       <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-5 sm:grid-cols-3 lg:grid-cols-5">
         {CHUYEN_BIEN.map((muc) => (
-          <div key={muc.nhan.en} className="min-w-0">
+          <div key={muc.nhan.vi} className="min-w-0">
             <dt className="text-[0.78rem] leading-snug text-chu-mo">{chu(muc.nhan)}</dt>
             <dd className="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
               {muc.truoc !== undefined && (

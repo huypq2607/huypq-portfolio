@@ -18,7 +18,7 @@ export function KyNang() {
     <div className="grid gap-5 md:grid-cols-2">
       {KY_NANG.map((nhom, thu_tu) => (
         <div
-          key={nhom.ten.en}
+          key={nhom.ten.vi}
           className="the-noi cho-hien min-w-0 rounded-xl p-5 sm:p-6"
           style={{ transitionDelay: `${thu_tu * 80}ms` }}
         >

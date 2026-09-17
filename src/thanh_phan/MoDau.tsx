@@ -107,7 +107,7 @@ export function MoDau() {
             <dl className="mo-man mt-7 w-full lg:w-72" style={{ animationDelay: `${TRE.ho_so}ms` }}>
               {HO_SO.map((dong, thu_tu) => (
                 <div
-                  key={dong.nhan.en}
+                  key={dong.nhan.vi}
                   className="border-t border-vien py-3 first:border-t-0 first:pt-0"
                 >
                   <dt className="ma text-[0.7rem] text-chu-mo">{chu(dong.nhan)}</dt>

@@ -17,12 +17,11 @@ export interface Vi_tri {
   readonly duong_dan: readonly Doan[]
 }
 
-function la_song(gia_tri: unknown): gia_tri is { vi: string; en: string } {
+function la_song(gia_tri: unknown): gia_tri is { vi: string } {
   if (typeof gia_tri !== 'object' || gia_tri === null) return false
   const khoa = Object.keys(gia_tri)
-  if (khoa.length !== 2 || !khoa.includes('vi') || !khoa.includes('en')) return false
-  const o = gia_tri as Record<string, unknown>
-  return typeof o.vi === 'string' && typeof o.en === 'string'
+  if (khoa.length !== 1 || khoa[0] !== 'vi') return false
+  return typeof (gia_tri as Record<string, unknown>).vi === 'string'
 }
 
 function duyet(gia_tri: unknown, duong_dan: Doan[], tep: string, ban_do: Map<object, Vi_tri>): void {

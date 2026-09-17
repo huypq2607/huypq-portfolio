@@ -20,17 +20,13 @@ export interface Muc_sua {
   /** Khoá cấp một, dùng để gom nhóm trong giao diện. */
   readonly nhom: string
   readonly vi: string
-  /** Rỗng khi đây là chuỗi đơn, không phải cặp song ngữ. */
-  readonly en: string
-  readonly song_ngu: boolean
 }
 
-function la_song(gia_tri: unknown): gia_tri is { vi: string; en: string } {
+function la_song(gia_tri: unknown): gia_tri is { vi: string } {
   if (typeof gia_tri !== 'object' || gia_tri === null) return false
   const khoa = Object.keys(gia_tri)
-  if (khoa.length !== 2 || !khoa.includes('vi') || !khoa.includes('en')) return false
-  const o = gia_tri as Record<string, unknown>
-  return typeof o.vi === 'string' && typeof o.en === 'string'
+  if (khoa.length !== 1 || khoa[0] !== 'vi') return false
+  return typeof (gia_tri as Record<string, unknown>).vi === 'string'
 }
 
 function ve_nhan(duong_dan: readonly Doan[]): string {
@@ -53,8 +49,6 @@ function duyet(
       nhan: ve_nhan(duong_dan),
       nhom: typeof doan_dau === 'string' ? doan_dau : '(khác)',
       vi: gia_tri.vi,
-      en: gia_tri.en,
-      song_ngu: true,
     })
     return
   }
@@ -69,8 +63,6 @@ function duyet(
       nhan: ve_nhan(duong_dan),
       nhom: typeof doan_dau === 'string' ? doan_dau : '(khác)',
       vi: gia_tri,
-      en: '',
-      song_ngu: false,
     })
     return
   }
@@ -100,12 +92,15 @@ export async function lay_chi_muc(): Promise<Muc_sua[]> {
   return thu
 }
 
-/** Gửi một thay đổi về máy chủ phát triển để ghi vào tệp nguồn. */
+/** Gửi một thay đổi về máy chủ phát triển để ghi vào tệp nguồn.
+ *
+ *  truong là tên trường bên trong câu chữ, hiện chỉ có 'vi'. Để null với những
+ *  chuỗi trần nằm thẳng trong mảng, ví dụ tên công nghệ trong ngăn xếp. */
 export async function ghi_vao_nguon(
   muc: Muc_sua,
-  ngon_ngu: 'vi' | 'en' | null,
+  truong: 'vi' | null,
   gia_tri: string,
 ): Promise<void> {
-  const duong_dan = ngon_ngu === null ? muc.duong_dan : [...muc.duong_dan, ngon_ngu]
+  const duong_dan = truong === null ? muc.duong_dan : [...muc.duong_dan, truong]
   await ghi_chuoi(muc.tep, duong_dan, gia_tri)
 }

@@ -102,8 +102,7 @@ export function TrangSua() {
     return chi_muc.filter(
       (m) =>
         m.nhan.toLowerCase().includes(tu) ||
-        m.vi.toLowerCase().includes(tu) ||
-        m.en.toLowerCase().includes(tu),
+        m.vi.toLowerCase().includes(tu),
     )
   }, [chi_muc, tim])
 
@@ -156,19 +155,12 @@ export function TrangSua() {
               <li key={muc.khoa} className="the-noi rounded-lg p-4">
                 <p className="ma text-[0.68rem] text-chu-mo">{muc.nhan}</p>
 
-                <div className={`mt-3 grid gap-3 ${muc.song_ngu ? 'md:grid-cols-2' : ''}`}>
+                <div className="mt-3">
                   <O_chu
                     gia_tri={muc.vi}
-                    nhan={muc.song_ngu ? 'vi' : 'chuỗi đơn'}
-                    khi_luu={(moi) => ghi_vao_nguon(muc, muc.song_ngu ? 'vi' : null, moi)}
+                    nhan="vi"
+                    khi_luu={(moi) => ghi_vao_nguon(muc, 'vi', moi)}
                   />
-                  {muc.song_ngu && (
-                    <O_chu
-                      gia_tri={muc.en}
-                      nhan="en"
-                      khi_luu={(moi) => ghi_vao_nguon(muc, 'en', moi)}
-                    />
-                  )}
                 </div>
               </li>
             ))}
