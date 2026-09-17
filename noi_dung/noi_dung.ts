@@ -64,7 +64,7 @@ export const HO_SO: readonly Dong_ho_so[] = [
     nhan: { vi: 'Học vấn', en: 'Education' },
     gia_tri: {
       vi: 'Học viện Kỹ thuật Quân sự, khoa Cơ khí',
-      en: 'Le Quy Don Technical University, Mechanical Engineering',
+      en: 'Military Technical Academy, Mechanical Engineering',
     },
   },
   {
