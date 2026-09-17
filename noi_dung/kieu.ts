@@ -36,12 +36,6 @@ export interface Nang_luc {
   readonly than: Song
 }
 
-/** Một quyết định kỹ thuật đáng kể trong một dự án. */
-export interface Quyet_dinh {
-  readonly tieu_de: Song
-  readonly than: Song
-}
-
 /** Một lớp của hộp cát SQL, dùng cho sơ đồ trong dự án thứ hai. */
 export interface Lop_hop_cat {
   readonly so: number
@@ -58,7 +52,6 @@ export interface Du_an {
   readonly tom_tat: Song
   readonly so_lieu: readonly { readonly so: Song; readonly nhan: Song }[]
   readonly ngan_xep: readonly string[]
-  readonly quyet_dinh: readonly Quyet_dinh[]
   readonly ghi_chu: Song
   readonly lien_ket?: { readonly nhan: Song; readonly dia_chi: string }
 }

@@ -129,36 +129,6 @@ export const DU_AN: readonly Du_an[] = [
       'Superset',
       'GitLab CI',
     ],
-    quyet_dinh: [
-      {
-        tieu_de: { vi: 'Ngày hết hạn sai trên danh sách gọi tái tục', en: 'The wrong expiry date on a renewal call list' },
-        than: {
-          vi: 'Danh sách khách tái tục mà telesales gọi đang lấy ngày hết hạn của hợp đồng gốc. Hợp đồng có sửa đổi bổ sung mang một ngày khác mà model không hề nhìn tới, nên những xe đã gia hạn rồi vẫn bị gọi. Sửa bằng cách ưu tiên ngày của bản sửa đổi khi nó tồn tại. Cùng bảng đó còn phải khử trùng hai lần: nguồn giữ nhiều ảnh chụp CDC cho một hợp đồng, còn phần ghép số điện thoại thì đang lọc theo thẻ đang hoạt động, vô tình bỏ rơi khách chỉ có số trên thẻ đã ngừng.',
-          en: 'The lead pool telesales calls from was reading the expiry date of the original contract. A contract amended by an endorsement carries a different date that the model never looked at, so cars whose cover had already been extended were called anyway. Fixed by taking the endorsement date over the original wherever one exists. The same table needed deduplicating twice over: the source keeps several CDC snapshots per contract, and the phone-number join was filtering to active cards only, quietly dropping customers whose number sat on a deactivated one.',
-        },
-      },
-      {
-        tieu_de: { vi: 'Lỗi merge chỉ vỡ ở lần chạy thứ hai', en: 'A merge that only breaks the second time' },
-        than: {
-          vi: 'Nếu nguồn sinh ra hai dòng cho cùng một khoá merge thì lần chạy toàn phần không hề phát hiện: nó dựng lại bảng và mọi thứ trông vẫn đúng. Lần nạp tăng dần kế tiếp mới vỡ, thường vào ban đêm, thường rơi vào tay người khác. Tôi gặp nó, rồi đưa bất biến đó vào bộ quy tắc dựng model của đội: mọi model phải chứng minh một dòng trên một khoá trước khi merge, ở cả ba tầng.',
-          en: 'If a source produces two rows for one merge key, a full refresh never notices: it rebuilds the table and everything looks right. The next incremental run is the one that breaks, usually at night, usually in somebody else’s hands. I hit it, then wrote the invariant into the team’s build standard: every model proves one row per key before the merge, at all three tiers.',
-        },
-      },
-      {
-        tieu_de: { vi: 'Xoá một bảng tôi vừa dựng xong', en: 'Deleting a table I had just finished building' },
-        than: {
-          vi: 'Tôi dựng một bảng dạng dài gồm bốn mươi chỉ số trên bốn trục ngày để phục vụ biểu đồ so sánh cùng kỳ. Một tuần sau, biểu đồ chuyển sang cửa sổ ngày cố định, bảng ghép sẵn sáu loại kỳ không còn ai đọc, nhưng vẫn build và vẫn tốn lưu trữ mỗi ngày. Tôi gộp phần còn dùng vào bảng kia rồi xoá nó. Việc không ai đọc không trung tính, nó là một hoá đơn tới mỗi sáng.',
-          en: 'I built a long-format table holding forty metrics across four date axes to drive period-over-period charts. A week later the charts moved to a fixed date window, the pre-joined six-period table stopped being read, and it kept building and kept costing storage every single day. I folded what was still used into the other table and removed it. Work nobody reads is not neutral; it is a bill that arrives every morning.',
-        },
-      },
-      {
-        tieu_de: { vi: 'Chỗ phải bọc múi giờ và chỗ tuyệt đối không', en: 'Where the timezone must be wrapped, and where it must not' },
-        than: {
-          vi: 'Dữ liệu thô về theo giờ UTC, mọi tầng phía sau đọc theo giờ Việt Nam. Bộ lọc nạp tăng dần phải bọc múi giờ ở tầng precomp và tuyệt đối không bọc ở tầng trên nó. Làm ngược là câu lọc không khớp dòng nào: dbt báo chạy thành công, không dòng nào được ghi, không lỗi nào hiện ra. Thành công giả là kiểu hỏng tôi phòng trước tiên kể từ đó.',
-          en: 'Raw data arrives in UTC; every tier above it is read in Vietnam time. The incremental filter has to be wrapped at the precomp tier and must never be wrapped above it. Get it the wrong way round and the filter matches nothing: dbt reports a successful run, zero rows written, no error raised. Silent success is the failure mode I design against first now.',
-        },
-      },
-    ],
     ghi_chu: {
       vi: 'Các con số mô tả dự án dùng chung của cả phòng. Số điện thoại, email, biển số và số giấy tờ không bao giờ rời tầng curated, ranh giới đó được canh ở khâu duyệt merge request. Đó cũng là lý do trang này không có một dòng mã hay một tên bảng nào của dự án.',
       en: 'The figures describe the whole team’s shared project. Phone numbers, emails, plates and ID numbers never leave the curated tier; that boundary is enforced at merge request review. It is also why no line of code and no table name from that project appears on this page.',
@@ -195,36 +165,6 @@ export const DU_AN: readonly Du_an[] = [
       'Docker Compose',
       'Caddy',
       'GitHub Actions',
-    ],
-    quyet_dinh: [
-      {
-        tieu_de: { vi: 'Không lọc SQL bằng biểu thức chính quy', en: 'Not filtering SQL with a regular expression' },
-        than: {
-          vi: 'Nước đi đầu tiên ai cũng nghĩ tới là một danh sách từ cấm. Nó không bao giờ đứng vững: chú thích, chuỗi có dấu đô la, hoa thường lẫn lộn, ký tự Unicode nhìn giống nhau. Danh sách cấm nào cũng thiếu một cách viết, và chỉ khi có người dùng đúng cách viết ấy ta mới biết. Tệ hơn, một bộ lọc trông chặt chẽ khiến ta lơi lỏng những lớp thật sự có tác dụng. Postgres hiểu đúng cú pháp của chính nó, nên việc từ chối giao hết cho Postgres, và nó từ chối kèm một mã lỗi người học đọc được.',
-          en: 'The obvious first move is a denylist of forbidden words. It never holds: comments, dollar-quoting, mixed case, lookalike Unicode. Every denylist is missing a spelling, and you learn which one only after somebody has used it. Worse, a filter that looks thorough makes you relax the layers that actually work. Postgres understands its own grammar, so the refusing is left entirely to Postgres, and it refuses with an error code the learner can read.',
-        },
-      },
-      {
-        tieu_de: { vi: 'Đưa Postgres ra khỏi trình duyệt', en: 'Moving Postgres out of the browser' },
-        than: {
-          vi: 'Bản đầu chạy Postgres biên dịch sang WebAssembly ngay trong trình duyệt. Gọn, và sai ở hai chỗ: toàn bộ bảng đáp án buộc phải đi xuống máy người học, và lần tải đầu nặng 6,27 MB. Dựng lại thành ba tầng gồm cơ sở dữ liệu, máy chủ và giao diện đã đưa đáp án về một tiến trình máy chủ không ai mở công cụ nhà phát triển ra dò được, đồng thời giảm lần tải đầu xuống 282 KB, khoảng hai mươi hai lần.',
-          en: 'The first version ran Postgres compiled to WebAssembly inside the browser. Elegant, and wrong in two ways: the entire answer key had to ship to the learner’s machine, and first load weighed 6.27 MB. Rebuilding it as three tiers — database, server, interface — put the answers in a server process nobody can open devtools on, and cut first load to 282 KB, about twenty-two times smaller.',
-        },
-      },
-      {
-        tieu_de: { vi: 'Chỉ đúng chỗ sai mà không hé lộ đáp án', en: 'Naming the mistake without revealing the answer' },
-        than: {
-          vi: 'Chấm bằng cách so chuỗi băm của kết quả đã chuẩn hoá, nên không giá trị đáp án nào đi xuống trình duyệt. Phản hồi dừng ở bậc trượt đầu tiên trong năm bậc, vì nêu ba lỗi cùng lúc thì người học không biết bắt đầu từ đâu. Bậc thứ năm băm riêng từng cột: người nối bảng trước khi gom nhóm sẽ thấy giá trị hàng thì khớp còn phí vận chuyển thì không, và đó là đầu mối dẫn thẳng tới lỗi nhân bản, mà vẫn không lộ một con số nào.',
-          en: 'Grading compares a hash of the normalised result, so no answer value ever reaches the browser. Feedback stops at the first failing tier of five, because naming three problems at once leaves nobody knowing where to start. The fifth tier hashes each column separately: a learner who joined before grouping sees that the order value matched and the shipping fee did not, which points straight at the duplication — and still reveals no value at all.',
-        },
-      },
-      {
-        tieu_de: { vi: 'Cổng canh cho những kiểu hỏng báo thành công', en: 'Gates for the failures that report success' },
-        than: {
-          vi: 'Bộ sinh dữ liệu phải tất định, vì mọi chuỗi băm đáp án tính từ chính dữ liệu nó sinh ra. CI sinh lại trên Linux rồi trượt ngay ở git diff nếu lệch một byte so với bản dựng trên Windows: dữ liệu trôi một dòng là cả 600 bài chấm sai với người làm đúng, mà không dấu hiệu nào chỉ ra nguyên nhân. Cổng đo dung lượng gói làm thêm việc thứ hai, nó trượt nếu kho đề hay bảng đáp án lọt vào gói trình duyệt, thứ mà mọi kiểm thử khác vẫn cho qua vì ứng dụng chạy đúng như thường.',
-          en: 'The data generator has to be deterministic, because every answer hash derives from the data it produces. CI regenerates it on Linux and fails on git diff if a single byte moved from the Windows build: data that drifts by one row marks all 600 exercises wrong against learners who are right, with nothing pointing at the cause. The bundle-size gate does a second job — it fails if the exercise bank or the answer table ever reaches the browser bundle, which every other test would happily pass, because the app still runs exactly as before.',
-        },
-      },
     ],
     ghi_chu: {
       vi: 'Mã nguồn riêng tư vì sản phẩm đang bán. Trang đang chạy thì mở được, và tôi sẵn sàng dẫn qua bất kỳ phần nào trong một buổi trò chuyện.',
@@ -320,7 +260,6 @@ export const NHAN = {
   dieu_huong_du_an: { vi: 'Dự án', en: 'Work' } satisfies Song,
   nhan_vai_tro: { vi: 'Vai trò', en: 'Role' } satisfies Song,
   nhan_ngan_xep: { vi: 'Ngăn xếp', en: 'Stack' } satisfies Song,
-  nhan_quyet_dinh: { vi: 'Bốn quyết định đáng kể', en: 'Four decisions worth reading' } satisfies Song,
   nhan_hop_cat: {
     vi: 'Hộp cát bảy lớp, nơi câu lệnh của người lạ chạy trên Postgres thật',
     en: 'The seven-layer sandbox where a stranger’s SQL runs on a real Postgres',

@@ -8,7 +8,6 @@ import type { ReactNode } from 'react'
 import type { Du_an } from '../../noi_dung/kieu.ts'
 import { NHAN } from '../../noi_dung/noi_dung.ts'
 import { dung_ngon_ngu } from '../ngon_ngu.tsx'
-import { DanhSachY } from './DanhSachY.tsx'
 import { DemSo } from './DemSo.tsx'
 
 interface Tham_so {
@@ -69,13 +68,6 @@ export function DuAn({ du_an, children }: Tham_so) {
       </div>
 
       {children}
-
-      <div className="mt-16">
-        <h4 className="hien cho-hien text-[1.1rem] font-semibold">{chu(NHAN.nhan_quyet_dinh)}</h4>
-        <div className="mt-7">
-          <DanhSachY muc={du_an.quyet_dinh} />
-        </div>
-      </div>
 
       <p
         className="cho-hien mt-10 max-w-[68ch] border-l-2 pl-5 text-[0.92rem] text-chu-mo"
