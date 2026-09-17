@@ -65,7 +65,7 @@ export const HO_SO: readonly Dong_ho_so[] = [
   },
   {
     nhan: { vi: 'Sẵn sàng', en: 'Open to' },
-    gia_tri: { vi: 'Vị trí remote và tại chỗ', en: 'Remote and on-site roles' },
+    gia_tri: { vi: 'Data Engineer & Data Analyst', en: 'Remote and on-site roles' },
   },
 ]
 
