@@ -28,12 +28,17 @@ export function ChuyenBien() {
         style={{ backgroundColor: 'var(--vien)' }}
       >
         {CHUYEN_BIEN.map((muc, thu_tu) => (
-          <div key={muc.nhan.vi} className="min-w-0 bg-be-mat px-4 py-5 sm:px-5">
+          <div key={muc.nhan.vi} className="o-chi-so group min-w-0 bg-be-mat px-4 py-5 sm:px-5">
             <div className="flex items-center justify-between gap-2">
-              <p className="ma text-[0.66rem] text-chu-mo opacity-70">{muc.noi}</p>
+              <p className="ma text-[0.66rem] text-chu-mo opacity-70 transition-opacity duration-200 group-hover:opacity-100">
+                {muc.noi}
+              </p>
+              {/* Mũi tên mờ lúc nghỉ, ăn màu nhấn khi con trỏ đi tới. Đó là
+                  chi tiết người ta chỉ thấy khi đã dừng lại ở ô này, tức đúng
+                  lúc họ muốn nhìn kỹ hơn. */}
               <MuiTenChieu
                 chieu={muc.chieu}
-                className="h-4 w-4 shrink-0 text-chu-mo opacity-55"
+                className="h-4 w-4 shrink-0 text-chu-mo opacity-55 transition-all duration-200 group-hover:text-nhan group-hover:opacity-100"
               />
             </div>
 
@@ -66,7 +71,9 @@ export function ChuyenBien() {
               />
             </dd>
 
-            <dt className="mt-2.5 text-[0.82rem] leading-snug text-chu-mo">{chu(muc.nhan)}</dt>
+            <dt className="mt-2.5 text-[0.82rem] leading-snug text-chu-mo transition-colors duration-200 group-hover:text-chu">
+              {chu(muc.nhan)}
+            </dt>
           </div>
         ))}
       </dl>

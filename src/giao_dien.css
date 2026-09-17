@@ -412,15 +412,38 @@ body {
 }
 
 
+/* Một ô của bảng chỉ số.
+   Con trỏ đi tới thì cả ô sáng lên một nấc và quầng sáng sau con số đậm thêm.
+   Đây là chuyển động đáp lại người dùng chứ không phải chuyển động tự chạy, nên
+   nó được phép có mặt ở mọi ô mà không làm trang nhấp nháy. Không đổi con trỏ
+   thành hình bàn tay, vì ô này không bấm được và giả vờ bấm được là nói dối. */
+.o-chi-so {
+  --do-sang-so: 40%;
+  transition: background-color 220ms ease;
+}
+
+.o-chi-so:hover {
+  --do-sang-so: 75%;
+  background-color: var(--be-mat-cao);
+}
+
 /* Con số của dải kết quả. Quầng sáng rất nhạt sau chữ, đủ để con số trông như
    đang phát sáng trên nền tối chứ không phải nằm dẹt trên đó. Trên nền trắng
    quầng ấy chỉ thành một vệt bẩn, nên tắt hẳn. */
 .so-noi-bat {
-  text-shadow: 0 0 28px color-mix(in oklab, var(--nhan) 40%, transparent);
+  text-shadow: 0 0 28px color-mix(in oklab, var(--nhan) var(--do-sang-so, 40%), transparent);
+  transition: text-shadow 220ms ease;
 }
 
 [data-giao-dien='sang'] .so-noi-bat {
   text-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .o-chi-so,
+  .so-noi-bat {
+    transition: none;
+  }
 }
 
 /* Gạch đầu dòng vẽ bằng pseudo-element chứ không dùng list-style, vì hai lý
