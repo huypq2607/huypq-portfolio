@@ -6,6 +6,7 @@
 // thành công, nên nó phải có một phép kiểm chuyển đỏ.
 
 import * as noi_dung from '../noi_dung/noi_dung.ts'
+import * as quy_trinh from '../noi_dung/quy_trinh.ts'
 
 /** Ngưỡng độ dài để coi hai bản giống hệt nhau là quên dịch chứ không phải cố
  *  ý. Chuỗi ngắn như "534" hay "set local role" giống nhau là bình thường. */
@@ -51,6 +52,12 @@ for (const [ten, gia_tri] of Object.entries(noi_dung)) {
   duyet(gia_tri, ten)
 }
 
+// Nội dung của dây chuyền và ba dashboard nằm ở tệp riêng, nhưng chịu đúng một
+// luật song ngữ như phần còn lại, nên duyệt luôn ở đây.
+for (const [ten, gia_tri] of Object.entries(quy_trinh)) {
+  duyet(gia_tri, `quy_trinh.${ten}`)
+}
+
 // ---------------------------------------------------------------------------
 // Các phép kiểm riêng, không suy ra được từ việc duyệt cây
 // ---------------------------------------------------------------------------
@@ -85,6 +92,36 @@ noi_dung.LOP_HOP_CAT.forEach((lop, thu_tu) => {
     loi.push(`LOP_HOP_CAT[${thu_tu}]: số lớp là ${lop.so}, phải là ${thu_tu + 1}`)
   }
 })
+
+// Bốn kênh trong biểu đồ cơ cấu doanh thu phải cộng lại đúng 100 phần trăm,
+// nếu không thì thanh xếp chồng vẽ ra một tỷ lệ không có thật.
+const tong_phan_tram = quy_trinh.KENH_DOANH_THU.reduce((tong, kenh) => tong + kenh.phan_tram, 0)
+if (tong_phan_tram !== 100) {
+  loi.push(`quy_trinh.KENH_DOANH_THU: tổng phần trăm là ${tong_phan_tram}, phải là 100`)
+}
+
+// Doanh thu theo tháng phải có đủ cột và không cột nào âm hay bằng không, vì
+// chiều cao cột tính theo tỷ lệ với cột cao nhất.
+if (quy_trinh.DOANH_THU_THANG.length < 2) {
+  loi.push('quy_trinh.DOANH_THU_THANG: cần ít nhất 2 tháng để vẽ biểu đồ cột')
+}
+for (const cot of quy_trinh.DOANH_THU_THANG) {
+  if (!(cot.ty_dong > 0)) {
+    loi.push(`quy_trinh.DOANH_THU_THANG[${cot.thang}]: giá trị phải lớn hơn 0`)
+  }
+}
+
+// Điểm cảnh báo phải nằm trong chuỗi và phải thật sự nằm ngoài dải kỳ vọng.
+// Đánh dấu một điểm bình thường là cảnh báo thì cả khối minh hoạ thành sai.
+{
+  const { gia_tri, duoi, tren, diem_canh_bao } = quy_trinh.CHUOI_CANH_BAO
+  const diem = gia_tri[diem_canh_bao]
+  if (diem === undefined) {
+    loi.push(`quy_trinh.CHUOI_CANH_BAO: diem_canh_bao ${diem_canh_bao} nằm ngoài chuỗi`)
+  } else if (diem >= duoi && diem <= tren) {
+    loi.push(`quy_trinh.CHUOI_CANH_BAO: điểm ${diem} vẫn nằm trong dải kỳ vọng ${duoi} tới ${tren}`)
+  }
+}
 
 // Địa chỉ liên hệ là thứ duy nhất trang này muốn người xem dùng. Sai một ký tự
 // ở đây thì mọi công sức còn lại thành vô nghĩa.

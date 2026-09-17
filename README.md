@@ -38,6 +38,8 @@ một thư mục tệp tĩnh.
 noi_dung/        Toàn bộ chữ nghĩa, song ngữ, gom một chỗ
   kieu.ts        Kiểu dữ liệu, trong đó Song là cặp { vi, en }
   noi_dung.ts    Nội dung thật: hồ sơ, sáu tầng, hai dự án, kỹ năng
+  quy_trinh.ts   Dây chuyền sáu chặng và ba dashboard minh hoạ của dự án VETC
+  quy_trinh.ts   Dây chuyền sáu chặng và ba dashboard minh hoạ của dự án VETC
 
 src/
   ngon_ngu.tsx   Ngôn ngữ đang hiển thị, nhớ trong localStorage
@@ -253,6 +255,98 @@ Hai chi tiết kỹ thuật đáng nhớ nếu sau này sửa:
 - Quầng sáng chỉ ghi hai biến CSS từ sự kiện con trỏ, phần vẽ để CSS lo. Làm
   bằng trạng thái React thì mỗi lần chuột nhúc nhích là một lần vẽ lại cây.
 
+## Biểu đồ và số liệu minh hoạ
+
+Dự án VETC có hai khối riêng: **dây chuyền sáu chặng** từ lấy dữ liệu tới hộp
+thư lúc bảy giờ sáng và tới cảnh báo bất thường, rồi **ba dashboard minh hoạ**
+cho thấy bộ dữ liệu ấy trả lời được loại câu hỏi nào.
+
+### Số liệu là số mô phỏng, và trang nói rõ điều đó
+
+Ba dashboard dùng **số mô phỏng, không phải số thật của VETC**. Dữ liệu thật là
+dữ liệu nội bộ và có thông tin cá nhân, không được phép rời khỏi hệ thống.
+
+Điều đó được ghi ngay trên từng khối chứ không giấu xuống chân trang, vì một
+người tuyển dụng đọc lướt mà tưởng đây là số thật rồi sau mới biết là số bịa thì
+mất niềm tin vào cả trang, kể cả những phần hoàn toàn đúng.
+
+### Ba khối, ba thể loại hình, ba luật tô màu
+
+Thể loại hình chọn theo việc của dữ liệu chứ không theo cái nào đẹp hơn:
+
+| Khối | Dữ liệu làm việc gì | Thể loại | Màu |
+|---|---|---|---|
+| Phễu tái tục | Cùng một phép đo ở bốn bậc | Thanh ngang thu dần | Dải tuần tự một sắc |
+| Cơ cấu kênh | Bốn thực thể khác loại | Thanh xếp chồng | Bảng phân loại bốn sắc |
+| Theo dõi lệch | Chuỗi thời gian có dải kỳ vọng | Đường kèm dải | Một sắc, cộng màu trạng thái |
+
+Ba bảng màu khai riêng trong `src/giao_dien.css`, tách khỏi dải sáu tầng của
+trang, và **tính riêng cho từng chế độ nền** chứ không lật ngược bộ của nền tối:
+màu sáng trên nền trắng tụt cả độ tương phản lẫn khoảng cách nhận biết.
+
+Cả ba bộ đã chạy qua bộ kiểm dải màu: dải độ sáng, sàn độ bão hoà, khoảng cách
+giữa các cặp kề nhau dưới mô phỏng mù màu, và độ tương phản với nền của khối
+biểu đồ. Đổi một mã màu trong đó thì **phải chạy lại bộ kiểm**, đừng ước lượng
+bằng mắt.
+
+Ba luật không được phá:
+
+- **Bảng phân loại giữ thứ tự cố định, không bao giờ xoay vòng.** Kênh nào cũng
+  giữ nguyên màu của nó kể cả khi bộ lọc bỏ bớt kênh khác đi.
+- **Dải tuần tự là một sắc chạy từ nhạt tới đậm**, tuyệt đối không phải cầu vồng.
+- **Màu trạng thái là màu dành riêng.** Không bao giờ mượn nó làm màu thứ năm
+  của bảng phân loại, và nó luôn đi kèm biểu tượng với chữ, không bao giờ chỉ
+  nói bằng màu.
+
+### Mọi giá trị đều có mặt dưới dạng chữ
+
+Không giá trị nào chỉ tồn tại trong hình. Người không rê được chuột, người dùng
+trình đọc màn hình và người in trang ra giấy đều đọc đủ số. Phần rê chuột chỉ là
+lớp tiện thêm, và vùng rê là cả hàng chứ không phải riêng thanh màu, vì thanh
+chỉ cao vài điểm ảnh.
+
+### Cổng canh gác cho phần số liệu
+
+`npm run cham-thu-noi-dung` kiểm thêm ba điều mà chỉ nhìn ảnh chụp mới thấy:
+
+- Bốn kênh phải cộng lại đúng 100 phần trăm, nếu không thanh xếp chồng vẽ ra
+  một tỷ lệ không có thật.
+- Phễu phải thu dần, vì một bậc sau lớn hơn bậc trước là phễu phình ra.
+- Điểm được đánh dấu cảnh báo phải thật sự nằm ngoài dải kỳ vọng.
+
+---
+
+## Biểu đồ minh hoạ
+
+Dự án VETC có hai khối riêng: **dây chuyền sáu chặng** từ lấy dữ liệu tới báo
+cáo Outlook và cảnh báo bất thường, rồi **ba dashboard** vẽ bằng SVG nội tuyến
+với CSS, không kéo thêm thư viện nào.
+
+**Số liệu là số mô phỏng, không phải số thật của VETC**, và trang nói rõ điều đó
+ngay trên khối chứ không giấu xuống chân trang.
+
+Thể loại hình chọn theo việc của dữ liệu:
+
+| Khối | Dữ liệu | Màu |
+|---|---|---|
+| Cột, doanh thu theo tháng | Một chuỗi theo thời gian | Một sắc duy nhất |
+| Tròn, cơ cấu theo kênh | Bốn phần của một tổng | Bảng phân loại bốn sắc |
+| Đường, cảnh báo bất thường | Chuỗi thời gian có dải kỳ vọng | Một sắc, cộng màu trạng thái |
+
+Ba bảng màu khai riêng trong `src/giao_dien.css`, tính riêng cho từng chế độ nền
+chứ không lật ngược bộ của nền tối, và đã chạy qua bộ kiểm dải màu: độ sáng, độ
+bão hoà, khoảng cách giữa các cặp kề nhau dưới mô phỏng mù màu, độ tương phản
+với nền. **Đổi một mã màu thì phải chạy lại bộ kiểm**, đừng ước lượng bằng mắt.
+
+Ba luật không phá: bảng phân loại giữ thứ tự cố định không xoay vòng; cột của
+một chuỗi duy nhất dùng một sắc, không tô theo thứ hạng; màu trạng thái là màu
+dành riêng và luôn đi kèm biểu tượng với chữ.
+
+`npm run cham-thu-noi-dung` kiểm thêm: bốn kênh cộng đúng 100 phần trăm, cột nào
+cũng lớn hơn 0, và điểm đánh dấu cảnh báo thật sự nằm ngoài dải kỳ vọng.
+
+---
+
 ## Phát hành
 
 ### GitHub Pages, đường chính
@@ -312,8 +406,9 @@ dapractice rồi chuyển tiếp tên miền con sang container này.
 | Chạy script | tsx, không có bước biên dịch riêng |
 | Máy chủ tĩnh | GitHub Pages, hoặc Caddy 2 khi chạy bằng Docker |
 
-Dung lượng phải tải về khi mở trang: khoảng **91 KB sau khi nén**, trong đó
-phần lớn là React. Trần đặt ở 110 KB.
+Dung lượng phải tải về khi mở trang: khoảng **96 KB sau khi nén**, trong đó
+phần lớn là React. Trần đặt ở 110 KB. Ba biểu đồ vẽ bằng SVG nội tuyến và CSS,
+không kéo thêm thư viện biểu đồ nào.
 
 ---
 

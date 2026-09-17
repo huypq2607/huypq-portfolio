@@ -12,11 +12,13 @@ import { Cung_cap_ngon_ngu, dung_ngon_ngu } from './ngon_ngu.tsx'
 import { Cung_cap_nen } from './nen.tsx'
 import { BangHopCat } from './thanh_phan/BangHopCat.tsx'
 import { DanhSachY } from './thanh_phan/DanhSachY.tsx'
+import { DashboardMau } from './thanh_phan/DashboardMau.tsx'
 import { DuAn } from './thanh_phan/DuAn.tsx'
 import { KhungMuc } from './thanh_phan/KhungMuc.tsx'
 import { KyNang } from './thanh_phan/KyNang.tsx'
 import { LienHe } from './thanh_phan/LienHe.tsx'
 import { MoDau } from './thanh_phan/MoDau.tsx'
+import { QuyTrinh } from './thanh_phan/QuyTrinh.tsx'
 import { SoDoTang } from './thanh_phan/SoDoTang.tsx'
 import { ThanhTren } from './thanh_phan/ThanhTren.tsx'
 
@@ -65,7 +67,10 @@ function Trang() {
         </KhungMuc>
 
         <KhungMuc ma="du-an" tieu_de={NHAN.muc_du_an}>
-          <DuAn du_an={DU_AN_VETC} />
+          <DuAn du_an={DU_AN_VETC}>
+            <QuyTrinh />
+            <DashboardMau />
+          </DuAn>
         </KhungMuc>
 
         <section className="bg-nen-diu">

@@ -42,6 +42,39 @@
   --nhan: var(--tang-1);
   --nhan-am: var(--tang-6);
 
+  /* -------------------------------------------------------------------------
+     Bảng màu riêng cho biểu đồ
+     -------------------------------------------------------------------------
+     Tách khỏi dải sáu tầng vì biểu đồ có ba việc khác nhau và mỗi việc có luật
+     tô màu riêng.
+
+     bd-1 tới bd-4 là bảng PHÂN LOẠI, dùng cho những thứ khác loại nhau như bốn
+     kênh khai thác. Thứ tự cố định và không bao giờ xoay vòng: kênh nào cũng
+     giữ nguyên màu của nó kể cả khi bộ lọc bỏ bớt kênh khác đi.
+
+     bac-1 tới bac-4 là dải TUẦN TỰ một sắc, dùng cho cùng một phép đo ở nhiều
+     bậc, ví dụ bốn bậc của phễu tái tục. Một sắc chạy từ nhạt tới đậm, tuyệt
+     đối không phải cầu vồng.
+
+     canh-bao là màu TRẠNG THÁI, chỉ dùng cho cảnh báo và không bao giờ được
+     mượn làm màu thứ năm của bảng phân loại.
+
+     Cả ba bộ đã qua bộ kiểm dải màu cho từng chế độ nền: dải độ sáng, sàn độ
+     bão hoà, khoảng cách giữa các cặp kề nhau dưới mô phỏng mù màu, và độ
+     tương phản với nền của khối biểu đồ.
+     ------------------------------------------------------------------------- */
+  --bd-1: #2e9ec7;
+  --bd-2: #cf7634;
+  --bd-3: #8a6cdb;
+  --bd-4: #37a976;
+
+  --bac-1: #7fd6f2;
+  --bac-2: #4fbde3;
+  --bac-3: #2e9ec7;
+  --bac-4: #1c7ba0;
+
+  --canh-bao: #e5534b;
+
   /* Độ sáng của lớp phát quang trong phần mở đầu. Tắt hẳn ở nền sáng. */
   --do-sang-quang: 0.16;
 }
@@ -70,6 +103,21 @@
 
   --nhan: var(--tang-1);
   --nhan-am: var(--tang-6);
+
+  /* Cùng ba bộ nhưng tính lại cho nền trắng. Không lật ngược bộ của nền tối:
+     màu sáng trên nền trắng tụt cả độ tương phản lẫn khoảng cách nhận biết,
+     nên đây là một bộ được chọn riêng và kiểm riêng. */
+  --bd-1: #0b82b4;
+  --bd-2: #c05c16;
+  --bd-3: #7c5cd6;
+  --bd-4: #23855a;
+
+  --bac-1: #74c1e0;
+  --bac-2: #3fa3cc;
+  --bac-3: #1d85b2;
+  --bac-4: #0a5f82;
+
+  --canh-bao: #c0362e;
 
   --do-sang-quang: 0;
 }
