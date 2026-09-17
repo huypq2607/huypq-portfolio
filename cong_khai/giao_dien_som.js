@@ -11,7 +11,10 @@
   try {
     var da_chon = window.localStorage.getItem('giao_dien_v1')
     if (da_chon !== 'sang' && da_chon !== 'toi') {
-      da_chon = window.matchMedia('(prefers-color-scheme: light)').matches ? 'sang' : 'toi'
+      // Chưa từng chọn thì mở nền tối, kể cả khi máy đang đặt nền sáng. Trang
+      // này thiết kế theo nền tối trước, và đó là bản chủ trang muốn người lạ
+      // nhìn thấy đầu tiên. Ai muốn nền sáng thì bấm một lần là nhớ mãi.
+      da_chon = 'toi'
     }
     document.documentElement.dataset.giaoDien = da_chon
   } catch (loi) {

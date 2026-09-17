@@ -25,7 +25,9 @@ import { ghi_chuoi, vi_tri_cua } from './sua/ban_do.ts'
 
 const KHOA_NHO = 'ngon_ngu_v1'
 const KHOA_SUA = 'sua_tai_cho_v1'
-const MAC_DINH: Ngon_ngu = 'en'
+// Người xem chưa từng chọn thì mở ra bản tiếng Việt. Đây là lựa chọn của chủ
+// trang, không phải suy ra từ ngôn ngữ trình duyệt.
+const MAC_DINH: Ngon_ngu = 'vi'
 
 /** Chỉ có trang chạy lúc phát triển mới sửa được chữ. */
 const CHO_PHEP_SUA = import.meta.env.DEV
