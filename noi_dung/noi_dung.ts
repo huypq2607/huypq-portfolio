@@ -296,43 +296,51 @@ export const CHUYEN_BIEN: readonly Chuyen_bien[] = [
   {
     noi: 'VETC',
     nhan: { vi: 'Giờ làm báo cáo tay mỗi tuần' },
+    chieu: 'giam',
     sau: { vi: '-30%' },
   },
   {
     noi: 'VETC',
     nhan: { vi: 'Tỷ lệ tái tục mảng bảo hiểm' },
+    chieu: 'tang',
     sau: { vi: '+60%' },
   },
   {
     noi: 'VETC',
     nhan: { vi: 'Thời gian phát hiện sai lệch' },
+    chieu: 'rut',
     truoc: { vi: '5 ngày' },
     sau: { vi: 'Trong ngày' },
   },
   {
     noi: 'VETC',
     nhan: { vi: 'Thời gian tải dashboard' },
+    chieu: 'rut',
     truoc: { vi: 'Phút' },
     sau: { vi: 'Giây' },
   },
   {
     noi: '30Shine',
     nhan: { vi: 'Thời gian xử lý dữ liệu thủ công mỗi tháng' },
+    chieu: 'giam',
     sau: { vi: '-70%' },
   },
   {
     noi: '30Shine',
     nhan: { vi: 'Ngân sách vận hành tiết kiệm mỗi quý' },
+    chieu: 'giam',
     sau: { vi: '10-15%' },
   },
   {
     noi: '30Shine',
     nhan: { vi: 'Hiệu quả vận hành toàn chuỗi' },
+    chieu: 'tang',
     sau: { vi: '+15%' },
   },
   {
     noi: '30Shine',
     nhan: { vi: 'Thời gian mỗi quản lý vùng lấy lại' },
+    chieu: 'tang',
     sau: { vi: '4-6 giờ/tuần' },
   },
 ]
@@ -344,104 +352,68 @@ export const CHUYEN_BIEN: readonly Chuyen_bien[] = [
 
 export const KY_NANG: readonly Nhom_ky_nang[] = [
   {
-    ten: { vi: 'Công cụ và Ngôn ngữ' },
-    dong: [
-      {
-        nhan: { vi: 'Power BI và Superset' },
-        mo_ta: {
-          vi: 'DAX, Power Query, thiết kế dashboard, trực quan hoá dữ liệu.',
-        },
-      },
-      {
-        nhan: { vi: 'SQL' },
-        mo_ta: {
-          vi: 'Trino, Spark SQL, SQL Server, PostgreSQL — truy vấn trên cả kho quan hệ và lakehouse.',
-        },
-      },
-      {
-        nhan: { vi: 'Python' },
-        mo_ta: {
-          vi: 'Pandas, NumPy, Matplotlib, Seaborn — xử lý dữ liệu và tự động hoá.',
-        },
-      },
+    ten: { vi: 'Công cụ và ngôn ngữ' },
+    cong_cu: [
+      'Power BI',
+      'DAX',
+      'Power Query',
+      'Superset',
+      'SQL',
+      'Trino',
+      'Spark SQL',
+      'SQL Server',
+      'PostgreSQL',
+      'Python',
+      'Pandas',
+      'NumPy',
+      'Matplotlib',
+      'Seaborn',
     ],
   },
   {
-    ten: { vi: 'Nền tảng Dữ liệu' },
-    dong: [
-      {
-        nhan: { vi: 'Lakehouse' },
-        mo_ta: {
-          vi: 'Apache Iceberg, REST catalog, MinIO/S3; kiến trúc phân tầng từ landing tới serving.',
-        },
-      },
-      {
-        nhan: { vi: 'Transform và điều phối' },
-        mo_ta: {
-          vi: 'dbt core và spark, custom materializations, incremental và merge, Apache Spark, Apache Airflow.',
-        },
-      },
-      {
-        nhan: { vi: 'CDC' },
-        mo_ta: {
-          vi: 'Debezium — đồng bộ thay đổi theo thời gian gần thực, không nạp lại toàn bộ bảng.',
-        },
-      },
-      {
-        nhan: { vi: 'Mô hình hoá' },
-        mo_ta: {
-          vi: 'Star Schema, Snowflake Schema, Fact Table, Dimension Table, SCD.',
-        },
-      },
-      {
-        nhan: { vi: 'Chất lượng và vận hành' },
-        mo_ta: {
-          vi: 'Kiểm thử dữ liệu tự động trong CI, che dữ liệu cá nhân theo tầng, Docker, GitLab CI.',
-        },
-      },
+    ten: { vi: 'Nền tảng dữ liệu' },
+    cong_cu: [
+      'Apache Iceberg',
+      'REST catalog',
+      'MinIO / S3',
+      'dbt core',
+      'dbt spark',
+      'Custom materializations',
+      'Incremental & merge',
+      'Apache Spark',
+      'Apache Airflow',
+      'Debezium',
+      'CDC',
+      'Docker',
+      'GitLab CI',
     ],
   },
   {
-    ten: { vi: 'Kỹ năng Phân tích' },
-    dong: [
-      {
-        mo_ta: {
-          vi: 'Làm sạch, tổng hợp dữ liệu từ nhiều nguồn; phân tích xu hướng, dự báo và phát hiện bất thường.',
-        },
-      },
-      {
-        mo_ta: {
-          vi: 'Định nghĩa chỉ số và chuẩn hoá định nghĩa giữa các bộ phận, để cùng một câu hỏi chỉ có một con số.',
-        },
-      },
-      {
-        mo_ta: {
-          vi: 'Xây dựng hệ thống KPI, dải kỳ vọng và ngưỡng cảnh báo tự động cho chỉ số vận hành.',
-        },
-      },
-      {
-        mo_ta: {
-          vi: 'Thiết kế luồng báo cáo tự động theo lịch gửi tới stakeholder; đưa insight hỗ trợ ra quyết định kinh doanh.',
-        },
-      },
+    ten: { vi: 'Mô hình hoá dữ liệu' },
+    cong_cu: [
+      'Star Schema',
+      'Snowflake Schema',
+      'Fact Table',
+      'Dimension Table',
+      'SCD',
+      'ERD',
+      'BRD',
+      'SRS',
     ],
   },
   {
-    ten: { vi: 'Kỹ năng Mềm' },
-    dong: [
-      {
-        mo_ta: {
-          vi: 'Giao tiếp liên phòng ban, làm rõ yêu cầu và trình bày dữ liệu dễ hiểu; tư duy phân tích, chủ động, làm việc độc lập và theo nhóm.',
-        },
-      },
-      {
-        mo_ta: {
-          vi: 'Làm việc trên kho mã dùng chung: review merge request, viết tài liệu để người sau đọc lại được.',
-        },
-      },
+    ten: { vi: 'Cách làm việc' },
+    y: [
+      { vi: 'Định nghĩa chỉ số và chuẩn hoá định nghĩa giữa các bộ phận, để cùng một câu hỏi chỉ có một con số.' },
+      { vi: 'Xây dựng hệ thống KPI, dải kỳ vọng và ngưỡng cảnh báo tự động cho chỉ số vận hành.' },
+      { vi: 'Thiết kế luồng báo cáo tự động theo lịch gửi tới stakeholder.' },
+      { vi: 'Kiểm thử dữ liệu tự động trong CI, che dữ liệu cá nhân theo tầng.' },
+      { vi: 'Giao tiếp liên phòng ban, làm rõ yêu cầu và trình bày dữ liệu dễ hiểu.' },
+      { vi: 'Làm việc trên kho mã dùng chung: review merge request, viết tài liệu để người sau đọc lại được.' },
     ],
   },
 ]
+
 
 // ---------------------------------------------------------------------------
 // Dự án nổi bật

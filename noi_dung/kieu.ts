@@ -74,12 +74,21 @@ export interface Chang {
  * truoc bỏ trống với những con số vốn là một mức chênh, ví dụ giảm 30 phần
  * trăm: viết "trước: 100%" ở đó là bịa ra một mốc không ai đo.
  */
+/** Chiều của thay đổi, quyết định hình mũi tên vẽ kèm con số. */
+export type Chieu_doi = 'giam' | 'tang' | 'rut'
+
 export interface Chuyen_bien {
   readonly nhan: Song
   readonly truoc?: Song
   readonly sau: Song
   /** Nơi làm ra con số này. Không dịch, nên để chuỗi trần. */
   readonly noi: string
+  /**
+   * Khai thẳng chứ không suy từ dấu cộng trừ trong chuỗi. Suy từ chuỗi thì
+   * ngày nào đó có người gõ dấu trừ dài thay vì dấu gạch nối là mũi tên lặng
+   * lẽ biến mất, mà không có gì báo.
+   */
+  readonly chieu: Chieu_doi
 }
 
 /** Một con số đáng nói của một nơi làm việc, hiện dưới dạng chữ số lớn. */
@@ -128,19 +137,21 @@ export interface Du_an_noi_bat {
 // ---------------------------------------------------------------------------
 
 /**
- * Một dòng kỹ năng.
+ * Một nhóm kỹ năng.
  *
- * nhan là phần in đậm đứng đầu, ví dụ "Lakehouse" hay "CDC". Bỏ trống với
- * những dòng là một câu trọn vẹn chứ không phải một cặp nhãn và nội dung.
+ * Hai dạng nội dung, và một nhóm chỉ nên dùng một dạng:
+ *
+ *   cong_cu  tên công nghệ, hiện thành chip. Đây là dạng gọn nhất và đúng nhất
+ *            cho những thứ vốn là danh từ riêng: đọc "Apache Iceberg" là biết,
+ *            gói nó vào một câu chỉ thêm chữ mà không thêm nghĩa.
+ *   y        những điều không quy về một cái tên được, ví dụ "định nghĩa chỉ số
+ *            và chuẩn hoá giữa các bộ phận". Ép thành chip thì mất nghĩa.
  */
-export interface Dong_ky_nang {
-  readonly nhan?: Song
-  readonly mo_ta: Song
-}
-
 export interface Nhom_ky_nang {
   readonly ten: Song
-  readonly dong: readonly Dong_ky_nang[]
+  /** Tên công nghệ. Không dịch, nên để chuỗi trần. */
+  readonly cong_cu?: readonly string[]
+  readonly y?: readonly Song[]
 }
 
 export interface Hoc_van {

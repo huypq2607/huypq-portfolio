@@ -412,6 +412,17 @@ body {
 }
 
 
+/* Con số của dải kết quả. Quầng sáng rất nhạt sau chữ, đủ để con số trông như
+   đang phát sáng trên nền tối chứ không phải nằm dẹt trên đó. Trên nền trắng
+   quầng ấy chỉ thành một vệt bẩn, nên tắt hẳn. */
+.so-noi-bat {
+  text-shadow: 0 0 28px color-mix(in oklab, var(--nhan) 40%, transparent);
+}
+
+[data-giao-dien='sang'] .so-noi-bat {
+  text-shadow: none;
+}
+
 /* Gạch đầu dòng vẽ bằng pseudo-element chứ không dùng list-style, vì hai lý
    do: dấu chấm nhận được màu nhấn thay vì màu chữ, và dòng thứ hai của một ý
    dài thụt thẳng cột với dòng đầu chứ không chui xuống dưới dấu chấm. */
