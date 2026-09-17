@@ -27,23 +27,23 @@ export const CHUC_DANH: Song = {
 
 /** Câu lớn nhất trang. Ngắn, vì nó được đặt cỡ chữ rất to. */
 export const KHAU_HIEU: Song = {
-  vi: 'Mọi báo cáođều bắt nguồn từ dữ liệu!',
-  en: 'I build the path data takes',
+  vi: 'Mọi báo cáo đều bắt nguồn từ dữ liệu!',
+  en: 'Every report starts with data',
 }
 
 export const DAN_GIAI: Song = {
   vi: 'Từ những dòng data thô, tới những dashboard giúp đưa ra quyết định một cách nhanh chóng.',
-  en: 'From a source system nobody documented, to the number someone makes a decision on.',
+  en: 'From raw rows to the dashboards decisions are made on, fast.',
 }
 
 export const GIOI_THIEU: readonly Song[] = [
   {
     vi: 'Với bốn năm làm dữ liệu, hiện tại tôi đang làm việc tại VETC thuộc tập đoàn Tasco. Tôi hiện đang phụ trách xây dựng pipeline khép kín từ: Từ lấy dữ liệu - Làm sạch - Cook - Cho ra bảng dữ liệu có thể dùng để dựng dashboard - Gửi báo cáo hàng ngày qua Outlook và Tự động cảnh báo bất thường tới stakeholder.',
-    en: 'Four years in data, currently at VETC, part of the Tasco group. I work inside the data team’s shared dbt project alongside about twenty engineers, and own the telesales and insurance vertical end to end — from CDC source to the tables the sales floor and the revenue report run on.',
+    en: 'Four years in data, currently at VETC, part of the Tasco group. I own a closed-loop pipeline end to end: ingest, clean, cook, land a serving table that dashboards run on, send the daily report through Outlook, and alert stakeholders automatically when a number goes abnormal.',
   },
   {
     vi: 'Ngoài ra, tôi tự xây dựng và tự vận hành từ A-Z dapractice, một nền tảng thực chiến cho dân Phân tích dữ liệu, có AI đóng vai trò như một trợ lý học tập.',
-    en: 'Outside work I build and operate dapractice, a SQL practice platform with paying users. All of it alone: product, server, interface, infrastructure.',
+    en: 'Alongside that I build and run dapractice alone, end to end: a hands-on platform for data analysts, with AI acting as a study assistant.',
   },
 ]
 
@@ -97,7 +97,7 @@ export const DU_AN: readonly Du_an[] = [
     ma: 'vetc',
     ten: {
       vi: 'Lakehouse quy mô tập đoàn',
-      en: 'An enterprise lakehouse for a toll road operator',
+      en: 'An enterprise-scale lakehouse',
     },
     vai_tro: {
       vi: 'Kỹ sư dữ liệu tại VETC, tập đoàn Tasco, 2025 tới nay',
@@ -105,7 +105,7 @@ export const DU_AN: readonly Du_an[] = [
     },
     tom_tat: {
       vi: 'Xây dựng pipeline khép kín từ: Từ lấy dữ liệu - Làm sạch - Cook - Cho ra bảng dữ liệu có thể dùng để dựng dashboard - Gửi báo cáo hàng ngày qua Outlook và Tự động cảnh báo bất thường tới stakeholder.',
-      en: 'VETC runs Vietnam’s electronic toll collection. The data team’s shared dbt project covers tolling, e-wallet, loyalty, insurance, roadside assistance, parking, telesales and the call centre. I work in it alongside about twenty engineers, and own the telesales and insurance vertical from source to serving table.',
+      en: 'A closed-loop pipeline: ingest, clean, cook, a serving table dashboards can be built on, the daily report sent through Outlook, and an automatic anomaly alert to stakeholders.',
     },
     // Dấu phân cách hàng nghìn khác nhau giữa hai ngôn ngữ, nên con số cũng
     // phải có hai bản. Viết 12.027 cho người đọc tiếng Anh là mười hai phẩy
@@ -150,24 +150,24 @@ export const DU_AN: readonly Du_an[] = [
       },
       {
         so: { vi: '70%', en: '70%' },
-        nhan: { vi: 'Quyết định chính xác từ việc xem báo cáo hàng ngày', en: 'Renewal leads pushed to telesales each month' },
+        nhan: { vi: 'Quyết định chính xác từ việc xem báo cáo hàng ngày', en: 'Decisions made correctly off the daily report' },
         boi_canh: {
           vi: 'Tự động lên số, tự động cảnh báo bất thường',
-          en: 'The list is built automatically from the serving table; nobody filters it by hand.',
+          en: 'Numbers generated automatically, anomalies flagged automatically',
         },
       },
     ],
 
     ghi_chu: {
       vi: 'Đây là số liệu demo, không phải số liệu thực tế.',
-      en: 'The figures describe the whole team’s shared project. Phone numbers, emails, plates and ID numbers never leave the curated tier; that boundary is enforced at merge request review. It is also why no line of code and no table name from that project appears on this page.',
+      en: 'These are demo figures, not real data.',
     },
   },
   {
     ma: 'shine',
     ten: {
       vi: 'Hệ thống báo cáo cho chuỗi hơn 100 Salon',
-      en: 'A reporting system for a retail chain of over a hundred stores',
+      en: 'A reporting system for a chain of 100+ salons',
     },
     vai_tro: {
       vi: 'Data Analyst tại 30Shine, 2022 tới 2025',
@@ -175,7 +175,7 @@ export const DU_AN: readonly Du_an[] = [
     },
     tom_tat: {
       vi: '30Shine là chuỗi cắt tóc và chăm sóc nam giới hơn một trăm salon. Tôi gom bốn hệ nguồn độc lập gồm giao dịch, nhân sự, vật tư và chấm công về một kho dữ liệu tập trung theo Star Schema, rồi trải nó thành dashboard mà hơn 100 quản lý salon và BOD mở hằng ngày.',
-      en: '30Shine is a men’s grooming chain of more than a hundred stores. I consolidated four independent source systems — transactions, people, materials and time tracking — into one central Star Schema warehouse, then surfaced it as dashboards that over a hundred store managers open every day.',
+      en: '30Shine is a men’s grooming chain of more than a hundred salons. I consolidated four independent source systems — transactions, people, materials and time tracking — into one central Star Schema warehouse, then surfaced it as dashboards that over a hundred salon managers and the board open every day.',
     },
     so_lieu: [
       { so: { vi: '14', en: '14' }, nhan: { vi: 'dashboard dùng hằng ngày', en: 'dashboards in daily use' } },
@@ -221,7 +221,7 @@ export const DU_AN: readonly Du_an[] = [
     ],
     ghi_chu: {
       vi: 'Dashboard của chuỗi là dữ liệu nội bộ nên không đưa lên đây.',
-      en: 'The chain’s dashboards hold internal data, so they are not shown here. I am happy to walk through them in a conversation.',
+      en: 'The chain’s dashboards hold internal data, so they are not shown here.',
     },
   },
   {
@@ -318,7 +318,7 @@ export const NHAN = {
   dieu_huong_du_an: { vi: 'Dự án', en: 'Work' } satisfies Song,
   nhan_vai_tro: { vi: 'Vai trò', en: 'Role' } satisfies Song,
   nhan_ngan_xep: { vi: 'Ngăn xếp', en: 'Stack' } satisfies Song,
-  nhan_dong_gop: { vi: 'Giá trị mang lại', en: 'What it changed' } satisfies Song,
+  nhan_dong_gop: { vi: 'Giá trị mang lại', en: 'Business impact' } satisfies Song,
   nhan_hop_cat: {
     vi: 'Bộ lọc 7 lớp, nơi câu lệnh của người lạ chạy trên Postgres thật',
     en: 'The seven-layer sandbox where a stranger’s SQL runs on a real Postgres',
