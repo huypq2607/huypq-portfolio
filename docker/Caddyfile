@@ -1,0 +1,44 @@
+# Caddy phục vụ bản tĩnh khi trang chạy trong Docker.
+#
+# Biến TEN_MIEN quyết định chế độ:
+#   TEN_MIEN=huypq.dapractice.site   xin chứng chỉ Let's Encrypt, tự gia hạn
+#   TEN_MIEN=:80                     phục vụ HTTP, dùng khi chạy thử trên máy
+
+{$TEN_MIEN::80} {
+	encode gzip zstd
+
+	root * /srv
+
+	# Tệp trong assets mang vân tay trong tên nên nội dung không bao giờ đổi,
+	# cho phép bộ nhớ đệm giữ một năm.
+	@co_van_tay path_regexp ^/assets/.*-[A-Za-z0-9_-]{8,}\.(js|css)$
+	header @co_van_tay Cache-Control "public, max-age=31536000, immutable"
+
+	# Trang HTML phải luôn hỏi lại máy chủ, nếu không thì người đã từng mở
+	# trang sẽ chạy mãi bản cũ sau mỗi lần phát hành. Caddy tự sinh Etag và
+	# trả 304 khi tệp chưa đổi nên chỉ tốn một vòng đi về.
+	@trang_html path *.html /
+	header @trang_html Cache-Control "public, max-age=0, must-revalidate"
+
+	# Ảnh chân dung không mang vân tay trong tên, một ngày là đủ để đổi ảnh thì
+	# hôm sau mọi máy đã thấy mà vẫn không phải tải lại mỗi lần mở.
+	@anh path /chan_dung_*
+	header @anh Cache-Control "public, max-age=86400"
+
+	header {
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy strict-origin-when-cross-origin
+		-Server
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+		# Trang không có mã nội tuyến nào, nên script-src giữ được 'self' trần
+		# mà không cần 'unsafe-inline'. style-src thì bắt buộc phải có, vì React
+		# đặt kiểu qua thuộc tính style. Hai miền của Google là để nạp phông chữ.
+		Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'; object-src 'none'"
+	}
+
+	# Trang chỉ có một màn duy nhất nên không cần quay đường dẫn nào về
+	# index.html. Địa chỉ gõ sai trả đúng 404 thay vì một trang giả.
+	file_server
+}

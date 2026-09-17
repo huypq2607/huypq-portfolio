@@ -1,0 +1,23 @@
+# Chạy trang trong Docker. Một dịch vụ duy nhất, vì trang là tệp tĩnh.
+#
+# Tệp này có mặt để chạy thử trên máy đúng thứ sẽ ra máy thật, và để sẵn dạng
+# mà VPS đã quen nếu sau này trang chuyển về đó thay vì GitHub Pages.
+#
+#   docker compose up --build     dựng rồi mở ở http://localhost:8080
+
+services:
+  trang:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        VITE_DIA_CHI_TRANG: ${VITE_DIA_CHI_TRANG:-https://huypq.dapractice.site}
+    image: huypq-portfolio:moi-nhat
+    container_name: huypq-portfolio
+    ports:
+      - '${CONG:-8080}:80'
+    environment:
+      # Để trống là phục vụ HTTP trên cổng 80 trong container. Đặt tên miền
+      # thật thì Caddy tự xin chứng chỉ, nhưng khi ấy phải mở cả cổng 443.
+      TEN_MIEN: ${TEN_MIEN:-:80}
+    restart: unless-stopped

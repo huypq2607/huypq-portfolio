@@ -1,0 +1,189 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   Bảng màu và phông chữ
+   ---------------------------------------------------------------------------
+   Nền là giấy xanh lạnh như bản vẽ kỹ thuật chứ không phải nền kem hay nền
+   đen. Lý do: chất liệu công việc trên trang này là kiến trúc dữ liệu, tức
+   là sơ đồ và tầng lớp, nên nền bản vẽ nói đúng thứ cần nói. Điểm nhấn chỉ
+   có một màu xanh mòng két, và nó chỉ được phép dùng cho thứ đang chảy hoặc
+   đang sống: đường dữ liệu, số liệu, liên kết.
+
+   Archivo có trục chiều rộng nên tiêu đề đặt ở mức giãn đọc như chữ trên bản
+   vẽ kỹ thuật. Be Vietnam Pro lo phần nội dung vì trang song ngữ và phông này
+   được thiết kế riêng cho dấu tiếng Việt, thứ mà phần lớn phông sans dựng dấu
+   chồng lên nhau khi chữ có dấu mũ kèm dấu thanh.
+   --------------------------------------------------------------------------- */
+@theme {
+  --color-giay: #eef1f3;
+  --color-giay-noi: #f8fafb;
+  --color-giay-sau: #e2e8ec;
+  --color-muc: #10243a;
+  --color-muc-mo: #4a637b;
+  --color-duong: #c3ced7;
+  --color-dong: #0a6a5b;
+
+  --font-hien: 'Archivo', ui-sans-serif, system-ui, sans-serif;
+  --font-doc: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ---------------------------------------------------------------------------
+   Nền chung
+   --------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+  /* Bù cho thanh trên dính, để mục nhảy tới không bị thanh che mất tiêu đề. */
+  scroll-padding-top: 5.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: var(--color-giay);
+  color: var(--color-muc);
+  font-family: var(--font-doc);
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: var(--color-dong);
+  color: var(--color-giay-noi);
+}
+
+/* Viền bắt phím luôn nhìn thấy được, kể cả trên nền sâu. */
+:focus-visible {
+  outline: 2px solid var(--color-dong);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+/* ---------------------------------------------------------------------------
+   Chữ hiển thị
+   ---------------------------------------------------------------------------
+   Trục wdth của Archivo là thứ mang cá tính của trang. Giãn vừa phải ở tiêu
+   đề lớn, thu về gần chuẩn ở tiêu đề nhỏ để chữ không loãng.
+   --------------------------------------------------------------------------- */
+.hien {
+  font-family: var(--font-hien);
+  font-variation-settings: 'wdth' 108;
+  letter-spacing: -0.005em;
+}
+
+.hien-lon {
+  font-family: var(--font-hien);
+  font-variation-settings: 'wdth' 114;
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+}
+
+/* Số liệu dùng chữ số đều bề rộng để các cột số thẳng hàng nhau. */
+.so-lieu {
+  font-family: var(--font-hien);
+  font-variation-settings: 'wdth' 100;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* ---------------------------------------------------------------------------
+   Sơ đồ sáu tầng dữ liệu
+   ---------------------------------------------------------------------------
+   Chiều cao cột tỷ lệ THẲNG với số model, không lấy căn bậc hai cho dễ nhìn.
+   Tầng landing chỉ có 3 model nên cột của nó gần như một vạch, và đó đúng là
+   sự thật cần thấy: tầng đó hầu như chỉ khai báo nguồn chứ không dựng model.
+   --------------------------------------------------------------------------- */
+.cot-tang {
+  background-color: var(--color-dong);
+  transform-origin: bottom;
+}
+
+/* Một chuyển động duy nhất của cả trang: đường dữ liệu chạy từ trái sang phải
+   một lần lúc tải, các cột dựng lên theo khi đường đi qua. Không lặp lại, và
+   không có hiệu ứng nào khác khi cuộn trang. */
+@keyframes dung-cot {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes chay-duong {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes hien-dan {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.cot-tang {
+  animation: dung-cot 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.duong-chay {
+  transform-origin: left;
+  animation: chay-duong 1500ms cubic-bezier(0.33, 1, 0.68, 1) both;
+}
+
+.nut-tang {
+  animation: hien-dan 320ms linear both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cot-tang,
+  .duong-chay,
+  .nut-tang {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Bảng bảy lớp hộp cát
+   ---------------------------------------------------------------------------
+   Mỗi hàng thụt vào sâu hơn hàng trên một nấc, để bảng tự nói ra rằng đây là
+   bảy lớp bọc nhau chứ không phải bảy mục ngang hàng. Nấc thụt bị chặn trần
+   trên màn hình hẹp, nếu không thì hàng cuối chỉ còn một cột chữ rất gầy.
+   --------------------------------------------------------------------------- */
+.hang-lop {
+  border-left: 2px solid var(--color-dong);
+  margin-left: calc(var(--muc-thut) * 0.3rem);
+}
+
+@media (min-width: 768px) {
+  .hang-lop {
+    margin-left: calc(var(--muc-thut) * 0.85rem);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Liên kết trong nội dung
+   --------------------------------------------------------------------------- */
+.lien-ket {
+  color: var(--color-dong);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.lien-ket:hover {
+  text-decoration-thickness: 2px;
+}

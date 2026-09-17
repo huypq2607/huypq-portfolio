@@ -1,0 +1,88 @@
+# Kiểm thử mọi thay đổi, và phát hành lên GitHub Pages khi gộp vào main.
+#
+# Bản dựng đi thẳng từ đây ra máy phục vụ dưới dạng một hiện vật, không qua
+# nhánh gh-pages. Cách cũ đẩy thư mục dist vào một nhánh nghĩa là tệp sinh ra
+# nằm trong lịch sử kho, mỗi lần phát hành thêm một commit không ai đọc, và
+# lịch sử ấy phình mãi không có đường dọn.
+#
+# Muốn dùng nhánh gh-pages thì phải đổi nguồn của Pages trong Settings sang
+# Deploy from a branch rồi thay hai bước cuối bằng một bước đẩy dist lên nhánh
+# đó. Ở đây chọn cách hiện vật vì nó ít việc phải nhớ hơn.
+#
+# Kho này KHÔNG cần bí mật nào. Biến VITE_DIA_CHI_TRANG là địa chỉ công khai
+# của chính trang, khai ở phần Variables chứ không phải Secrets, và nếu quên
+# khai thì đã có giá trị dự phòng ngay dưới đây.
+
+name: Kiểm thử và phát hành
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Đẩy liên tiếp nhiều lần thì chỉ chạy lần mới nhất, huỷ những lần đang dở.
+# Không huỷ lần đang phát hành dở, vì dừng giữa chừng để lại trang nửa vời.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  dung:
+    name: Dựng và kiểm
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Lấy mã nguồn
+        uses: actions/checkout@v5
+
+      - name: Cài Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Cài phụ thuộc đúng theo tệp khoá
+        run: npm ci
+
+      # Lệnh build gọi cả bốn cổng theo đúng thứ tự: kiểm môi trường, kiểm
+      # kiểu, kiểm nội dung song ngữ, rồi đo dung lượng và canh rò rỉ sau khi
+      # dựng xong. Gọi một lệnh ở đây thay vì liệt kê từng bước, để lệnh chạy
+      # trên máy phát triển và lệnh chạy trên CI không bao giờ lệch nhau.
+      - name: Dựng bản tĩnh và chạy mọi cổng canh gác
+        run: npm run build
+        env:
+          VITE_DIA_CHI_TRANG: ${{ vars.VITE_DIA_CHI_TRANG || 'https://huypq.dapractice.site' }}
+
+      - name: Đóng gói bản dựng cho bước phát hành
+        if: github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  phat_hanh:
+    name: Phát hành lên GitHub Pages
+    needs: dung
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    # Hai quyền này chỉ job phát hành mới cần, nên khai tại đây chứ không khai
+    # cho cả workflow. Job dựng chạy trên mã của pull request từ người lạ, và
+    # nó không có lý do gì để được phép ghi.
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.trien_khai.outputs.page_url }}
+
+    steps:
+      - name: Đưa bản dựng lên Pages
+        id: trien_khai
+        uses: actions/deploy-pages@v4
