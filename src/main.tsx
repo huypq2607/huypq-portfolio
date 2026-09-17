@@ -94,6 +94,15 @@ function Trang() {
         </KhungMuc>
       </main>
 
+      {import.meta.env.DEV && (
+        <a
+          href="/sua"
+          className="ma fixed right-4 bottom-4 z-50 rounded-lg border border-vien bg-be-mat px-3 py-2 text-[0.75rem] shadow-lg"
+        >
+          Sửa chữ
+        </a>
+      )}
+
       <footer className="border-t border-vien">
         <div className="mx-auto max-w-[78rem] px-5 py-8 text-[0.8rem] text-chu-mo sm:px-8">
           {chu(NHAN.chan_trang)}
@@ -106,12 +115,30 @@ function Trang() {
 const goc = document.getElementById('goc')
 if (goc === null) throw new Error('Không tìm thấy phần tử gốc để gắn giao diện')
 
-createRoot(goc).render(
-  <StrictMode>
-    <Cung_cap_nen>
-      <Cung_cap_ngon_ngu>
-        <Trang />
-      </Cung_cap_ngon_ngu>
-    </Cung_cap_nen>
-  </StrictMode>,
-)
+const re = createRoot(goc)
+
+// Trang sửa chữ chỉ tồn tại lúc phát triển.
+//
+// import.meta.env.DEV là hằng, Vite thay nó bằng false lúc dựng bản phát hành,
+// nên cả nhánh này thành mã chết và bị loại khỏi gói cùng với lời nạp động bên
+// trong. Cổng do_kich_thuoc kiểm lại điều đó trên chính thư mục dist, vì đây
+// đúng là kiểu hỏng không kêu: gói phình thêm mà trang vẫn chạy y như cũ.
+if (import.meta.env.DEV && window.location.pathname === '/sua') {
+  void import('./sua/TrangSua.tsx').then(({ TrangSua }) => {
+    re.render(
+      <StrictMode>
+        <TrangSua />
+      </StrictMode>,
+    )
+  })
+} else {
+  re.render(
+    <StrictMode>
+      <Cung_cap_nen>
+        <Cung_cap_ngon_ngu>
+          <Trang />
+        </Cung_cap_ngon_ngu>
+      </Cung_cap_nen>
+    </StrictMode>,
+  )
+}

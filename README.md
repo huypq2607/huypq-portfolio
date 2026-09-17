@@ -54,6 +54,12 @@ scripts/
   cham_thu_noi_dung.ts     Cổng 2, kiểm nội dung song ngữ
   do_kich_thuoc.ts         Cổng 3, đo dung lượng và canh rò rỉ sau khi dựng
 
+plugins/         Chỉ chạy lúc phát triển
+  sua_noi_dung.ts          Tuyến ghi chữ ngược vào tệp nguồn
+  thay_chuoi_trong_ma.ts   Thay đúng một chuỗi qua cây cú pháp TypeScript
+
+src/sua/         Trang /sua, cũng chỉ có lúc phát triển
+
 cong_khai/       Tệp tĩnh chép nguyên sang dist
   giao_dien_som.js   Đặt chế độ nền trước khi trang vẽ khung hình đầu tiên
 docker/          Dockerfile và Caddyfile cho đường lui về VPS
@@ -313,6 +319,40 @@ chỉ cao vài điểm ảnh.
   một tỷ lệ không có thật.
 - Phễu phải thu dần, vì một bậc sau lớn hơn bậc trước là phễu phình ra.
 - Điểm được đánh dấu cảnh báo phải thật sự nằm ngoài dải kỳ vọng.
+
+---
+
+## Sửa chữ mà không mở tệp mã
+
+Chạy `npm run dev` rồi mở **`/sua`**, hoặc bấm nút ở góc dưới trang chính. Trang
+liệt kê toàn bộ 243 chuỗi thành cặp ô Việt và Anh đặt cạnh nhau, có tìm kiếm
+theo chữ hoặc theo đường dẫn khoá. **Rời con trỏ khỏi ô là ghi thẳng vào tệp
+nguồn**, rồi Vite tự nạp lại trang chính.
+
+Hai bản đặt cạnh nhau vì việc dễ sai nhất khi sửa một trang song ngữ là sửa một
+bên rồi quên bên kia.
+
+### Vì sao đi qua cây cú pháp chứ không tìm và thay chuỗi
+
+Trong hai tệp nội dung có **49 chuỗi bị lặp**, ví dụ `Trino`, `Telesales`,
+`Mỗi giờ`. Tìm và thay chuỗi thì không biết phải đổi chỗ nào, và đổi nhầm là
+hỏng lặng lẽ: tệp vẫn biên dịch, trang vẫn chạy, chỉ có một câu ở đâu đó đổi
+theo mà không ai để ý.
+
+Đi theo đường dẫn khoá trên cây cú pháp thì luôn tới đúng một nút, và vì chỉ cắt
+đổi đúng đoạn byte của nút đó nên **mọi chú thích và định dạng giữ nguyên**. Đây
+cũng là lý do nội dung không chuyển sang JSON: JSON không có chú thích, mà phần
+lớn giá trị của hai tệp ấy nằm ở lý do viết trong chú thích chứ không ở câu chữ.
+
+### Ba lớp giữ cho nó không ra tới máy thật
+
+- Plugin khai `apply: 'serve'`, không tồn tại trong bản phát hành.
+- Danh sách tệp được phép sửa là **danh sách trắng cố định**, hai tệp nội dung.
+  Nhận tên tệp từ trình duyệt rồi ghi thẳng là đường để ghi đè bất kỳ tệp nào
+  trên máy, kể cả khi máy chủ chỉ chạy trên localhost.
+- `npm run do-kich-thuoc` trượt nếu tìm thấy dấu vết trang sửa trong `dist`.
+  Đã đo có kiểm soát: bật hay tắt trang sửa thì tệp JS **y hệt nhau**, chỉ CSS
+  chênh 0,8 KB do Tailwind quét thêm lớp của nó.
 
 ---
 
