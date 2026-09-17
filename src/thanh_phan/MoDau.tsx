@@ -1,63 +1,138 @@
-// Phần mở đầu: câu định vị đặt rất lớn, ảnh chân dung, và bốn dòng hồ sơ.
+// Phần mở đầu.
 //
-// Ảnh dùng thẻ picture với hai định dạng và hai kích thước. Bản webp nhẹ hơn
-// bản jpg khoảng một nửa, còn bản jpg ở lại để trình duyệt cũ không nhận được
-// ô trống. Khai sẵn width và height để trình duyệt chừa đúng chỗ trước khi
-// ảnh về, nếu không thì cả khối chữ bên cạnh bị đẩy một nhịp khi ảnh tải xong.
+// Hai lớp nền nằm dưới cùng: một lưới mảnh bị che mờ dần về phía dưới, và một
+// quầng sáng đi theo con trỏ. Cả hai đều rất nhạt và cả hai tắt hẳn ở nền
+// sáng, vì trên nền trắng chúng chỉ làm chữ khó đọc thêm chứ không thêm gì.
+//
+// Chuỗi mở màn chạy một lần lúc tải: từng khối dựng lên lần lượt theo đúng thứ
+// tự người ta đọc. Không có khối nào lộ ra lần thứ hai khi cuộn ngược lại.
 
-import { CHUC_DANH, DAN_GIAI, GIOI_THIEU, HO_SO, KHAU_HIEU, NHAN } from '../../noi_dung/noi_dung.ts'
+import { useEffect, useRef } from 'react'
+import {
+  CHUC_DANH,
+  DAN_GIAI,
+  GIOI_THIEU,
+  HO_SO,
+  KHAU_HIEU,
+  NHAN,
+} from '../../noi_dung/noi_dung.ts'
+import { theo_doi_con_tro } from '../hieu_ung.ts'
 import { dung_ngon_ngu } from '../ngon_ngu.tsx'
+
+/** Độ trễ của từng khối trong chuỗi mở màn, tính bằng mili giây. */
+const TRE = {
+  chuc_danh: 0,
+  khau_hieu: 90,
+  anh: 150,
+  dan_giai: 230,
+  gioi_thieu: 320,
+  ho_so: 400,
+} as const
 
 export function MoDau() {
   const { chu } = dung_ngon_ngu()
+  const vung = useRef<HTMLElement | null>(null)
+
+  useEffect(() => {
+    if (vung.current === null) return
+    return theo_doi_con_tro(vung.current)
+  }, [])
 
   return (
-    <section id="dau-trang" className="mx-auto max-w-[76rem] px-5 pt-14 pb-4 sm:px-8 sm:pt-20">
-      <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
-        <div className="lg:col-span-7">
-          <p className="hien text-[0.95rem] tracking-wide text-dong">{chu(CHUC_DANH)}</p>
+    <section id="dau-trang" ref={vung} className="relative overflow-hidden">
+      <div className="luoi-nen pointer-events-none absolute inset-0" aria-hidden="true" />
+      <div className="quang-theo-con-tro pointer-events-none absolute inset-0" aria-hidden="true" />
 
-          <h1 className="hien-lon mt-5 text-[clamp(2.7rem,7.2vw,5.1rem)] text-balance">
-            {chu(KHAU_HIEU)}
-          </h1>
+      <div className="relative mx-auto max-w-[78rem] px-5 pt-16 pb-10 sm:px-8 sm:pt-24 sm:pb-14">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-7">
+            <p
+              className="ma mo-man text-[0.8rem] tracking-wide text-nhan"
+              style={{ animationDelay: `${TRE.chuc_danh}ms` }}
+            >
+              {chu(CHUC_DANH)}
+            </p>
 
-          <p className="mt-7 max-w-[34ch] text-[clamp(1.1rem,2vw,1.4rem)] leading-[1.45] text-muc">
-            {chu(DAN_GIAI)}
-          </p>
+            <h1
+              className="hien-lon mo-man mt-6 text-[clamp(2.9rem,7.6vw,5.6rem)] text-balance"
+              style={{ animationDelay: `${TRE.khau_hieu}ms` }}
+            >
+              {chu(KHAU_HIEU)}
+            </h1>
 
-          <div className="mt-9 max-w-[60ch] space-y-4 text-[1.02rem] text-muc-mo">
-            {GIOI_THIEU.map((doan) => (
-              <p key={doan.en}>{chu(doan)}</p>
-            ))}
+            <p
+              className="mo-man mt-8 max-w-[34ch] text-[clamp(1.12rem,2vw,1.45rem)] leading-[1.45]"
+              style={{ animationDelay: `${TRE.dan_giai}ms` }}
+            >
+              {chu(DAN_GIAI)}
+            </p>
+
+            <div
+              className="mo-man mt-9 max-w-[58ch] space-y-4 text-[1.01rem] text-chu-mo"
+              style={{ animationDelay: `${TRE.gioi_thieu}ms` }}
+            >
+              {GIOI_THIEU.map((doan) => (
+                <p key={doan.en}>{chu(doan)}</p>
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="lg:col-span-5 lg:justify-self-end">
-          <picture>
-            <source
-              type="image/webp"
-              srcSet="/chan_dung_400.webp 400w, /chan_dung_800.webp 800w"
-              sizes="(min-width: 1024px) 17rem, 11rem"
-            />
-            <img
-              src="/chan_dung_400.jpg"
-              srcSet="/chan_dung_400.jpg 400w, /chan_dung_800.jpg 800w"
-              sizes="(min-width: 1024px) 17rem, 11rem"
-              width={400}
-              height={400}
-              alt={chu(NHAN.anh_chan_dung)}
-              className="w-44 rounded-[2px] border border-duong lg:w-68"
-            />
-          </picture>
+          <div className="lg:col-span-5 lg:justify-self-end">
+            {/* Viền ảnh tô bằng chính dải sáu tầng, nên khung ảnh cũng là một
+                lần nhắc lại bảng màu chứ không phải một đường viền bất kỳ. */}
+            <div
+              className="mo-man w-44 rounded-2xl p-px lg:w-72"
+              style={{
+                animationDelay: `${TRE.anh}ms`,
+                background:
+                  'linear-gradient(150deg, var(--tang-1), var(--tang-3) 45%, var(--tang-6))',
+              }}
+            >
+              <picture>
+                <source
+                  type="image/webp"
+                  srcSet="/chan_dung_400.webp 400w, /chan_dung_800.webp 800w"
+                  sizes="(min-width: 1024px) 18rem, 11rem"
+                />
+                <img
+                  src="/chan_dung_400.jpg"
+                  srcSet="/chan_dung_400.jpg 400w, /chan_dung_800.jpg 800w"
+                  sizes="(min-width: 1024px) 18rem, 11rem"
+                  width={400}
+                  height={400}
+                  alt={chu(NHAN.anh_chan_dung)}
+                  className="block w-full rounded-2xl"
+                />
+              </picture>
+            </div>
 
-          <dl className="mt-8 w-44 lg:w-68">
-            {HO_SO.map((dong) => (
-              <div key={dong.nhan.en} className="border-t border-duong py-3 first:border-t-0 first:pt-0">
-                <dt className="text-[0.82rem] text-muc-mo">{chu(dong.nhan)}</dt>
-                <dd className="mt-0.5 text-[0.95rem] leading-snug text-muc">{chu(dong.gia_tri)}</dd>
-              </div>
-            ))}
-          </dl>
+            <dl
+              className="mo-man mt-8 w-44 lg:w-72"
+              style={{ animationDelay: `${TRE.ho_so}ms` }}
+            >
+              {HO_SO.map((dong, thu_tu) => (
+                <div
+                  key={dong.nhan.en}
+                  className="border-t border-vien py-3 first:border-t-0 first:pt-0"
+                >
+                  <dt className="ma text-[0.72rem] text-chu-mo">{chu(dong.nhan)}</dt>
+                  <dd className="mt-1 flex items-start gap-2 text-[0.94rem] leading-snug">
+                    {/* Chấm nhịp chỉ gắn cho dòng cuối, dòng nói về việc sẵn
+                        sàng nhận vị trí mới. Đó là dòng duy nhất mô tả một
+                        trạng thái đang diễn ra. */}
+                    {thu_tu === HO_SO.length - 1 && (
+                      <span
+                        className="nhip-song mt-[0.55rem] h-1.5 w-1.5 shrink-0 rounded-full"
+                        style={{ backgroundColor: 'var(--tang-3)' }}
+                        aria-hidden="true"
+                      />
+                    )}
+                    <span>{chu(dong.gia_tri)}</span>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         </div>
       </div>
     </section>

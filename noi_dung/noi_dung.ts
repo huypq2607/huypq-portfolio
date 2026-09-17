@@ -310,10 +310,15 @@ export const LIEN_HE = {
     en: 'If you are hiring for a data platform or analytics engineering role, remote or on-site, write to me. I read everything.',
   } satisfies Song,
   email: 'huypq2607@gmail.com',
-  github: 'https://github.com/huypq2607',
-  github_nhan: 'github.com/huypq2607',
-  san_pham: 'https://dapractice.site',
-  san_pham_nhan: 'dapractice.site',
+
+  /** Các nơi khác có thể tìm thấy tôi. Thứ tự trong mảng là thứ tự hiển thị:
+   *  kho mã trước, rồi sản phẩm đang bán, rồi hai kênh chia sẻ kiến thức. */
+  kenh: [
+    { ten: 'GitHub', nhan: 'github.com/huypq2607', dia_chi: 'https://github.com/huypq2607' },
+    { ten: 'dapractice', nhan: 'dapractice.site', dia_chi: 'https://dapractice.site' },
+    { ten: 'Threads', nhan: '@huypq.data', dia_chi: 'https://www.threads.com/@huypq.data' },
+    { ten: 'TikTok', nhan: '@huypq17b6', dia_chi: 'https://www.tiktok.com/@huypq17b6' },
+  ],
 }
 
 /** Nhãn dùng trong giao diện: tiêu đề mục, chú thích sơ đồ, chân trang. */
@@ -351,6 +356,9 @@ export const NHAN = {
   cot_ma: { vi: 'Mã lỗi', en: 'Error code' } satisfies Song,
   doi_ngon_ngu: { vi: 'Đổi sang tiếng Anh', en: 'Switch to Vietnamese' } satisfies Song,
   bo_qua_dau_trang: { vi: 'Bỏ qua phần đầu trang', en: 'Skip to main content' } satisfies Song,
+  doi_sang_nen_toi: { vi: 'Chuyển sang nền tối', en: 'Switch to dark theme' } satisfies Song,
+  doi_sang_nen_sang: { vi: 'Chuyển sang nền sáng', en: 'Switch to light theme' } satisfies Song,
+  nhan_theo_doi: { vi: 'Tìm tôi ở', en: 'Find me on' } satisfies Song,
   anh_chan_dung: { vi: 'Ảnh chân dung Phạm Quang Huy', en: 'Portrait of Phạm Quang Huy' } satisfies Song,
   chan_trang: {
     vi: 'Trang này tự dựng bằng React và Tailwind, phát hành qua GitHub Actions.',

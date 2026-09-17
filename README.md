@@ -41,7 +41,9 @@ noi_dung/        Toàn bộ chữ nghĩa, song ngữ, gom một chỗ
 
 src/
   ngon_ngu.tsx   Ngôn ngữ đang hiển thị, nhớ trong localStorage
-  giao_dien.css  Bảng màu, phông chữ, chuyển động
+  nen.tsx        Chế độ nền sáng và nền tối
+  hieu_ung.ts    Lộ ra khi cuộn, vạch tiến độ, quầng sáng theo con trỏ
+  giao_dien.css  Dải màu sáu bậc, phông chữ, chuyển động
   main.tsx       Ráp trang
   thanh_phan/    Các khối giao diện
 
@@ -50,7 +52,8 @@ scripts/
   cham_thu_noi_dung.ts     Cổng 2, kiểm nội dung song ngữ
   do_kich_thuoc.ts         Cổng 3, đo dung lượng và canh rò rỉ sau khi dựng
 
-cong_khai/       Tệp tĩnh chép nguyên sang dist: ảnh, biểu tượng, CNAME
+cong_khai/       Tệp tĩnh chép nguyên sang dist
+  giao_dien_som.js   Đặt chế độ nền trước khi trang vẽ khung hình đầu tiên
 docker/          Dockerfile và Caddyfile cho đường lui về VPS
 ```
 
@@ -137,32 +140,90 @@ thẻ hướng trong EXIF, bỏ bước này thì ảnh cắt ra bị xoay ngang
 
 ## Thiết kế
 
-Nền giấy xanh lạnh như bản vẽ kỹ thuật, mực xanh navy, và **đúng một** màu nhấn
-là xanh mòng két chỉ dùng cho thứ đang chảy hoặc đang sống: đường dữ liệu, các
-nút trên sơ đồ, liên kết, địa chỉ thư.
+### Dải màu là thông tin, không phải trang trí
 
-Phông chữ: **Archivo** cho tiêu đề, đặt ở trục chiều rộng giãn nên đọc như chữ
-trên bản vẽ; **Be Vietnam Pro** cho nội dung, vì trang song ngữ và phông này
-được thiết kế riêng cho dấu tiếng Việt, thứ mà phần lớn phông sans dựng dấu
-chồng lên nhau khi chữ có cả dấu mũ lẫn dấu thanh.
+Sáu tầng dữ liệu là một chuỗi **có thứ tự**: đầu này là dữ liệu thô lạnh ngắt,
+đầu kia là bảng phục vụ nơi nghiệp vụ chạm vào. Nên bảng màu của trang không
+phải một màu nhấn cộng xám, mà là một **dải liên tục từ xanh băng tới hổ phách**
+trải đúng theo sáu tầng đó. Hai đầu dải trở thành màu nhấn của cả trang.
 
-Hai hình mang toàn bộ phần táo bạo của trang, mọi thứ còn lại giữ im lặng:
+Nhờ vậy màu ở đây mang thông tin: nhìn một đốm hổ phách là biết nó thuộc bậc
+cuối của một chuỗi, nhìn một đốm xanh băng là biết nó thuộc bậc đầu. Dải ấy
+xuất hiện lại ở bảng bảy lớp hộp cát, ở bốn ô số liệu của mỗi dự án, ở bốn thẻ
+liên hệ, và ở vạch tiến độ cuộn — mỗi nơi vẫn mang đúng một nghĩa là **vị trí
+trong một chuỗi có thứ tự**.
+
+Đây cũng là cách tô màu đúng cho dữ liệu có thứ tự, giống hệt cách chọn bảng
+màu cho một biểu đồ.
+
+### Hai chế độ nền
+
+Nền tối là mặc định. Nó là xanh đen thật, có sắc lam đo được, chứ không phải
+đen ngả xám: nền xám trung tính làm mọi màu nhấn trên nó trông bẩn đi một nấc,
+và đó là lỗi hay gặp nhất ở các trang nền tối.
+
+Nền sáng dùng **cùng một dải nhưng tối và đậm hơn**, vì màu sáng trên nền trắng
+tụt độ tương phản xuống dưới mức đọc được. Thứ tự sắc độ giữ nguyên nên ý nghĩa
+của dải không đổi giữa hai chế độ.
+
+Lựa chọn nhớ trong `localStorage` và được đặt vào thẻ `html` bởi
+`cong_khai/giao_dien_som.js` **trước khi trang vẽ khung hình đầu tiên**. Không
+có bước đó thì người đã chọn nền sáng sẽ thấy một nháy tối mỗi lần mở trang, và
+không có cách nào sửa nháy ấy từ React.
+
+Đó là một tệp riêng chứ không phải thẻ `script` nội tuyến, vì
+`Content-Security-Policy` khai `script-src 'self'` mà **không** kèm
+`'unsafe-inline'`. Giữ được điều đó đáng giá hơn nhiều so với một lần gọi mạng
+vài trăm byte.
+
+### Chữ
+
+**Archivo** cho tiêu đề, đặt ở trục chiều rộng giãn kèm khoảng chữ âm, nên khối
+chữ đóng lại thành một mảng đặc. **Be Vietnam Pro** cho nội dung, vì trang song
+ngữ và phông này được thiết kế riêng cho dấu tiếng Việt, thứ mà phần lớn phông
+sans dựng dấu chồng lên nhau khi chữ có cả dấu mũ lẫn dấu thanh.
+
+**JetBrains Mono** chỉ dùng cho định danh thật: tên tầng, mã lỗi SQLSTATE, tên
+công cụ, câu lệnh. Không dùng cho nhãn thường, vì khi ấy nó chỉ là một lớp
+trang trí giả vờ kỹ thuật.
+
+### Hai hình mang toàn bộ phần táo bạo
 
 - **Sơ đồ sáu tầng** ngay dưới phần mở đầu. Chiều cao cột tỷ lệ **thẳng** với
   số model, không lấy căn bậc hai cho dễ nhìn. Tầng landing chỉ có 3 model nên
   cột của nó gần như một vạch, và đó là sự thật đáng thấy chứ không phải khuyết
   điểm của hình.
 - **Bảng bảy lớp hộp cát** trong dự án thứ hai. Mỗi hàng thụt vào sâu hơn hàng
-  trên một nấc, nên bảng tự nói ra rằng đây là bảy lớp bọc lấy nhau.
-
-Cả trang có **đúng một** chuyển động: lúc tải, đường dữ liệu chạy từ trái sang
-phải một lần và các cột dựng lên theo khi đường đi qua. Không lặp lại, không có
-hiệu ứng nào khi cuộn, và tắt hẳn khi trình duyệt báo `prefers-reduced-motion`.
+  trên một nấc và mang một màu nội suy trên dải, nên bảng tự nói ra rằng đây là
+  bảy lớp bọc lấy nhau.
 
 Màn hẹp đổi hẳn bố cục sơ đồ thành danh sách dọc thay vì bắt cuộn ngang. Ép
 người xem cuộn ngang để đọc một sơ đồ là cách chắc chắn khiến họ bỏ qua nó.
 
----
+### Chuyển động
+
+Bốn nhóm, và mỗi nhóm chỉ chạy một lần:
+
+| Nhóm | Khi nào | Làm gì |
+|---|---|---|
+| Mở màn | Lúc tải trang | Từng khối của phần mở đầu dựng lên lần lượt theo đúng thứ tự người ta đọc |
+| Sơ đồ | Lúc tải trang | Đường dữ liệu chạy từ trái sang phải, các cột dựng lên theo khi đường đi qua |
+| Lộ ra | Khi cuộn tới | Các khối hiện dần, so le nhau, gắn bằng `IntersectionObserver` nên không chạy lại khi cuộn ngược lên |
+| Đếm số | Khi con số lọt vào tầm mắt | Bốn ô số liệu của mỗi dự án đếm lên rồi dừng |
+
+Thêm hai thứ chạy liên tục nhưng rất nhẹ: quầng sáng đi theo con trỏ trong phần
+mở đầu, và vạch tiến độ cuộn trên thanh đầu trang.
+
+**Tất cả tắt hẳn khi trình duyệt báo `prefers-reduced-motion`.** Đó không phải
+phép lịch sự: với một số người, chuyển động trên màn hình gây chóng mặt thật, và
+một trang giới thiệu không đáng để đánh đổi điều đó lấy vẻ đẹp.
+
+Hai chi tiết kỹ thuật đáng nhớ nếu sau này sửa:
+
+- Vạch tiến độ đặt `scaleX` chứ không đặt `width`, vì `scaleX` chạy trên luồng
+  hợp thành và không buộc trình duyệt tính lại bố cục ở mỗi khung hình.
+- Quầng sáng chỉ ghi hai biến CSS từ sự kiện con trỏ, phần vẽ để CSS lo. Làm
+  bằng trạng thái React thì mỗi lần chuột nhúc nhích là một lần vẽ lại cây.
 
 ## Phát hành
 
@@ -218,11 +279,12 @@ dapractice rồi chuyển tiếp tên miền con sang container này.
 |---|---|
 | Khung dựng | Vite 7 |
 | Giao diện | React 19, Tailwind CSS 4 |
+| Phông chữ | Archivo, Be Vietnam Pro, JetBrains Mono |
 | Ngôn ngữ | TypeScript, chế độ nghiêm ngặt |
 | Chạy script | tsx, không có bước biên dịch riêng |
 | Máy chủ tĩnh | GitHub Pages, hoặc Caddy 2 khi chạy bằng Docker |
 
-Dung lượng phải tải về khi mở trang: khoảng **87 KB sau khi nén**, trong đó
+Dung lượng phải tải về khi mở trang: khoảng **91 KB sau khi nén**, trong đó
 phần lớn là React. Trần đặt ở 110 KB.
 
 ---
@@ -251,8 +313,9 @@ Vài điều dễ quên:
 
 ## Việc còn để ngỏ
 
-- **Chưa có LinkedIn** trong phần liên hệ. Thêm vào `LIEN_HE` trong
-  `noi_dung/noi_dung.ts` khi có địa chỉ.
+- **Chưa có LinkedIn** trong phần liên hệ. Bốn kênh hiện có là GitHub,
+  dapractice, Threads và TikTok; thêm một mục vào `LIEN_HE.kenh` trong
+  `noi_dung/noi_dung.ts` là xong, giao diện tự giãn theo.
 - **Chưa có bản CV tải về.** Nội dung trên trang đã đủ dựng một tệp PDF một
   trang, chỉ thiếu phần dựng và một nút.
 - **Chưa có đo lường.** Nếu muốn biết người xem dừng ở mục nào thì thêm Umami

@@ -91,9 +91,12 @@ noi_dung.LOP_HOP_CAT.forEach((lop, thu_tu) => {
 if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(noi_dung.LIEN_HE.email)) {
   loi.push(`LIEN_HE.email: không đúng dạng địa chỉ thư (${noi_dung.LIEN_HE.email})`)
 }
-for (const khoa of ['github', 'san_pham'] as const) {
-  if (!noi_dung.LIEN_HE[khoa].startsWith('https://')) {
-    loi.push(`LIEN_HE.${khoa}: phải là địa chỉ https`)
+for (const kenh of noi_dung.LIEN_HE.kenh) {
+  if (!kenh.dia_chi.startsWith('https://')) {
+    loi.push(`LIEN_HE.kenh[${kenh.ten}]: phải là địa chỉ https, đang là "${kenh.dia_chi}"`)
+  }
+  if (kenh.nhan.trim() === '') {
+    loi.push(`LIEN_HE.kenh[${kenh.ten}]: thiếu nhãn hiển thị`)
   }
 }
 
