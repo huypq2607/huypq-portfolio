@@ -27,22 +27,22 @@ export const CHUC_DANH: Song = {
 
 /** Câu lớn nhất trang. Ngắn, vì nó được đặt cỡ chữ rất to. */
 export const KHAU_HIEU: Song = {
-  vi: 'Tôi dựng con đường của dữ liệu',
+  vi: 'Mọi báo cáođều bắt nguồn từ dữ liệu!',
   en: 'I build the path data takes',
 }
 
 export const DAN_GIAI: Song = {
-  vi: 'Từ một hệ thống nguồn không ai viết tài liệu, tới con số mà ai đó dựa vào để ra quyết định.',
+  vi: 'Từ những dòng data thô, tới những dashboard giúp đưa ra quyết định một cách nhanh chóng.',
   en: 'From a source system nobody documented, to the number someone makes a decision on.',
 }
 
 export const GIOI_THIEU: readonly Song[] = [
   {
-    vi: 'Hơn ba năm làm dữ liệu, hiện tại ở VETC thuộc tập đoàn Tasco. Tôi làm trong dự án dbt dùng chung của cả phòng dữ liệu, cùng khoảng hai mươi kỹ sư, và sở hữu trọn mảng telesales với bảo hiểm, từ nguồn CDC tới bảng mà sàn kinh doanh và báo cáo doanh thu chạy trên đó.',
-    en: 'Three years and counting in data, currently at VETC, part of the Tasco group. I work inside the data team’s shared dbt project alongside about twenty engineers, and own the telesales and insurance vertical end to end — from CDC source to the tables the sales floor and the revenue report run on.',
+    vi: 'Với bốn năm làm dữ liệu, hiện tại tôi đang làm việc tại VETC thuộc tập đoàn Tasco. Tôi hiện đang phụ trách xây dựng pipeline khép kín từ: Từ lấy dữ liệu - Làm sạch - Cook - Cho ra bảng dữ liệu có thể dùng để dựng dashboard - Gửi báo cáo hàng ngày qua Outlook và Tự động cảnh báo bất thường tới stakeholder.',
+    en: 'Four years in data, currently at VETC, part of the Tasco group. I work inside the data team’s shared dbt project alongside about twenty engineers, and own the telesales and insurance vertical end to end — from CDC source to the tables the sales floor and the revenue report run on.',
   },
   {
-    vi: 'Ngoài giờ, tôi tự dựng và tự vận hành dapractice, một nền tảng luyện SQL có người trả tiền. Một mình toàn bộ: sản phẩm, máy chủ, giao diện, hạ tầng.',
+    vi: 'Ngoài ra, tôi tự xây dựng và tự vận hành từ A-Z dapractice, một nền tảng thực chiến cho dân Phân tích dữ liệu, có AI đóng vai trò như một trợ lý học tập.',
     en: 'Outside work I build and operate dapractice, a SQL practice platform with paying users. All of it alone: product, server, interface, infrastructure.',
   },
 ]
@@ -50,7 +50,7 @@ export const GIOI_THIEU: readonly Song[] = [
 export const HO_SO: readonly Dong_ho_so[] = [
   {
     nhan: { vi: 'Kinh nghiệm', en: 'Experience' },
-    gia_tri: { vi: 'Hơn 3 năm, kỹ thuật dữ liệu và phân tích', en: '3+ years, data engineering and analytics' },
+    gia_tri: { vi: '4 năm, kỹ thuật dữ liệu và phân tích', en: '4 years, data engineering and analytics' },
   },
   {
     nhan: { vi: 'Hiện tại', en: 'Now' },
@@ -86,25 +86,25 @@ export const LOP_HOP_CAT: readonly Lop_hop_cat[] = [
   { so: 1, cach: { vi: 'begin read only', en: 'begin read only' }, chan: { vi: 'Mọi lệnh ghi và mọi lệnh đổi cấu trúc', en: 'Every write and every schema change' }, ma_loi: '25006' },
   { so: 2, cach: { vi: 'set local role', en: 'set local role' }, chan: { vi: 'Đọc sang lĩnh vực khác, đọc tệp, gọi pg_sleep', en: 'Reading another domain, reading files, pg_sleep' }, ma_loi: '42501' },
   { so: 3, cach: { vi: 'giao thức mở rộng', en: 'extended protocol' }, chan: { vi: 'Nhiều câu lệnh giấu trong một chuỗi', en: 'Several statements hidden in one string' }, ma_loi: '42601' },
-  { so: 4, cach: { vi: 'statement_timeout', en: 'statement_timeout' }, chan: { vi: 'Truy vấn chạy lê thê', en: 'A query that runs forever' }, ma_loi: '57014' },
+  { so: 4, cach: { vi: 'statement_timeout', en: 'statement_timeout' }, chan: { vi: 'Truy vấn chạy lâu', en: 'A query that runs forever' }, ma_loi: '57014' },
   { so: 5, cach: { vi: 'đồng hồ phía máy chủ', en: 'server-side clock' }, chan: { vi: 'Cơ sở dữ liệu câm hẳn, không trả lời', en: 'A database that stops answering entirely' }, ma_loi: '57014' },
   { so: 6, cach: { vi: 'con trỏ 500 dòng', en: 'cursor, 500 rows' }, chan: { vi: 'Nối chéo trả về hàng triệu dòng', en: 'A cross join returning millions of rows' }, ma_loi: '—' },
-  { so: 7, cach: { vi: 'discard all', en: 'discard all' }, chan: { vi: 'Thiết lập của câu trước dính sang câu sau', en: 'State from one query leaking into the next' }, ma_loi: '—' },
+  { so: 7, cach: { vi: 'discard all', en: 'discard all' }, chan: { vi: 'Thiết lập của câu trước liên kết sang câu sau', en: 'State from one query leaking into the next' }, ma_loi: '—' },
 ]
 
 export const DU_AN: readonly Du_an[] = [
   {
     ma: 'vetc',
     ten: {
-      vi: 'Lakehouse quy mô tập đoàn cho một nhà vận hành thu phí',
+      vi: 'Lakehouse quy mô tập đoàn',
       en: 'An enterprise lakehouse for a toll road operator',
     },
     vai_tro: {
-      vi: 'Kỹ sư dữ liệu tại VETC, tập đoàn Tasco',
-      en: 'Data engineer at VETC, Tasco group',
+      vi: 'Kỹ sư dữ liệu tại VETC, tập đoàn Tasco, 2025 tới nay',
+      en: 'Data engineer at VETC, Tasco group, 2025 to now',
     },
     tom_tat: {
-      vi: 'VETC vận hành hệ thống thu phí không dừng của Việt Nam. Dự án dbt dùng chung của phòng dữ liệu phủ thu phí, ví điện tử, khách hàng thân thiết, bảo hiểm, cứu hộ, bãi đỗ, telesales và tổng đài. Tôi làm trong đó cùng khoảng hai mươi kỹ sư, và sở hữu mảng telesales với bảo hiểm từ nguồn tới bảng phục vụ.',
+      vi: 'Xây dựng pipeline khép kín từ: Từ lấy dữ liệu - Làm sạch - Cook - Cho ra bảng dữ liệu có thể dùng để dựng dashboard - Gửi báo cáo hàng ngày qua Outlook và Tự động cảnh báo bất thường tới stakeholder.',
       en: 'VETC runs Vietnam’s electronic toll collection. The data team’s shared dbt project covers tolling, e-wallet, loyalty, insurance, roadside assistance, parking, telesales and the call centre. I work in it alongside about twenty engineers, and own the telesales and insurance vertical from source to serving table.',
     },
     // Dấu phân cách hàng nghìn khác nhau giữa hai ngôn ngữ, nên con số cũng
@@ -133,7 +133,7 @@ export const DU_AN: readonly Du_an[] = [
     // giới thiệu ra mắt với "__ giờ mỗi tuần" còn tệ hơn là không có mục này.
     dong_gop: [
       {
-        so: { vi: '__ giờ mỗi tuần', en: '__ hours a week' },
+        so: { vi: '- 30% giờ mỗi tuần', en: '__ hours a week' },
         nhan: { vi: 'Thời gian làm báo cáo tay đã bỏ được', en: 'Manual reporting time removed' },
         boi_canh: {
           vi: 'Bản tổng hợp sáng nay được sinh từ bảng phục vụ và gửi tự động lúc bảy giờ.',
@@ -141,7 +141,7 @@ export const DU_AN: readonly Du_an[] = [
         },
       },
       {
-        so: { vi: '__ ngày còn cùng ngày', en: '__ days to same day' },
+        so: { vi: '3 lần/ngày', en: '__ days to same day' },
         nhan: { vi: 'Thời gian phát hiện số liệu bất thường', en: 'Time to spot an anomaly' },
         boi_canh: {
           vi: 'Trước đây phải chờ tới kỳ đối soát mới có người nhìn ra.',
@@ -149,10 +149,10 @@ export const DU_AN: readonly Du_an[] = [
         },
       },
       {
-        so: { vi: '__ nghìn', en: '__ thousand' },
-        nhan: { vi: 'Lead tái tục đẩy sang telesales mỗi tháng', en: 'Renewal leads pushed to telesales each month' },
+        so: { vi: '70%', en: '__ thousand' },
+        nhan: { vi: 'Quyết định chính xác từ việc xem báo cáo hàng ngày', en: 'Renewal leads pushed to telesales each month' },
         boi_canh: {
-          vi: 'Danh sách dựng tự động từ bảng phục vụ, không còn ai lọc tay.',
+          vi: 'Tự động lên số, tự động cảnh báo bất thường',
           en: 'The list is built automatically from the serving table; nobody filters it by hand.',
         },
       },
@@ -161,6 +161,67 @@ export const DU_AN: readonly Du_an[] = [
     ghi_chu: {
       vi: 'Đây là số liệu demo, không phải số liệu thực tế.',
       en: 'The figures describe the whole team’s shared project. Phone numbers, emails, plates and ID numbers never leave the curated tier; that boundary is enforced at merge request review. It is also why no line of code and no table name from that project appears on this page.',
+    },
+  },
+  {
+    ma: 'shine',
+    ten: {
+      vi: 'Hệ thống báo cáo cho chuỗi bán lẻ hơn một trăm salon',
+      en: 'A reporting system for a retail chain of over a hundred stores',
+    },
+    vai_tro: {
+      vi: 'Data Analyst tại 30Shine, 2022 tới 2025',
+      en: 'Data Analyst at 30Shine, 2022 to 2025',
+    },
+    tom_tat: {
+      vi: '30Shine là chuỗi cắt tóc và chăm sóc nam giới hơn một trăm salon. Tôi gom bốn hệ nguồn độc lập gồm giao dịch, nhân sự, vật tư và chấm công về một kho dữ liệu tập trung theo Star Schema, rồi trải nó thành dashboard mà hơn một trăm quản lý salon mở hằng ngày.',
+      en: '30Shine is a men’s grooming chain of more than a hundred stores. I consolidated four independent source systems — transactions, people, materials and time tracking — into one central Star Schema warehouse, then surfaced it as dashboards that over a hundred store managers open every day.',
+    },
+    so_lieu: [
+      { so: { vi: '14', en: '14' }, nhan: { vi: 'dashboard dùng hằng ngày', en: 'dashboards in daily use' } },
+      { so: { vi: '100+', en: '100+' }, nhan: { vi: 'quản lý salon là người dùng', en: 'store managers as users' } },
+      { so: { vi: '10 triệu', en: '10 million' }, nhan: { vi: 'dòng tích luỹ trong kho dữ liệu', en: 'rows accumulated in the warehouse' } },
+      { so: { vi: '4', en: '4' }, nhan: { vi: 'hệ nguồn độc lập gom về một mối', en: 'source systems consolidated into one' } },
+    ],
+    ngan_xep: ['Power BI', 'DAX', 'SQL Server', 'SSIS', 'Python', 'Star Schema', 'SCD', 'ETL', 'CDC'],
+    dong_gop: [
+      {
+        so: { vi: '70%', en: '70%' },
+        nhan: {
+          vi: 'Thời gian xử lý dữ liệu thủ công cắt bỏ mỗi tháng',
+          en: 'Manual data processing time removed each month',
+        },
+        boi_canh: {
+          vi: 'Dữ liệu từ SQL Server, Excel và API nội bộ gom về một luồng tự động, thay cho việc nhập tay.',
+          en: 'Data from SQL Server, Excel and internal APIs pulled into one automated flow, replacing hand entry.',
+        },
+      },
+      {
+        so: { vi: '4 tới 6 giờ mỗi tuần', en: '4 to 6 hours a week' },
+        nhan: {
+          vi: 'Thời gian mỗi quản lý vùng lấy lại được',
+          en: 'Time given back to each regional manager',
+        },
+        boi_canh: {
+          vi: 'Dashboard thời gian thực thay hẳn bản Excel làm tay mỗi cuối tuần.',
+          en: 'A real-time dashboard replaced the hand-made weekend Excel report entirely.',
+        },
+      },
+      {
+        so: { vi: '10 tới 15%', en: '10 to 15%' },
+        nhan: {
+          vi: 'Ngân sách vận hành tiết kiệm mỗi quý',
+          en: 'Operating budget saved each quarter',
+        },
+        boi_canh: {
+          vi: 'Báo cáo tài chính vận hành theo dõi doanh thu thực so với kế hoạch, và cảnh báo khi chi phí vượt ngưỡng.',
+          en: 'An operations finance report tracking actual against plan, with an alert when cost crosses its ceiling.',
+        },
+      },
+    ],
+    ghi_chu: {
+      vi: 'Dashboard của chuỗi là dữ liệu nội bộ nên không đưa lên đây. Tôi sẵn sàng dẫn qua từng cái trong một buổi trò chuyện.',
+      en: 'The chain’s dashboards hold internal data, so they are not shown here. I am happy to walk through them in a conversation.',
     },
   },
   {
@@ -242,10 +303,10 @@ export const NHAN = {
     en: 'Phạm Quang Huy, Data Engineer & Data Analyst',
   } satisfies Song,
   mo_ta_trang: {
-    vi: 'Hơn ba năm xây nền tảng dữ liệu và đường ống dữ liệu từ nguồn tới biểu đồ. Hiện làm tại VETC, tập đoàn Tasco.',
-    en: 'Three years building data platforms and pipelines from source system to chart. Currently at VETC, Tasco group.',
+    vi: 'Bốn năm xây nền tảng dữ liệu và đường ống dữ liệu từ nguồn tới biểu đồ. Hiện làm tại VETC, tập đoàn Tasco.',
+    en: 'Four years building data platforms and pipelines from source system to chart. Currently at VETC, Tasco group.',
   } satisfies Song,
-  muc_du_an: { vi: 'Dự án tiêu biểu', en: 'Two things I have built' } satisfies Song,
+  muc_du_an: { vi: 'Dự án tiêu biểu', en: 'Selected work' } satisfies Song,
   muc_ky_nang: { vi: 'Công cụ', en: 'Tools' } satisfies Song,
   muc_lien_he: { vi: 'Liên hệ', en: 'Get in touch' } satisfies Song,
   so_do_tang: {

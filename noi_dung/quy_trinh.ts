@@ -41,13 +41,13 @@ export const QUY_TRINH: readonly Chang[] = [
   },
   {
     ma: 'nau',
-    ten: { vi: 'Nấu chỉ số', en: 'Cook' },
+    ten: { vi: 'Cook chỉ số', en: 'Cook' },
     viec: { vi: 'Join nhiều nguồn, dựng chỉ số theo định nghĩa nghiệp vụ.', en: 'Join sources, build metrics to the business definition.' },
     nhip: { vi: 'Hằng ngày', en: 'Daily' },
   },
   {
     ma: 'phuc_vu',
-    ten: { vi: 'Bảng phục vụ', en: 'Serving table' },
+    ten: { vi: 'Bảng serving_bi', en: 'Serving table' },
     viec: { vi: 'Bảng phẳng cho Superset và API, không join lúc đọc.', en: 'A flat table for Superset and the API, no join at read time.' },
     nhip: { vi: 'Hằng ngày', en: 'Daily' },
   },
@@ -77,10 +77,10 @@ export const DOANH_THU_THANG: readonly Cot_thang[] = [
 
 /** Cơ cấu doanh thu theo kênh. Thứ tự cố định, không bao giờ xoay vòng. */
 export const KENH_DOANH_THU: readonly Kenh_doanh_thu[] = [
-  { ten: { vi: 'Telesales', en: 'Telesales' }, phan_tram: 38 },
-  { ten: { vi: 'Ứng dụng VETC', en: 'VETC app' }, phan_tram: 27 },
-  { ten: { vi: 'Đại lý', en: 'Agency' }, phan_tram: 21 },
-  { ten: { vi: 'Bancassurance', en: 'Bancassurance' }, phan_tram: 14 },
+  { ten: { vi: 'Kênh A', en: 'Telesales' }, phan_tram: 38 },
+  { ten: { vi: 'Kênh B', en: 'VETC app' }, phan_tram: 27 },
+  { ten: { vi: 'Kênh C', en: 'Agency' }, phan_tram: 21 },
+  { ten: { vi: 'Kênh D', en: 'Bancassurance' }, phan_tram: 14 },
 ]
 
 /** Hợp đồng chốt mỗi ngày, mười bốn ngày, kèm dải kỳ vọng. Điểm cuối vượt dải. */
@@ -92,20 +92,20 @@ export const CHUOI_CANH_BAO = {
 } as const
 
 export const NHAN_QUY_TRINH = {
-  tieu_de: { vi: 'Dây chuyền tự động, sáu chặng', en: 'The automated chain, six stages' } satisfies Song,
+  tieu_de: { vi: 'Pipeline 6 chặng', en: 'The automated chain, six stages' } satisfies Song,
   dan_nhap: {
-    vi: 'Chạy theo lịch, không chặng nào cần người chạm tay vào.',
+    vi: 'Tự động hóa theo lịch, không cần can thiệp sức người',
     en: 'Runs on a schedule. No stage needs a human hand.',
   } satisfies Song,
 
-  tieu_de_dashboard: { vi: 'Dashboard dựng từ bảng phục vụ', en: 'Dashboards built on the serving table' } satisfies Song,
+  tieu_de_dashboard: { vi: 'Dashboard demo', en: 'Dashboards built on the serving table' } satisfies Song,
   canh_bao_mo_phong: { vi: 'Số mô phỏng', en: 'Synthetic' } satisfies Song,
   giai_thich_mo_phong: {
-    vi: 'Số liệu mô phỏng, không phải số thật của VETC. Dữ liệu thật là dữ liệu nội bộ và có thông tin cá nhân.',
+    vi: 'Đây là số liệu mô phỏng, không phải số thật.',
     en: 'Synthetic figures, not real VETC data. The real data is internal and carries personal information.',
   } satisfies Song,
 
-  bd_cot_ten: { vi: 'Doanh thu bảo hiểm theo tháng', en: 'Insurance revenue by month' } satisfies Song,
+  bd_cot_ten: { vi: 'Doanh thu theo tháng', en: 'Insurance revenue by month' } satisfies Song,
   bd_cot_nhan: { vi: 'Tháng 9', en: 'September' } satisfies Song,
   bd_cot_don_vi: { vi: 'tỷ đồng', en: 'bn VND' } satisfies Song,
 
@@ -118,7 +118,7 @@ export const NHAN_QUY_TRINH = {
   bd_duong_dai: { vi: 'Dải kỳ vọng', en: 'Expected band' } satisfies Song,
   bd_duong_trang_thai: { vi: 'Vượt ngưỡng', en: 'Outside band' } satisfies Song,
   bd_duong_mo_ta: {
-    vi: 'Thấp hơn đáy dải kỳ vọng 39 phần trăm. Cảnh báo đi ngay sau lần chạy.',
+    vi: 'Thấp hơn đáy dải kỳ vọng 39%. Cần xem lại ...',
     en: '39 per cent below the floor of the band. The alert fires right after the run.',
   } satisfies Song,
 }

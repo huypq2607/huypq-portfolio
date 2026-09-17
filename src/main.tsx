@@ -35,6 +35,7 @@ function lay_du_an(ma: string): Du_an {
 }
 
 const DU_AN_VETC = lay_du_an('vetc')
+const DU_AN_SHINE = lay_du_an('shine')
 const DU_AN_DAPRACTICE = lay_du_an('dapractice')
 
 function Trang() {
@@ -69,7 +70,15 @@ function Trang() {
           </DuAn>
         </KhungMuc>
 
+        {/* Ba dự án xen kẽ nền để mỗi dự án tự tách khỏi dự án kề nó. Chỉ dự
+            án đầu mang tiêu đề mục, hai dự án sau nối tiếp bên dưới. */}
         <section className="bg-nen-diu">
+          <div className="mx-auto max-w-[78rem] px-5 py-16 sm:px-8 sm:py-24">
+            <DuAn du_an={DU_AN_SHINE} />
+          </div>
+        </section>
+
+        <section>
           <div className="mx-auto max-w-[78rem] px-5 py-16 sm:px-8 sm:py-24">
             <DuAn du_an={DU_AN_DAPRACTICE}>
               <BangHopCat />
@@ -77,7 +86,7 @@ function Trang() {
           </div>
         </section>
 
-        <KhungMuc ma="cong-cu" tieu_de={NHAN.muc_ky_nang}>
+        <KhungMuc ma="cong-cu" tieu_de={NHAN.muc_ky_nang} nen_diu>
           <KyNang />
         </KhungMuc>
 

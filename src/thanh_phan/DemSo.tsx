@@ -25,11 +25,16 @@ function boc_so(chuoi: string): { so: number | null; duoi: string } {
   const khop = chuoi.match(/^([\d.,\s]+)(.*)$/)
   if (khop === null) return { so: null, duoi: '' }
 
-  const phan_so = khop[1] ?? ''
+  // Dấu cách ở cuối phần số phải trả về cho phần đuôi, không được nuốt mất.
+  // Chuỗi "10 triệu" mà nuốt dấu cách thì lúc đếm nó hiện ra "10triệu".
+  const phan_so_tho = khop[1] ?? ''
+  const phan_so = phan_so_tho.replace(/\s+$/, '')
+  const duoi = phan_so_tho.slice(phan_so.length) + (khop[2] ?? '')
+
   const chi_chu_so = phan_so.replace(/\D/g, '')
   if (chi_chu_so === '') return { so: null, duoi: '' }
 
-  return { so: Number(chi_chu_so), duoi: khop[2] ?? '' }
+  return { so: Number(chi_chu_so), duoi }
 }
 
 export function DemSo({ dich, ngon_ngu, className }: Tham_so) {
