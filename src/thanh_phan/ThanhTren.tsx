@@ -12,6 +12,7 @@ import { dung_ngon_ngu } from '../ngon_ngu.tsx'
 import { dung_nen } from '../nen.tsx'
 
 const MUC_NHAY = [
+  { dia_chi: '#kinh-nghiem', nhan: NHAN.dieu_huong_kinh_nghiem },
   { dia_chi: '#du-an', nhan: NHAN.dieu_huong_du_an },
   { dia_chi: '#lien-he', nhan: NHAN.muc_lien_he },
 ] as const

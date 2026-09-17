@@ -19,7 +19,6 @@ import { useEffect, useRef } from 'react'
 import {
   CHUC_DANH,
   DAN_GIAI,
-  GIOI_THIEU,
   HO_SO,
   KHAU_HIEU,
   NHAN,
@@ -128,15 +127,6 @@ export function MoDau() {
                 </div>
               ))}
             </dl>
-          </div>
-
-          <div
-            className="mo-man max-w-[58ch] space-y-4 text-[1.01rem] text-chu-mo lg:col-span-7 lg:col-start-1 lg:row-start-2"
-            style={{ animationDelay: `${TRE.gioi_thieu}ms` }}
-          >
-            {GIOI_THIEU.map((doan) => (
-              <p key={doan.en}>{chu(doan)}</p>
-            ))}
           </div>
         </div>
       </div>

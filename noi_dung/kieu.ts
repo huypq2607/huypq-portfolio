@@ -5,9 +5,11 @@
 // sẽ lệch nhau: người sửa một câu tiếng Anh không có gì nhắc rằng câu tiếng
 // Việt tương ứng đang ở đâu. Nằm cạnh nhau thì chỗ thiếu lộ ra ngay khi đọc,
 // và cổng canh gác trong scripts/cham_thu_noi_dung.ts bắt được phần còn lại.
+//
+// Các mục của trang bám theo các mục của CV: mục tiêu, kinh nghiệm, kỹ năng,
+// dự án, học vấn. Ai đọc CV rồi mở trang sẽ thấy đúng thứ tự ấy, và ngược lại.
 
-/** Hai ngôn ngữ trang phục vụ. Mặc định là tiếng Anh vì người đọc chính là
- *  nhà tuyển dụng nước ngoài. */
+/** Hai ngôn ngữ trang phục vụ. */
 export type Ngon_ngu = 'en' | 'vi'
 
 /** Một chuỗi có đủ hai bản. Không cho phép thiếu bản nào. */
@@ -22,124 +24,103 @@ export interface Dong_ho_so {
   readonly gia_tri: Song
 }
 
-/** Một tầng trong sơ đồ kiến trúc dữ liệu ở đầu trang. */
-export interface Tang_du_lieu {
-  readonly ma: string
-  readonly so_model: number
-  readonly vai_tro: Song
-}
-
-/** Một lớp của hộp cát SQL, dùng cho sơ đồ trong dự án thứ hai. */
-export interface Lop_hop_cat {
-  readonly so: number
-  readonly cach: Song
-  readonly chan: Song
-  readonly ma_loi: string
-}
-
-/** Một dự án trình bày theo lối vấn đề, quyết định, kết quả. */
-export interface Du_an {
-  readonly ma: string
-  readonly ten: Song
-  readonly vai_tro: Song
-  readonly tom_tat: Song
-  readonly so_lieu: readonly { readonly so: Song; readonly nhan: Song }[]
-  readonly ngan_xep: readonly string[]
-  readonly ghi_chu: Song
-  /** Giá trị đóng góp đã định lượng. Bỏ trống khi chưa có số đáng tin. */
-  readonly dong_gop?: readonly Dong_gop[]
-  readonly lien_ket?: { readonly nhan: Song; readonly dia_chi: string }
-}
+// ---------------------------------------------------------------------------
+// Kinh nghiệm làm việc
+// ---------------------------------------------------------------------------
 
 /**
- * Một giá trị đóng góp đã định lượng được.
+ * Một vai trò trong một nơi làm việc.
  *
- * Ba phần, và thiếu phần nào thì con số cũng mất nghĩa:
- *
- *   so        con số, dạng đã định dạng sẵn theo từng ngôn ngữ
- *   nhan      con số ấy đo cái gì
- *   boi_canh  so với cái gì, vì "giảm bốn giờ" không nói lên điều gì nếu
- *             người đọc không biết trước đó là bao nhiêu giờ
+ * Tách ra khỏi Kinh_nghiem vì một nơi có thể mang hai vai trò cùng lúc: ở VETC
+ * là vừa phân tích vừa kỹ thuật dữ liệu, và hai vai trò ấy kể hai loại việc
+ * khác hẳn nhau. Gộp chung thành một danh sách gạch đầu dòng thì người đọc
+ * không thấy được ranh giới đó.
  */
-export interface Dong_gop {
+export interface Vai_tro {
+  /** Bỏ trống khi nơi làm việc chỉ có một vai trò, để trang không in ra một
+   *  cái nhãn thừa ngay phía trên danh sách duy nhất. */
+  readonly ten?: Song
+  readonly viec: readonly Song[]
+}
+
+/** Một con số đáng nói của một nơi làm việc, hiện dưới dạng chữ số lớn. */
+export interface So_lieu {
   readonly so: Song
   readonly nhan: Song
-  readonly boi_canh: Song
 }
 
-/** Một nhóm công cụ trong bảng kỹ năng. */
+export interface Kinh_nghiem {
+  readonly ma: string
+  readonly cong_ty: Song
+  readonly chuc_danh: Song
+  readonly thoi_gian: Song
+  readonly vai_tro: readonly Vai_tro[]
+  readonly so_lieu?: readonly So_lieu[]
+  /** Tên công nghệ giữ nguyên ở cả hai ngôn ngữ nên là chuỗi trần. */
+  readonly ngan_xep?: readonly string[]
+}
+
+// ---------------------------------------------------------------------------
+// Dự án nổi bật
+// ---------------------------------------------------------------------------
+
+/**
+ * Một dự án, trình bày theo đúng lối CV: làm bằng gì, trên dữ liệu nào, quy mô
+ * bao nhiêu, làm gì, và đổi được điều gì cho doanh nghiệp.
+ *
+ * gia_tri là một danh sách chứ không phải một câu, vì trang in đậm từng mệnh
+ * đề giá trị. Dự án nào không có giá trị định lượng được thì không nên nằm ở
+ * mục này, và cổng cham-thu-noi-dung chặn lệnh dựng khi danh sách ấy rỗng.
+ */
+export interface Du_an_noi_bat {
+  readonly ma: string
+  readonly ten: Song
+  /** Tên nơi làm dự án. Không dịch, nên để chuỗi trần. */
+  readonly noi: string
+  readonly cong_cu: readonly string[]
+  readonly nguon: Song
+  readonly quy_mo: Song
+  readonly viec: Song
+  readonly gia_tri: readonly Song[]
+}
+
+// ---------------------------------------------------------------------------
+// Kỹ năng, học vấn, chứng chỉ
+// ---------------------------------------------------------------------------
+
+/**
+ * Một dòng kỹ năng.
+ *
+ * nhan là phần in đậm đứng đầu, ví dụ "Lakehouse" hay "CDC". Bỏ trống với
+ * những dòng là một câu trọn vẹn chứ không phải một cặp nhãn và nội dung.
+ */
+export interface Dong_ky_nang {
+  readonly nhan?: Song
+  readonly mo_ta: Song
+}
+
 export interface Nhom_ky_nang {
   readonly ten: Song
-  readonly muc: readonly string[]
+  readonly dong: readonly Dong_ky_nang[]
 }
 
-// ---------------------------------------------------------------------------
-// Bộ dashboard minh hoạ
-// ---------------------------------------------------------------------------
-//
-// Một bộ gồm ba biểu đồ, và ba thể loại hình ứng với ba việc khác nhau của dữ
-// liệu: cột cho một dãy giá trị, tròn cho các phần của một tổng, đường cho
-// chuỗi thời gian có dải kỳ vọng.
-//
-// Tách thành kiểu dùng chung để mỗi dự án có bộ dashboard riêng mà vẫn chạy
-// trên cùng một bộ mã vẽ. Nhân bản thành phần vẽ cho từng dự án thì lần sửa
-// nào cũng phải nhớ sửa ở cả mấy nơi, và sẽ có lần quên.
-
-/** Một cột trong biểu đồ cột. */
-export interface Muc_cot {
-  readonly nhan: Song
-  readonly gia_tri: number
-}
-
-/** Một phần trong biểu đồ tròn. */
-export interface Phan_tron {
-  readonly ten: Song
-  readonly phan_tram: number
-}
-
-/** Cách tính con số nổi bật của biểu đồ cột: lấy cột cuối, hay cộng tất cả. */
-export type Kieu_so_noi_bat = 'cuoi' | 'tong'
-
-export interface Bo_dashboard {
-  readonly ma: string
-  readonly tieu_de: Song
+export interface Hoc_van {
+  readonly truong: Song
+  readonly nganh: Song
+  /** Khoảng thời gian viết bằng chữ số nên không phải dịch. */
+  readonly thoi_gian: string
   readonly ghi_chu: Song
+}
 
-  readonly cot: {
-    readonly ten: Song
-    readonly nhan_so: Song
-    readonly don_vi: Song
-    /** Số chữ số thập phân khi hiện giá trị. */
-    readonly so_le: number
-    readonly so_noi_bat: Kieu_so_noi_bat
-    readonly muc: readonly Muc_cot[]
-  }
+export interface Chung_chi {
+  readonly ten: Song
+  readonly nam: string
+  readonly ghi_chu: Song
+}
 
-  readonly tron: {
-    readonly ten: Song
-    readonly nhan_so: Song
-    /** Các phần phải cộng lại đúng 100, cổng canh gác kiểm điều này. */
-    readonly phan: readonly Phan_tron[]
-  }
-
-  readonly duong: {
-    readonly ten: Song
-    readonly nhan_so: Song
-    /** Đơn vị đứng sau con số nổi bật. Bỏ trống khi con số tự nói đủ, ví dụ
-     *  một lượng đếm được; khai khi không, ví dụ một tỷ lệ phần trăm. */
-    readonly don_vi?: Song
-    readonly nhan_truc: Song
-    readonly nhan_dai: Song
-    readonly trang_thai: Song
-    readonly mo_ta: Song
-    readonly so_le: number
-    /** Khoảng giá trị của trục dọc. Phải rộng hơn dữ liệu, nếu không đường
-     *  chạm mép khung và dải kỳ vọng không còn chỗ để thấy. */
-    readonly truc_y: { readonly day: number; readonly dinh: number }
-    readonly gia_tri: readonly number[]
-    readonly duoi: number
-    readonly tren: number
-    /** Chỉ số của điểm bị đánh dấu, tính từ 0. Phải nằm ngoài dải kỳ vọng. */
-    readonly diem_canh_bao: number
-  }
+/** Khối phụ ở cuối phần dự án, dùng cho sản phẩm cá nhân. */
+export interface Khoi_phu {
+  readonly ten: Song
+  readonly mo_ta: Song
+  readonly lien_ket: { readonly nhan: Song; readonly dia_chi: string }
 }

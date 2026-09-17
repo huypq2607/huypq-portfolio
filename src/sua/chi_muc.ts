@@ -91,17 +91,11 @@ export async function lay_chi_muc(): Promise<Muc_sua[]> {
   // Nạp động để hai tệp nội dung không bị kéo vào gói của trang sửa lúc dựng
   // bản phát hành. Bản phát hành không có trang sửa, nhưng giữ đường nạp tách
   // hẳn ra là cách chắc chắn nhất để nó không bao giờ lẫn vào.
-  const [noi_dung, quy_trinh] = await Promise.all([
-    import('../../noi_dung/noi_dung.ts'),
-    import('../../noi_dung/quy_trinh.ts'),
-  ])
+  const noi_dung = await import('../../noi_dung/noi_dung.ts')
 
   const thu: Muc_sua[] = []
   for (const [ten, gia_tri] of Object.entries(noi_dung)) {
     duyet(gia_tri, [ten], 'noi_dung/noi_dung.ts', thu)
-  }
-  for (const [ten, gia_tri] of Object.entries(quy_trinh)) {
-    duyet(gia_tri, [ten], 'noi_dung/quy_trinh.ts', thu)
   }
   return thu
 }

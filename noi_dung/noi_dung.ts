@@ -4,17 +4,19 @@
 // hai bản. Nếu chữ nằm lẫn trong JSX thì việc đó thành lần mò, và bản tiếng
 // Việt sẽ dần tụt lại sau bản tiếng Anh mà không ai nhận ra.
 //
-// Con số trong tệp này lấy từ hai kho mã thật và đã đối chiếu. Đừng làm tròn
-// lên cho đẹp: một con số sai trên trang giới thiệu làm hỏng niềm tin vào mọi
-// con số còn lại.
+// Nội dung bám theo bản CV. Nhà tuyển dụng thường đọc CV trước rồi mới mở
+// trang, hoặc ngược lại; hai bên nói khác nhau một con số là hỏng niềm tin vào
+// cả hai. Sửa một bên thì phải sửa bên kia.
 
 import type {
+  Chung_chi,
   Dong_ho_so,
-  Du_an,
-  Lop_hop_cat,
+  Du_an_noi_bat,
+  Hoc_van,
+  Khoi_phu,
+  Kinh_nghiem,
   Nhom_ky_nang,
   Song,
-  Tang_du_lieu,
 } from './kieu.ts'
 
 /** Tên hiển thị. Không dịch, nên để chuỗi thường thay vì cặp song ngữ. */
@@ -35,17 +37,6 @@ export const DAN_GIAI: Song = {
   vi: 'Từ những dòng data thô, tới những dashboard giúp đưa ra quyết định một cách nhanh chóng.',
   en: 'From raw rows to the dashboards decisions are made on, fast.',
 }
-
-export const GIOI_THIEU: readonly Song[] = [
-  {
-    vi: 'Với bốn năm làm dữ liệu, hiện tại tôi đang làm việc tại VETC thuộc tập đoàn Tasco. Tôi hiện đang phụ trách xây dựng pipeline khép kín từ: Từ lấy dữ liệu - Làm sạch - Cook - Cho ra bảng dữ liệu có thể dùng để dựng dashboard - Gửi báo cáo hàng ngày qua Outlook và Tự động cảnh báo bất thường tới stakeholder.',
-    en: 'Four years in data, currently at VETC, part of the Tasco group. I own a closed-loop pipeline end to end: ingest, clean, cook, land a serving table that dashboards run on, send the daily report through Outlook, and alert stakeholders automatically when a number goes abnormal.',
-  },
-  {
-    vi: 'Ngoài ra, tôi tự xây dựng và tự vận hành từ A-Z dapractice, một nền tảng thực chiến cho dân Phân tích dữ liệu, có AI đóng vai trò như một trợ lý học tập.',
-    en: 'Alongside that I build and run dapractice alone, end to end: a hands-on platform for data analysts, with AI acting as a study assistant.',
-  },
-]
 
 export const HO_SO: readonly Dong_ho_so[] = [
   {
@@ -73,215 +64,424 @@ export const HO_SO: readonly Dong_ho_so[] = [
   },
 ]
 
-/** Sáu tầng của lakehouse, dùng vẽ sơ đồ ngay dưới phần mở đầu.
- *  Số model đếm từ đồ thị lineage của chính dự án. */
-export const TANG_DU_LIEU: readonly Tang_du_lieu[] = [
-  { ma: 'landing', so_model: 3, vai_tro: { vi: 'CDC thô từ Debezium', en: 'Raw CDC from Debezium' } },
-  { ma: 'curated', so_model: 265, vai_tro: { vi: 'Khử trùng, ép kiểu, che dữ liệu cá nhân', en: 'Dedup, cast, mask personal data' } },
-  { ma: 'gci', so_model: 22, vai_tro: { vi: 'Hợp nhất định danh khách hàng', en: 'Customer identity resolution' } },
-  { ma: 'precomp', so_model: 82, vai_tro: { vi: 'Trải phẳng và hợp nhất nguồn', en: 'Flatten and unify sources' } },
-  { ma: 'datamart', so_model: 59, vai_tro: { vi: 'Dựng chỉ số theo nghiệp vụ', en: 'Build business metrics' } },
-  { ma: 'serving', so_model: 83, vai_tro: { vi: 'Bảng phẳng cho BI và API', en: 'Flat tables for BI and API' } },
+/** Mục tiêu nghề nghiệp. Ba câu, đúng ba ý của bản CV. */
+export const MUC_TIEU: readonly Song[] = [
+  {
+    vi: 'Bốn năm làm dữ liệu, tôi muốn đóng góp vào việc xây dựng hệ thống báo cáo và phân tích giúp tăng hiệu suất làm việc cho tổ chức và loại bỏ những báo cáo làm tay.',
+    en: 'Four years in data. I want to build the reporting and analytics systems that raise an organisation’s output and retire its hand-made reports.',
+  },
+  {
+    vi: 'Tôi đặc biệt quan tâm tới việc dùng dữ liệu để hiểu hành vi người dùng, theo dõi chỉ số và hỗ trợ ra quyết định kinh doanh chính xác và nhanh chóng.',
+    en: 'I care most about using data to understand user behaviour, track the metrics that matter, and support business decisions that are both accurate and fast.',
+  },
+  {
+    vi: 'Với tư duy cầu toàn và khả năng làm việc liên phòng ban, tôi phối hợp được với PO, Dev và Manager để tạo ra hệ thống báo cáo thực sự có người dùng.',
+    en: 'I am thorough, and I work well across teams: with product owners, developers and managers, to build reporting that people actually open.',
+  },
 ]
 
-/** Bảy lớp của hộp cát SQL trong dapractice. Cột mã lỗi là mã SQLSTATE thật
- *  mà người học nhận được, không phải mã do ứng dụng tự đặt. */
-export const LOP_HOP_CAT: readonly Lop_hop_cat[] = [
-  { so: 1, cach: { vi: 'begin read only', en: 'begin read only' }, chan: { vi: 'Mọi lệnh ghi và mọi lệnh đổi cấu trúc', en: 'Every write and every schema change' }, ma_loi: '25006' },
-  { so: 2, cach: { vi: 'set local role', en: 'set local role' }, chan: { vi: 'Đọc sang lĩnh vực khác, đọc tệp, gọi pg_sleep', en: 'Reading another domain, reading files, pg_sleep' }, ma_loi: '42501' },
-  { so: 3, cach: { vi: 'giao thức mở rộng', en: 'extended protocol' }, chan: { vi: 'Nhiều câu lệnh giấu trong một chuỗi', en: 'Several statements hidden in one string' }, ma_loi: '42601' },
-  { so: 4, cach: { vi: 'statement_timeout', en: 'statement_timeout' }, chan: { vi: 'Truy vấn chạy lâu', en: 'A query that runs forever' }, ma_loi: '57014' },
-  { so: 5, cach: { vi: 'đồng hồ phía máy chủ', en: 'server-side clock' }, chan: { vi: 'Cơ sở dữ liệu câm hẳn, không trả lời', en: 'A database that stops answering entirely' }, ma_loi: '57014' },
-  { so: 6, cach: { vi: 'con trỏ 500 dòng', en: 'cursor, 500 rows' }, chan: { vi: 'Nối chéo trả về hàng triệu dòng', en: 'A cross join returning millions of rows' }, ma_loi: '—' },
-  { so: 7, cach: { vi: 'discard all', en: 'discard all' }, chan: { vi: 'Thiết lập của câu trước liên kết sang câu sau', en: 'State from one query leaking into the next' }, ma_loi: '—' },
-]
+// ---------------------------------------------------------------------------
+// Kinh nghiệm làm việc
+// ---------------------------------------------------------------------------
+//
+// Thứ tự trong mảng là thứ tự hiển thị: nơi mới nhất đứng trước, vì đó là thứ
+// nhà tuyển dụng đọc đầu tiên và cũng là thứ nói đúng nhất về hiện tại.
 
-export const DU_AN: readonly Du_an[] = [
+export const KINH_NGHIEM: readonly Kinh_nghiem[] = [
   {
     ma: 'vetc',
-    ten: {
-      vi: 'Lakehouse quy mô tập đoàn',
-      en: 'An enterprise-scale lakehouse',
-    },
-    vai_tro: {
-      vi: 'Kỹ sư dữ liệu tại VETC, tập đoàn Tasco, 2025 tới nay',
-      en: 'Data engineer at VETC, Tasco group, 2025 to now',
-    },
-    tom_tat: {
-      vi: 'Xây dựng pipeline khép kín từ: Từ lấy dữ liệu - Làm sạch - Cook - Cho ra bảng dữ liệu có thể dùng để dựng dashboard - Gửi báo cáo hàng ngày qua Outlook và Tự động cảnh báo bất thường tới stakeholder.',
-      en: 'A closed-loop pipeline: ingest, clean, cook, a serving table dashboards can be built on, the daily report sent through Outlook, and an automatic anomaly alert to stakeholders.',
-    },
-    // Dấu phân cách hàng nghìn khác nhau giữa hai ngôn ngữ, nên con số cũng
-    // phải có hai bản. Viết 12.027 cho người đọc tiếng Anh là mười hai phẩy
-    // không hai bảy, tức sai đi một nghìn lần.
+    cong_ty: { vi: 'VETC, tập đoàn Tasco', en: 'VETC, Tasco group' },
+    chuc_danh: { vi: 'Data Analyst & Data Engineer', en: 'Data Analyst & Data Engineer' },
+    thoi_gian: { vi: '2025 – Hiện tại', en: '2025 – Present' },
+
     so_lieu: [
       { so: { vi: '534', en: '534' }, nhan: { vi: 'model dbt', en: 'dbt models' } },
       { so: { vi: '720', en: '720' }, nhan: { vi: 'bảng nguồn đã khai', en: 'registered sources' } },
       { so: { vi: '12.027', en: '12,027' }, nhan: { vi: 'cột trong đồ thị lineage', en: 'columns under lineage' } },
-      { so: { vi: '6', en: '6' }, nhan: { vi: 'tầng, mỗi tầng một catalog', en: 'tiers, one catalog each' } },
     ],
+
+    vai_tro: [
+      {
+        ten: { vi: 'Vai trò Data Analyst', en: 'As Data Analyst' },
+        viec: [
+          {
+            vi: 'Xây dựng và vận hành pipeline khép kín 6 chặng cho mảng telesales và bảo hiểm, từ lấy dữ liệu CDC tới báo cáo và cảnh báo, chạy theo lịch mỗi giờ — loại bỏ hoàn toàn thao tác thủ công trong luồng dữ liệu hằng ngày.',
+            en: 'Built and run a closed-loop six-stage pipeline for the telesales and insurance vertical, from CDC ingest through to reports and alerts, on an hourly schedule — removing manual work from the daily data flow entirely.',
+          },
+          {
+            vi: 'Tự động hoá báo cáo hằng ngày qua Outlook gửi stakeholder lúc 7:00, thay thế quy trình tổng hợp tay mỗi sáng — giảm 30% thời gian làm báo cáo mỗi tuần.',
+            en: 'Automated the daily Outlook report to stakeholders at 07:00, replacing the morning hand-assembly — cutting 30% of weekly reporting time.',
+          },
+          {
+            vi: 'Xây dựng hệ thống cảnh báo bất thường, so chỉ số với dải kỳ vọng sau mỗi lần chạy — rút thời gian phát hiện sai lệch từ 5 ngày xuống trong ngày, xử lý trước khi lan sang báo cáo tháng.',
+            en: 'Built anomaly alerting that checks each metric against its expected band after every run — cutting time-to-detection from 5 days to same-day, so a discrepancy is fixed before it reaches the monthly report.',
+          },
+          {
+            vi: 'Vận hành dự án dbt dùng chung quy mô 534 model trên 720 bảng nguồn, 12.027 cột trong đồ thị lineage — đưa toàn bộ chỉ số của mảng về một nguồn số liệu duy nhất, chấm dứt tình trạng mỗi bộ phận báo một con số khác nhau.',
+            en: 'Operate a shared dbt project of 534 models over 720 registered sources with 12,027 columns under lineage — putting every metric in the vertical on one source of truth, ending the era of each team quoting a different number.',
+          },
+          {
+            vi: 'Xây dựng lớp hợp nhất định danh khách hàng xuyên tolling, ví điện tử, bảo hiểm và telesales, cho phép đo vòng đời khách hàng và tái tục hợp đồng thay vì đếm giao dịch rời rạc — góp phần tăng 60% tỷ lệ tái tục mảng bảo hiểm.',
+            en: 'Built the customer identity resolution layer across tolling, e-wallet, insurance and telesales, making customer lifetime and policy renewal measurable instead of counting isolated transactions — contributing to a 60% lift in insurance renewal rate.',
+          },
+        ],
+      },
+      {
+        ten: { vi: 'Vai trò Data Engineer', en: 'As Data Engineer' },
+        viec: [
+          {
+            vi: 'Cung cấp bảng tổng hợp dạng phẳng cho Superset và API nội bộ, dựng sẵn chỉ số nên không phải join lúc đọc — rút thời gian tải dashboard từ phút xuống giây và giảm 20% yêu cầu báo cáo gửi về đội data.',
+            en: 'Serve flat, pre-computed tables to Superset and the internal API so nothing is joined at read time — cutting dashboard load from minutes to seconds and reducing ad-hoc report requests to the data team by 20%.',
+          },
+          {
+            vi: 'Thiết lập ranh giới dữ liệu cá nhân: số điện thoại, email, biển số và số định danh được che tại tầng curated, canh ở bước duyệt merge request — biến yêu cầu tuân thủ thành ràng buộc kỹ thuật, loại bỏ rủi ro lộ dữ liệu cá nhân qua các bảng báo cáo.',
+            en: 'Set the personal-data boundary: phone numbers, emails, plates and ID numbers are masked at the curated tier and the boundary is enforced at merge request review — turning a compliance rule into a technical constraint and removing the risk of leaks through reporting tables.',
+          },
+          {
+            vi: 'Kiến trúc và vận hành: thiết kế phân tầng landing, curated, hợp nhất định danh, precomp, datamart và serving trên Apache Iceberg với Star Schema, Fact Table, Dimension Table và SCD; luồng biến đổi bằng dbt-core và dbt-spark kèm kiểm thử dữ liệu tự động; CDC qua Debezium đồng bộ theo nhịp giờ không nạp lại toàn bảng; điều phối bằng Airflow, mọi thay đổi qua GitLab CI — chặn lỗi dữ liệu ở CI thay vì để người dùng phát hiện trên dashboard.',
+            en: 'Architecture and operations: designed the landing, curated, identity, precomp, datamart and serving tiers on Apache Iceberg with Star Schema, fact and dimension tables and SCD; transformations in dbt-core and dbt-spark with automated data tests; CDC through Debezium syncing hourly without full reloads; orchestration in Airflow with every change passing GitLab CI — so data errors are caught in CI rather than by a user staring at a dashboard.',
+          },
+        ],
+      },
+    ],
+
     ngan_xep: [
       'dbt-core',
       'dbt-spark',
       'Apache Iceberg',
       'Lakekeeper REST catalog',
-      'OAuth2 / Keycloak',
-      'MinIO / S3',
-      'Apache Airflow',
       'Trino',
+      'Apache Airflow',
+      'MinIO / S3',
       'Superset',
+      'OAuth2 / Keycloak',
       'GitLab CI',
+      'Debezium',
     ],
-    // CHỖ TRỐNG PHẢI ĐIỀN. Dấu gạch dưới đôi là chỗ chờ con số thật, và cổng
-    // cham-thu-noi-dung chặn lệnh dựng khi còn chỗ nào chưa điền. Một trang
-    // giới thiệu ra mắt với "__ giờ mỗi tuần" còn tệ hơn là không có mục này.
-    dong_gop: [
-      {
-        so: { vi: '- 30% giờ mỗi tuần', en: '- 30% hours a week' },
-        nhan: { vi: 'Thời gian làm báo cáo tay đã bỏ được', en: 'Manual reporting time removed' },
-        boi_canh: {
-          vi: 'Bản tổng hợp sáng nay được sinh từ bảng phục vụ và gửi tự động lúc bảy giờ.',
-          en: 'The morning summary is now generated from the serving table and sent automatically at seven.',
-        },
-      },
-      {
-        so: { vi: '3 lần/ngày', en: '3 times a day' },
-        nhan: { vi: 'Thời gian phát hiện số liệu bất thường', en: 'Time to spot an anomaly' },
-        boi_canh: {
-          vi: 'Trước đây phải chờ tới kỳ đối soát mới có người nhìn ra.',
-          en: 'Previously nobody noticed until the reconciliation cycle came round.',
-        },
-      },
-      {
-        so: { vi: '70%', en: '70%' },
-        nhan: { vi: 'Quyết định chính xác từ việc xem báo cáo hàng ngày', en: 'Decisions made correctly off the daily report' },
-        boi_canh: {
-          vi: 'Tự động lên số, tự động cảnh báo bất thường',
-          en: 'Numbers generated automatically, anomalies flagged automatically',
-        },
-      },
-    ],
-
-    ghi_chu: {
-      vi: 'Đây là số liệu demo, không phải số liệu thực tế.',
-      en: 'These are demo figures, not real data.',
-    },
   },
+
   {
     ma: 'shine',
-    ten: {
-      vi: 'Hệ thống báo cáo cho chuỗi hơn 100 Salon',
-      en: 'A reporting system for a chain of 100+ salons',
-    },
-    vai_tro: {
-      vi: 'Data Analyst tại 30Shine, 2022 tới 2025',
-      en: 'Data Analyst at 30Shine, 2022 to 2025',
-    },
-    tom_tat: {
-      vi: '30Shine là chuỗi cắt tóc và chăm sóc nam giới hơn một trăm salon. Tôi gom bốn hệ nguồn độc lập gồm giao dịch, nhân sự, vật tư và chấm công về một kho dữ liệu tập trung theo Star Schema, rồi trải nó thành dashboard mà hơn 100 quản lý salon và BOD mở hằng ngày.',
-      en: '30Shine is a men’s grooming chain of more than a hundred salons. I consolidated four independent source systems — transactions, people, materials and time tracking — into one central Star Schema warehouse, then surfaced it as dashboards that over a hundred salon managers and the board open every day.',
-    },
+    cong_ty: { vi: 'Công ty cổ phần TMDV 30Shine', en: '30Shine' },
+    chuc_danh: { vi: 'Data Analyst', en: 'Data Analyst' },
+    thoi_gian: { vi: '2022 – 2025', en: '2022 – 2025' },
+
     so_lieu: [
       { so: { vi: '14', en: '14' }, nhan: { vi: 'dashboard dùng hằng ngày', en: 'dashboards in daily use' } },
       { so: { vi: '100+', en: '100+' }, nhan: { vi: 'quản lý salon là người dùng', en: 'salon managers as users' } },
-      { so: { vi: '10 triệu', en: '10 million' }, nhan: { vi: 'dòng tích luỹ trong kho dữ liệu', en: 'rows accumulated in the warehouse' } },
-      { so: { vi: '4', en: '4' }, nhan: { vi: 'hệ nguồn độc lập gom về một mối', en: 'source systems consolidated into one' } },
+      { so: { vi: '10 triệu', en: '10 million' }, nhan: { vi: 'dòng tích luỹ trong kho dữ liệu', en: 'rows in the warehouse' } },
     ],
+
+    vai_tro: [
+      {
+        viec: [
+          {
+            vi: 'Xây dựng 14 dashboard Power BI cho hơn 100 quản lý salon dùng hằng ngày: doanh thu theo dịch vụ và sản phẩm, năng suất nhân viên, tỷ lệ đạt KPI theo vị trí, chi nhánh và vùng — tăng 15% hiệu quả vận hành và loại bỏ hoàn toàn báo cáo thủ công cuối tuần.',
+            en: 'Built 14 Power BI dashboards used daily by over 100 salon managers: revenue by service and product, staff productivity, KPI attainment by position, branch and region — a 15% gain in operating efficiency and the end of the hand-made weekend report.',
+          },
+          {
+            vi: 'Tự động hoá thu thập và xử lý dữ liệu từ SQL Server, Excel và API nội bộ — giảm 70% thời gian xử lý thủ công hằng tháng, để các team Vận hành, Kinh doanh và Marketing tập trung phân tích thay vì nhập liệu.',
+            en: 'Automated collection and processing from SQL Server, Excel and internal APIs — cutting 70% of monthly manual processing so the operations, sales and marketing teams could analyse instead of key in data.',
+          },
+          {
+            vi: 'Xây dựng hệ thống báo cáo tài chính vận hành: theo dõi doanh thu thực so với kế hoạch, kiểm soát chi phí vật tư và nhân sự theo từng salon và vùng, chuẩn hoá chỉ số cùng bộ phận Kế toán — tiết kiệm 10–15% ngân sách mỗi quý, giúp BOD nắm biên lợi nhuận theo thời gian thực.',
+            en: 'Built the operations finance reporting: actual against plan, materials and staff cost controlled per salon and region, metrics standardised together with Accounting — saving 10–15% of quarterly budget and giving the board a live view of gross margin.',
+          },
+          {
+            vi: 'Phân tích cơ cấu lương thưởng và hiệu suất nhân sự toàn chuỗi, đề xuất điều chỉnh đãi ngộ theo nhóm vị trí và mức KPI — tăng 25% hiệu suất tổng thể và cải thiện tỷ lệ giữ chân nhân sự.',
+            en: 'Analysed chain-wide compensation structure and staff performance, and proposed a pay adjustment by role group and KPI band — a 25% lift in overall productivity and better retention.',
+          },
+          {
+            vi: 'Ứng dụng AI vào phân tích dữ liệu: cảnh báo bất thường tự động, gợi ý biểu đồ trực quan hoá và dự đoán xu hướng doanh thu — hỗ trợ BOD ra quyết định nhanh và chính xác hơn.',
+            en: 'Applied AI to the analysis work: automatic anomaly alerts, chart suggestions and revenue trend forecasting — helping the board decide faster and with better grounding.',
+          },
+          {
+            vi: 'Data Warehouse và ETL: thiết kế mô hình Star Schema và Snowflake Schema với Fact Table, Dimension Table và SCD; xây dựng luồng ETL từ nhiều nguồn vào DWH kèm data cleaning, transformation và validation; áp dụng CDC để đồng bộ thay đổi theo thời gian gần thực, giữ độ trễ báo cáo thấp.',
+            en: 'Data warehouse and ETL: designed Star and Snowflake schemas with fact tables, dimension tables and SCD; built ETL flows from several sources into the warehouse with cleaning, transformation and validation; applied CDC to sync changes in near real time and keep reporting latency low.',
+          },
+          {
+            vi: 'Thiết kế ERD, viết tài liệu BRD và SRS, làm việc trực tiếp với BA, Dev và người dùng nghiệp vụ để chốt yêu cầu ngay từ đầu.',
+            en: 'Designed ERDs, wrote BRD and SRS documents, and worked directly with BAs, developers and business users to settle requirements before a line of code was written.',
+          },
+        ],
+      },
+    ],
+
     ngan_xep: ['Power BI', 'DAX', 'SQL Server', 'SSIS', 'Python', 'Star Schema', 'SCD', 'ETL', 'CDC'],
-    dong_gop: [
-      {
-        so: { vi: '70%', en: '70%' },
-        nhan: {
-          vi: 'Thời gian xử lý dữ liệu thủ công cắt bỏ mỗi tháng',
-          en: 'Manual data processing time removed each month',
-        },
-        boi_canh: {
-          vi: 'Dữ liệu từ SQL Server, Excel và API nội bộ gom về một luồng tự động, thay cho việc nhập tay.',
-          en: 'Data from SQL Server, Excel and internal APIs pulled into one automated flow, replacing hand entry.',
-        },
-      },
-      {
-        so: { vi: '-20% giờ mỗi tuần', en: '-20% hours a week' },
-        nhan: {
-          vi: 'Thời gian mỗi quản lý vùng lấy lại được',
-          en: 'Time given back to each regional manager',
-        },
-        boi_canh: {
-          vi: 'Dashboard thời gian thực thay hẳn bản Excel làm tay mỗi cuối tuần.',
-          en: 'A real-time dashboard replaced the hand-made weekend Excel report entirely.',
-        },
-      },
-      {
-        so: { vi: '10 tới 15%', en: '10 to 15%' },
-        nhan: {
-          vi: 'Ngân sách vận hành tiết kiệm mỗi quý',
-          en: 'Operating budget saved each quarter',
-        },
-        boi_canh: {
-          vi: 'Báo cáo tài chính vận hành theo dõi doanh thu thực so với kế hoạch, và cảnh báo khi chi phí vượt ngưỡng.',
-          en: 'An operations finance report tracking actual against plan, with an alert when cost crosses its ceiling.',
-        },
-      },
-    ],
-    ghi_chu: {
-      vi: 'Dashboard của chuỗi là dữ liệu nội bộ nên không đưa lên đây.',
-      en: 'The chain’s dashboards hold internal data, so they are not shown here.',
-    },
-  },
-  {
-    ma: 'dapractice',
-    ten: {
-      vi: 'dapractice, nền tảng luyện SQL có người trả tiền',
-      en: 'dapractice, a SQL practice platform with paying users',
-    },
-    vai_tro: {
-      vi: 'Một mình: sản phẩm, máy chủ, giao diện, hạ tầng',
-      en: 'Solo: product, server, interface, infrastructure',
-    },
-    tom_tat: {
-      vi: 'Bấm một đường dẫn là có ngay một Postgres thật với dữ liệu bẩn cố ý, làm bài, được chấm tự động. Không phải cài gì, đọc đề không cần tài khoản. 600 bài trên ba lĩnh vực thương mại điện tử, marketing và ứng dụng di động. Có thu tiền, chạy trên VPS, và từ đầu tới giờ chỉ một người commit vào nó.',
-      en: 'Follow a link and you have a real Postgres with deliberately dirty data, an exercise, and automatic grading. Nothing to install, no account needed to read. 600 exercises across e-commerce, marketing and mobile app. It takes money, runs on a VPS, and exactly one person has ever committed to it.',
-    },
-    so_lieu: [
-      { so: { vi: '600', en: '600' }, nhan: { vi: 'bài tập, ba lĩnh vực', en: 'exercises, three domains' } },
-      { so: { vi: '77.500', en: '77,500' }, nhan: { vi: 'dòng TypeScript', en: 'lines of TypeScript' } },
-      { so: { vi: '3.141', en: '3,141' }, nhan: { vi: 'phép kiểm tự động trong CI', en: 'automated checks in CI' } },
-      { so: { vi: '22×', en: '22×' }, nhan: { vi: 'nhẹ hơn sau khi tái kiến trúc', en: 'lighter after re-architecture' } },
-    ],
-    ngan_xep: [
-      'TypeScript',
-      'Fastify 5',
-      'Node 24',
-      'React 19',
-      'PostgreSQL 17',
-      'Tailwind 4',
-      'CodeMirror 6',
-      'Docker Compose',
-      'Caddy',
-      'GitHub Actions',
-    ],
-    ghi_chu: {
-      vi: 'Mã nguồn riêng tư vì sản phẩm đang bán. Trang đang chạy thì mở được, và tôi sẵn sàng dẫn qua bất kỳ phần nào trong một buổi trò chuyện.',
-      en: 'The source is private because the product is being sold. The running site is open to anyone, and I am happy to walk through any part of it in a conversation.',
-    },
-    lien_ket: { nhan: { vi: 'Mở dapractice.site', en: 'Open dapractice.site' }, dia_chi: 'https://dapractice.site' },
   },
 ]
 
+// ---------------------------------------------------------------------------
+// Kỹ năng chuyên môn
+// ---------------------------------------------------------------------------
+
 export const KY_NANG: readonly Nhom_ky_nang[] = [
   {
-    ten: { vi: 'Nền tảng dữ liệu', en: 'Data platform' },
-    muc: ['Apache Iceberg', 'dbt core & spark', 'Custom materializations', 'Apache Spark', 'Trino', 'Apache Airflow', 'REST catalog', 'MinIO / S3', 'CDC, Debezium'],
+    ten: { vi: 'Công cụ và Ngôn ngữ', en: 'Tools and languages' },
+    dong: [
+      {
+        nhan: { vi: 'Power BI và Superset', en: 'Power BI and Superset' },
+        mo_ta: {
+          vi: 'DAX, Power Query, thiết kế dashboard, trực quan hoá dữ liệu.',
+          en: 'DAX, Power Query, dashboard design, data visualisation.',
+        },
+      },
+      {
+        nhan: { vi: 'SQL', en: 'SQL' },
+        mo_ta: {
+          vi: 'Trino, Spark SQL, SQL Server, PostgreSQL — truy vấn trên cả kho quan hệ và lakehouse.',
+          en: 'Trino, Spark SQL, SQL Server, PostgreSQL — querying both the relational warehouse and the lakehouse.',
+        },
+      },
+      {
+        nhan: { vi: 'Python', en: 'Python' },
+        mo_ta: {
+          vi: 'Pandas, NumPy, Matplotlib, Seaborn — xử lý dữ liệu và tự động hoá.',
+          en: 'Pandas, NumPy, Matplotlib, Seaborn — data processing and automation.',
+        },
+      },
+    ],
   },
   {
-    ten: { vi: 'Mô hình hoá và phân tích', en: 'Modelling and analytics' },
-    muc: ['SQL: Trino, Spark, Postgres', 'Incremental & merge', 'Dimensional modelling', 'Metric definition', 'Superset', 'Dashboard design', 'Data quality gates'],
+    ten: { vi: 'Nền tảng Dữ liệu', en: 'Data platform' },
+    dong: [
+      {
+        nhan: { vi: 'Lakehouse', en: 'Lakehouse' },
+        mo_ta: {
+          vi: 'Apache Iceberg, REST catalog, MinIO/S3; kiến trúc phân tầng từ landing tới serving.',
+          en: 'Apache Iceberg, REST catalog, MinIO/S3; tiered architecture from landing to serving.',
+        },
+      },
+      {
+        nhan: { vi: 'Transform và điều phối', en: 'Transform and orchestration' },
+        mo_ta: {
+          vi: 'dbt core và spark, custom materializations, incremental và merge, Apache Spark, Apache Airflow.',
+          en: 'dbt core and spark, custom materializations, incremental and merge, Apache Spark, Apache Airflow.',
+        },
+      },
+      {
+        nhan: { vi: 'CDC', en: 'CDC' },
+        mo_ta: {
+          vi: 'Debezium — đồng bộ thay đổi theo thời gian gần thực, không nạp lại toàn bộ bảng.',
+          en: 'Debezium — near real-time change sync without reloading whole tables.',
+        },
+      },
+      {
+        nhan: { vi: 'Mô hình hoá', en: 'Modelling' },
+        mo_ta: {
+          vi: 'Star Schema, Snowflake Schema, Fact Table, Dimension Table, SCD.',
+          en: 'Star Schema, Snowflake Schema, fact tables, dimension tables, SCD.',
+        },
+      },
+      {
+        nhan: { vi: 'Chất lượng và vận hành', en: 'Quality and operations' },
+        mo_ta: {
+          vi: 'Kiểm thử dữ liệu tự động trong CI, che dữ liệu cá nhân theo tầng, Docker, GitLab CI.',
+          en: 'Automated data tests in CI, personal-data masking by tier, Docker, GitLab CI.',
+        },
+      },
+    ],
   },
   {
-    ten: { vi: 'Kỹ thuật phần mềm', en: 'Software engineering' },
-    muc: ['TypeScript', 'Node & Fastify', 'React', 'Python', 'PostgreSQL', 'Docker & Compose', 'Caddy', 'GitLab CI', 'GitHub Actions'],
+    ten: { vi: 'Kỹ năng Phân tích', en: 'Analytics' },
+    dong: [
+      {
+        mo_ta: {
+          vi: 'Làm sạch, tổng hợp dữ liệu từ nhiều nguồn; phân tích xu hướng, dự báo và phát hiện bất thường.',
+          en: 'Cleaning and consolidating data from many sources; trend analysis, forecasting and anomaly detection.',
+        },
+      },
+      {
+        mo_ta: {
+          vi: 'Định nghĩa chỉ số và chuẩn hoá định nghĩa giữa các bộ phận, để cùng một câu hỏi chỉ có một con số.',
+          en: 'Defining metrics and standardising those definitions across teams, so one question has exactly one answer.',
+        },
+      },
+      {
+        mo_ta: {
+          vi: 'Xây dựng hệ thống KPI, dải kỳ vọng và ngưỡng cảnh báo tự động cho chỉ số vận hành.',
+          en: 'Building KPI systems, expected bands and automatic alert thresholds for operational metrics.',
+        },
+      },
+      {
+        mo_ta: {
+          vi: 'Thiết kế luồng báo cáo tự động theo lịch gửi tới stakeholder; đưa insight hỗ trợ ra quyết định kinh doanh.',
+          en: 'Designing scheduled report delivery to stakeholders, and turning it into insight a decision can rest on.',
+        },
+      },
+    ],
+  },
+  {
+    ten: { vi: 'Kỹ năng Mềm', en: 'Working style' },
+    dong: [
+      {
+        mo_ta: {
+          vi: 'Giao tiếp liên phòng ban, làm rõ yêu cầu và trình bày dữ liệu dễ hiểu; tư duy phân tích, chủ động, làm việc độc lập và theo nhóm.',
+          en: 'Communicating across teams, pulling requirements into focus and presenting data plainly; analytical, self-directed, effective alone and in a team.',
+        },
+      },
+      {
+        mo_ta: {
+          vi: 'Làm việc trên kho mã dùng chung: review merge request, viết tài liệu để người sau đọc lại được.',
+          en: 'Working in a shared repository: reviewing merge requests, and writing the documentation the next person will need.',
+        },
+      },
+    ],
   },
 ]
+
+// ---------------------------------------------------------------------------
+// Dự án nổi bật
+// ---------------------------------------------------------------------------
+//
+// Mỗi dự án phải có ít nhất một mệnh đề giá trị. Dự án không đổi được điều gì
+// cho doanh nghiệp thì không thuộc về mục này, và cổng cham-thu-noi-dung chặn
+// lệnh dựng khi danh sách gia_tri rỗng.
+
+export const DU_AN_NOI_BAT: readonly Du_an_noi_bat[] = [
+  {
+    ma: 'pipeline-vetc',
+    ten: {
+      vi: 'Pipeline tự động và cảnh báo bất thường, mảng bảo hiểm và telesales',
+      en: 'Automated pipeline and anomaly alerting for insurance and telesales',
+    },
+    noi: 'VETC',
+    cong_cu: ['dbt', 'Spark', 'Iceberg', 'Airflow', 'Trino'],
+    nguon: {
+      vi: 'CDC qua Debezium từ database nghiệp vụ',
+      en: 'CDC through Debezium from the operational databases',
+    },
+    quy_mo: { vi: '534 model, 720 bảng nguồn', en: '534 models, 720 sources' },
+    viec: {
+      vi: 'Pipeline 6 chặng chạy theo lịch mỗi giờ, tự gửi báo cáo lúc 7:00 và bắn cảnh báo khi chỉ số lệch khỏi dải kỳ vọng.',
+      en: 'A six-stage pipeline on an hourly schedule that sends the report at 07:00 and fires an alert when a metric leaves its expected band.',
+    },
+    gia_tri: [
+      { vi: 'Giảm 30% giờ làm báo cáo tay mỗi tuần', en: '30% fewer hours on manual reporting each week' },
+      { vi: 'Rút thời gian phát hiện sai lệch từ 5 ngày xuống trong ngày', en: 'Time to detection cut from 5 days to same day' },
+    ],
+  },
+  {
+    ma: 'dinh-danh-vetc',
+    ten: { vi: 'Lớp hợp nhất định danh khách hàng', en: 'Customer identity resolution layer' },
+    noi: 'VETC',
+    cong_cu: ['dbt-spark', 'Iceberg', 'Trino'],
+    nguon: { vi: 'Tolling, ví điện tử, bảo hiểm, telesales', en: 'Tolling, e-wallet, insurance, telesales' },
+    quy_mo: { vi: '4 hệ nguồn độc lập', en: '4 independent source systems' },
+    viec: {
+      vi: 'Nối bốn hệ nguồn về cùng một khách hàng, đo được vòng đời và tái tục thay vì đếm giao dịch rời rạc.',
+      en: 'Ties four source systems to one customer, making lifetime and renewal measurable instead of counting isolated transactions.',
+    },
+    gia_tri: [{ vi: 'Tăng 60% tỷ lệ tái tục mảng bảo hiểm', en: '60% lift in insurance renewal rate' }],
+  },
+  {
+    ma: 'serving-vetc',
+    ten: { vi: 'Bảng phục vụ BI dạng phẳng', en: 'Flat BI serving tables' },
+    noi: 'VETC',
+    cong_cu: ['dbt', 'Iceberg', 'Trino', 'Superset'],
+    nguon: { vi: 'Tầng datamart', en: 'The datamart tier' },
+    quy_mo: { vi: '12.027 cột trong đồ thị lineage', en: '12,027 columns under lineage' },
+    viec: {
+      vi: 'Dựng sẵn toàn bộ chỉ số nên dashboard không phải join lúc đọc.',
+      en: 'Every metric is pre-computed, so no dashboard joins anything at read time.',
+    },
+    gia_tri: [
+      { vi: 'Rút thời gian tải dashboard từ phút xuống giây', en: 'Dashboard load time cut from minutes to seconds' },
+      { vi: 'Giảm 20% yêu cầu báo cáo gửi về đội data', en: '20% fewer ad-hoc report requests to the data team' },
+    ],
+  },
+  {
+    ma: 'dwh-shine',
+    ten: {
+      vi: 'Data Warehouse tập trung và pipeline ETL/CDC cho chuỗi 100+ salon',
+      en: 'Central data warehouse and ETL/CDC pipeline for a 100+ salon chain',
+    },
+    noi: '30Shine',
+    cong_cu: ['SQL Server', 'SSIS', 'Python'],
+    nguon: { vi: 'POS, lương thưởng, vật tư, chấm công', en: 'POS, payroll, materials, time tracking' },
+    quy_mo: { vi: '~10 triệu dòng tích luỹ', en: '~10 million rows accumulated' },
+    viec: {
+      vi: 'Star Schema hợp nhất 4 hệ nguồn độc lập, ETL tự động thay hoàn toàn import thủ công, CDC chỉ xử lý bản ghi thay đổi.',
+      en: 'A Star Schema unifying four independent source systems, automated ETL replacing manual imports entirely, and CDC processing only changed rows.',
+    },
+    gia_tri: [
+      { vi: 'Một nguồn số liệu nhất quán cho toàn chuỗi', en: 'One consistent source of truth for the whole chain' },
+      { vi: 'Độ trễ dashboard dưới 15 phút', en: 'Dashboard latency under 15 minutes' },
+    ],
+  },
+  {
+    ma: 'dashboard-shine',
+    ten: {
+      vi: 'Bộ dashboard vận hành cho hơn 100 quản lý salon',
+      en: 'Operations dashboards for 100+ salon managers',
+    },
+    noi: '30Shine',
+    cong_cu: ['Power BI', 'SQL Server', 'DAX'],
+    nguon: { vi: 'Giao dịch, chấm công, KPI nội bộ', en: 'Transactions, time tracking, internal KPIs' },
+    quy_mo: { vi: '~5 triệu dòng mỗi tháng', en: '~5 million rows a month' },
+    viec: {
+      vi: 'Doanh thu theo dịch vụ, AOV, lượt khách và hiệu suất theo nhân viên, salon, vùng — thay hoàn toàn báo cáo Excel cuối tuần.',
+      en: 'Revenue by service, AOV, footfall and performance by staff, salon and region — replacing the weekend Excel report outright.',
+    },
+    gia_tri: [
+      { vi: 'Tiết kiệm 4–6 giờ mỗi tuần cho mỗi quản lý vùng', en: '4 to 6 hours a week saved for each regional manager' },
+      { vi: 'Tăng 15% hiệu suất nhân sự toàn chuỗi', en: '15% lift in chain-wide staff productivity' },
+    ],
+  },
+  {
+    ma: 'tai-chinh-shine',
+    ten: { vi: 'Hệ thống báo cáo tài chính và kiểm soát chi phí', en: 'Finance reporting and cost control system' },
+    noi: '30Shine',
+    cong_cu: ['Power BI', 'SQL Server', 'DAX', 'Python'],
+    nguon: { vi: 'Doanh thu, chi phí vật tư, lương thưởng', en: 'Revenue, materials cost, payroll' },
+    quy_mo: { vi: '~900.000 dòng mỗi tháng', en: '~900,000 rows a month' },
+    viec: {
+      vi: 'Lợi nhuận gộp theo từng salon và vùng, cảnh báo tự động khi chi phí vật tư hoặc nhân sự vượt ngưỡng.',
+      en: 'Gross margin per salon and region, with automatic alerts when materials or staff cost crosses its ceiling.',
+    },
+    gia_tri: [
+      { vi: 'Tiết kiệm 10–15% ngân sách toàn hệ thống mỗi quý', en: '10 to 15% of system-wide budget saved each quarter' },
+      { vi: 'BOD nắm biên lợi nhuận theo thời gian thực', en: 'The board sees gross margin in real time' },
+    ],
+  },
+]
+
+/** Sản phẩm cá nhân. Một khối nhỏ, vì nó không nằm trong CV nhưng là thứ duy
+ *  nhất trên trang mà người đọc mở ra dùng thử được ngay. */
+export const DAPRACTICE: Khoi_phu = {
+  ten: { vi: 'dapractice', en: 'dapractice' },
+  mo_ta: {
+    vi: 'Nền tảng luyện SQL tôi tự xây và tự vận hành từ đầu tới cuối: sản phẩm, máy chủ, giao diện, hạ tầng. Bấm một đường dẫn là có ngay một Postgres thật với dữ liệu bẩn cố ý, làm bài và được chấm tự động.',
+    en: 'A SQL practice platform I built and run end to end: product, server, interface, infrastructure. Follow a link and you get a real Postgres with deliberately dirty data, an exercise, and automatic grading.',
+  },
+  lien_ket: {
+    nhan: { vi: 'Mở dapractice.site', en: 'Open dapractice.site' },
+    dia_chi: 'https://dapractice.site',
+  },
+}
+
+// ---------------------------------------------------------------------------
+// Học vấn và chứng chỉ
+// ---------------------------------------------------------------------------
+
+export const HOC_VAN: Hoc_van = {
+  truong: { vi: 'Học viện Kỹ thuật Quân sự', en: 'Military Technical Academy' },
+  nganh: { vi: 'Ngành Cơ khí', en: 'Mechanical Engineering' },
+  thoi_gian: '2016 – 2020',
+  ghi_chu: { vi: 'Tốt nghiệp loại Khá', en: 'Graduated with credit' },
+}
+
+export const CHUNG_CHI: readonly Chung_chi[] = [
+  {
+    ten: { vi: 'Business Analyst — FPT', en: 'Business Analyst — FPT' },
+    nam: '2021',
+    ghi_chu: { vi: 'Phân tích nghiệp vụ, đặc tả yêu cầu', en: 'Business analysis, requirements specification' },
+  },
+]
+
+// ---------------------------------------------------------------------------
+// Liên hệ và nhãn giao diện
+// ---------------------------------------------------------------------------
 
 export const LIEN_HE = {
   loi_moi: {
@@ -300,7 +500,7 @@ export const LIEN_HE = {
   ],
 }
 
-/** Nhãn dùng trong giao diện: tiêu đề mục, chú thích sơ đồ, chân trang. */
+/** Nhãn dùng trong giao diện: tiêu đề mục, chú thích, chân trang. */
 export const NHAN = {
   tieu_de_trang: {
     vi: 'Phạm Quang Huy, Kỹ sư Dữ liệu và Phân tích Dữ liệu',
@@ -310,35 +510,31 @@ export const NHAN = {
     vi: 'Bốn năm xây nền tảng dữ liệu và đường ống dữ liệu từ nguồn tới biểu đồ. Hiện làm tại VETC, tập đoàn Tasco.',
     en: 'Four years building data platforms and pipelines from source system to chart. Currently at VETC, Tasco group.',
   } satisfies Song,
-  muc_du_an: { vi: 'Dự án tiêu biểu', en: 'Selected work' } satisfies Song,
-  muc_ky_nang: { vi: 'Công cụ', en: 'Tools' } satisfies Song,
+
+  muc_muc_tieu: { vi: 'Mục tiêu nghề nghiệp', en: 'What I am after' } satisfies Song,
+  muc_kinh_nghiem: { vi: 'Kinh nghiệm làm việc', en: 'Experience' } satisfies Song,
+  muc_ky_nang: { vi: 'Kỹ năng chuyên môn', en: 'Skills' } satisfies Song,
+  muc_du_an: { vi: 'Dự án nổi bật', en: 'Selected projects' } satisfies Song,
+  muc_hoc_van: { vi: 'Học vấn và chứng chỉ', en: 'Education and certification' } satisfies Song,
   muc_lien_he: { vi: 'Liên hệ', en: 'Get in touch' } satisfies Song,
-  so_do_tang: {
-    vi: 'Kiến trúc dữ liệu tôi làm việc mỗi ngày',
-    en: 'The data architecture I work inside every day',
-  } satisfies Song,
-  nhan_model: { vi: 'model', en: 'models' } satisfies Song,
-  nhan_truc_model: { vi: 'Số model mỗi tầng', en: 'Model count per tier' } satisfies Song,
-  dieu_huong_du_an: { vi: 'Dự án', en: 'Work' } satisfies Song,
-  nhan_vai_tro: { vi: 'Vai trò', en: 'Role' } satisfies Song,
-  nhan_ngan_xep: { vi: 'Tech stack', en: 'Stack' } satisfies Song,
-  nhan_dong_gop: { vi: 'Giá trị mang lại', en: 'Business impact' } satisfies Song,
-  nhan_hop_cat: {
-    vi: 'Bộ lọc 7 lớp, nơi câu lệnh của người lạ chạy trên Postgres thật',
-    en: 'The seven-layer sandbox where a stranger’s SQL runs on a real Postgres',
-  } satisfies Song,
-  cot_lop: { vi: 'Lớp', en: 'Layer' } satisfies Song,
-  cot_cach: { vi: 'Cách làm', en: 'Mechanism' } satisfies Song,
-  cot_chan: { vi: 'Chặn được gì', en: 'What it blocks' } satisfies Song,
-  cot_ma: { vi: 'Mã lỗi', en: 'Error code' } satisfies Song,
+
+  dieu_huong_kinh_nghiem: { vi: 'Kinh nghiệm', en: 'Experience' } satisfies Song,
+  dieu_huong_du_an: { vi: 'Dự án', en: 'Projects' } satisfies Song,
+
+  nhan_ngan_xep: { vi: 'Tech stack', en: 'Tech stack' } satisfies Song,
+  nhan_cong_cu: { vi: 'Công cụ', en: 'Tools' } satisfies Song,
+  nhan_nguon: { vi: 'Nguồn dữ liệu', en: 'Data source' } satisfies Song,
+  nhan_quy_mo: { vi: 'Quy mô', en: 'Scale' } satisfies Song,
+  nhan_gia_tri: { vi: 'Giá trị mang lại', en: 'Business impact' } satisfies Song,
+  nhan_hoc_van: { vi: 'Học vấn', en: 'Education' } satisfies Song,
+  nhan_chung_chi: { vi: 'Chứng chỉ', en: 'Certification' } satisfies Song,
+  nhan_san_pham_rieng: { vi: 'Sản phẩm cá nhân', en: 'Side project' } satisfies Song,
+
   doi_ngon_ngu: { vi: 'Đổi sang tiếng Anh', en: 'Switch to Vietnamese' } satisfies Song,
   bo_qua_dau_trang: { vi: 'Bỏ qua phần đầu trang', en: 'Skip to main content' } satisfies Song,
   doi_sang_nen_toi: { vi: 'Chuyển sang nền tối', en: 'Switch to dark theme' } satisfies Song,
   doi_sang_nen_sang: { vi: 'Chuyển sang nền sáng', en: 'Switch to light theme' } satisfies Song,
   nhan_theo_doi: { vi: 'Tìm tôi ở', en: 'Find me on' } satisfies Song,
   anh_chan_dung: { vi: 'Ảnh chân dung Phạm Quang Huy', en: 'Portrait of Phạm Quang Huy' } satisfies Song,
-  chan_trang: {
-    vi: 'made by HuyPQ',
-    en: 'made by HuyPQ',
-  } satisfies Song,
+  chan_trang: { vi: 'made by HuyPQ', en: 'made by HuyPQ' } satisfies Song,
 }

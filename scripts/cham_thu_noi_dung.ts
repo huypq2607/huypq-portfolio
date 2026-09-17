@@ -4,13 +4,15 @@
 // quên câu tiếng Việt tương ứng, trang vẫn dựng được, vẫn chạy được, và chỉ
 // người bấm sang bản còn lại mới thấy một ô trống. Đó đúng là kiểu hỏng báo
 // thành công, nên nó phải có một phép kiểm chuyển đỏ.
+//
+// Nội dung trang bám theo bản CV, nên các phép kiểm ở đây cũng canh đúng những
+// chỗ hai bên dễ lệch nhau nhất: thiếu một nơi làm việc, một dự án không nói
+// được nó đổi gì cho doanh nghiệp, hay một chỗ trống chưa điền số.
 
 import * as noi_dung from '../noi_dung/noi_dung.ts'
-import * as quy_trinh from '../noi_dung/quy_trinh.ts'
-import { MOI_BO_DASHBOARD } from '../noi_dung/bo_dashboard.ts'
 
 /** Ngưỡng độ dài để coi hai bản giống hệt nhau là quên dịch chứ không phải cố
- *  ý. Chuỗi ngắn như "534" hay "set local role" giống nhau là bình thường. */
+ *  ý. Chuỗi ngắn như "534" hay "Data Analyst" giống nhau là bình thường. */
 const NGUONG_NGHI_QUEN_DICH = 40
 
 const loi: string[] = []
@@ -34,6 +36,12 @@ function duyet(gia_tri: unknown, duong_dan: string): void {
     if (vi === en && vi.length > NGUONG_NGHI_QUEN_DICH) {
       loi.push(`${duong_dan}: hai bản giống hệt nhau, nhiều khả năng quên dịch`)
     }
+
+    // Dấu gạch dưới đôi là chỗ chờ một con số thật. Một trang giới thiệu ra
+    // mắt với "__ giờ mỗi tuần" còn tệ hơn là không có mục ấy.
+    if (vi.includes('__') || en.includes('__')) {
+      loi.push(`${duong_dan}: còn chỗ trống chưa điền, dấu __`)
+    }
     return
   }
 
@@ -53,119 +61,69 @@ for (const [ten, gia_tri] of Object.entries(noi_dung)) {
   duyet(gia_tri, ten)
 }
 
-// Nội dung của dây chuyền và ba dashboard nằm ở tệp riêng, nhưng chịu đúng một
-// luật song ngữ như phần còn lại, nên duyệt luôn ở đây.
-for (const [ten, gia_tri] of Object.entries(quy_trinh)) {
-  duyet(gia_tri, `quy_trinh.${ten}`)
-}
-
-// Bộ dashboard của VETC lắp lại từ chính các hằng trong quy_trinh, nên chuỗi
-// của nó bị duyệt hai lượt. Không sao, danh sách lỗi được lọc trùng ở cuối.
-for (const bo of MOI_BO_DASHBOARD) {
-  duyet(bo, `bo_dashboard.${bo.ma}`)
-}
-
 // ---------------------------------------------------------------------------
 // Các phép kiểm riêng, không suy ra được từ việc duyệt cây
 // ---------------------------------------------------------------------------
 
-// Hai dự án bắt buộc phải còn đó, vì main.tsx lấy chúng theo mã và ném lỗi
-// ngay khi nạp trang nếu thiếu. Bắt ở đây thì người sửa biết trước lúc dựng.
-for (const ma_bat_buoc of ['vetc', 'dapractice']) {
-  if (!noi_dung.DU_AN.some((d) => d.ma === ma_bat_buoc)) {
-    loi.push(`DU_AN: thiếu dự án có mã ${ma_bat_buoc}`)
+// Hai nơi làm việc phải có mặt. Xoá nhầm một nơi thì trang vẫn dựng được và
+// vẫn trông bình thường, chỉ là bốn năm kinh nghiệm bỗng còn hai.
+const MA_KINH_NGHIEM_BAT_BUOC = ['vetc', 'shine']
+for (const ma of MA_KINH_NGHIEM_BAT_BUOC) {
+  if (!noi_dung.KINH_NGHIEM.some((n) => n.ma === ma)) {
+    loi.push(`KINH_NGHIEM: thiếu nơi làm việc mã "${ma}"`)
   }
 }
 
-// Khối số liệu là lưới bốn cột. Thừa hay thiếu một ô là hàng cuối lệch hẳn,
-// và đó là thứ nhìn ảnh chụp mới thấy chứ đọc mã thì không.
-for (const du_an of noi_dung.DU_AN) {
-  if (du_an.so_lieu.length !== 4) {
-    loi.push(`DU_AN[${du_an.ma}].so_lieu: phải đúng 4 ô, đang có ${du_an.so_lieu.length}`)
+for (const noi of noi_dung.KINH_NGHIEM) {
+  if (noi.vai_tro.length === 0) {
+    loi.push(`KINH_NGHIEM[${noi.ma}]: không có vai trò nào`)
   }
-}
-
-// Số model âm hoặc bằng không làm cột trong sơ đồ biến mất mà không có lỗi nào.
-for (const tang of noi_dung.TANG_DU_LIEU) {
-  if (!Number.isInteger(tang.so_model) || tang.so_model <= 0) {
-    loi.push(`TANG_DU_LIEU[${tang.ma}]: số model phải là số nguyên dương`)
-  }
-}
-
-// Bảy lớp hộp cát phải đánh số liền mạch từ 1, vì nấc thụt vào của mỗi hàng
-// tính theo thứ tự trong mảng chứ không theo trường so.
-noi_dung.LOP_HOP_CAT.forEach((lop, thu_tu) => {
-  if (lop.so !== thu_tu + 1) {
-    loi.push(`LOP_HOP_CAT[${thu_tu}]: số lớp là ${lop.so}, phải là ${thu_tu + 1}`)
-  }
-})
-
-// Chỗ trống trong phần giá trị mang lại phải được điền trước khi phát hành.
-//
-// Đây là loại hỏng tệ nhất trong cả tệp nội dung: trang vẫn dựng được, vẫn chạy
-// được, chỉ là nó khoe với người tuyển dụng một con số chưa ai điền. Cổng này
-// chặn thẳng lệnh dựng, vì nhắc bằng cảnh báo thì sẽ có lần bị lướt qua.
-for (const du_an of noi_dung.DU_AN) {
-  if (du_an.dong_gop === undefined) continue
-  du_an.dong_gop.forEach((muc, thu_tu) => {
-    for (const [ten_truong, cap] of Object.entries(muc)) {
-      for (const [ma_ngon_ngu, van] of Object.entries(cap as Record<string, string>)) {
-        if (van.includes('__')) {
-          loi.push(
-            `DU_AN[${du_an.ma}].dong_gop[${thu_tu}].${ten_truong}.${ma_ngon_ngu}: còn chỗ trống chưa điền số thật`,
-          )
-        }
-      }
+  noi.vai_tro.forEach((vai, thu_tu) => {
+    if (vai.viec.length === 0) {
+      loi.push(`KINH_NGHIEM[${noi.ma}].vai_tro[${thu_tu}]: không có việc nào`)
     }
   })
+
+  // Nơi nào khai số liệu thì phải khai từ hai con số trở lên: một con số đứng
+  // lẻ trong lưới ba cột trông như phần còn lại chưa nạp xong.
+  if (noi.so_lieu !== undefined && noi.so_lieu.length < 2) {
+    loi.push(`KINH_NGHIEM[${noi.ma}].so_lieu: có ${noi.so_lieu.length} con số, cần ít nhất 2`)
+  }
 }
 
-// Kiểm từng bộ dashboard. Đây là nhóm phép kiểm chỉ nhìn ảnh chụp mới thấy,
-// còn mã thì vẫn chạy trơn tru với dữ liệu sai.
-for (const bo of MOI_BO_DASHBOARD) {
-  const ten = `bo_dashboard.${bo.ma}`
+// Mỗi dự án phải nói được nó đổi gì cho doanh nghiệp. Đây là luật của chính
+// mục này: dự án không có giá trị định lượng thì thuộc về phần kinh nghiệm,
+// không thuộc về mục dự án nổi bật.
+if (noi_dung.DU_AN_NOI_BAT.length === 0) {
+  loi.push('DU_AN_NOI_BAT: danh sách rỗng')
+}
+for (const du_an of noi_dung.DU_AN_NOI_BAT) {
+  if (du_an.gia_tri.length === 0) {
+    loi.push(`DU_AN_NOI_BAT[${du_an.ma}]: không nêu được giá trị mang lại`)
+  }
+  if (du_an.cong_cu.length === 0) {
+    loi.push(`DU_AN_NOI_BAT[${du_an.ma}]: không khai công cụ`)
+  }
+  if (du_an.noi.trim() === '') {
+    loi.push(`DU_AN_NOI_BAT[${du_an.ma}]: không khai nơi làm dự án`)
+  }
+}
 
-  // Các phần của biểu đồ tròn phải cộng lại đúng 100, nếu không hình vẽ ra một
-  // tỷ lệ không có thật.
-  const tong_phan = bo.tron.phan.reduce((tong, p) => tong + p.phan_tram, 0)
-  if (tong_phan !== 100) {
-    loi.push(`${ten}.tron: tổng phần trăm là ${tong_phan}, phải là 100`)
-  }
+// Mã dự án phải là duy nhất, vì nó là khoá React và cũng là thứ để tra ngược.
+const ma_da_gap = new Set<string>()
+for (const du_an of noi_dung.DU_AN_NOI_BAT) {
+  if (ma_da_gap.has(du_an.ma)) loi.push(`DU_AN_NOI_BAT: mã "${du_an.ma}" bị trùng`)
+  ma_da_gap.add(du_an.ma)
+}
 
-  // Biểu đồ cột cần đủ cột, và không cột nào âm hay bằng không, vì chiều cao
-  // tính theo tỷ lệ với cột cao nhất.
-  if (bo.cot.muc.length < 2) {
-    loi.push(`${ten}.cot: cần ít nhất 2 cột`)
-  }
-  for (const muc of bo.cot.muc) {
-    if (!(muc.gia_tri > 0)) {
-      loi.push(`${ten}.cot[${muc.nhan.en}]: giá trị phải lớn hơn 0`)
-    }
-  }
+// Mục tiêu nghề nghiệp rỗng thì mục ấy vẽ ra một khoảng trắng có tiêu đề.
+if (noi_dung.MUC_TIEU.length === 0) {
+  loi.push('MUC_TIEU: danh sách rỗng')
+}
 
-  // Dải kỳ vọng phải có đáy thấp hơn trần, và điểm được đánh dấu cảnh báo phải
-  // thật sự nằm ngoài dải. Đánh dấu một điểm bình thường là cả khối thành sai.
-  const { duong } = bo
-  if (!(duong.duoi < duong.tren)) {
-    loi.push(`${ten}.duong: đáy dải ${duong.duoi} phải nhỏ hơn trần ${duong.tren}`)
-  }
-  const diem = duong.gia_tri[duong.diem_canh_bao]
-  if (diem === undefined) {
-    loi.push(`${ten}.duong: diem_canh_bao ${duong.diem_canh_bao} nằm ngoài chuỗi`)
-  } else if (diem >= duong.duoi && diem <= duong.tren) {
-    loi.push(`${ten}.duong: điểm ${diem} vẫn nằm trong dải ${duong.duoi} tới ${duong.tren}`)
-  }
-
-  // Trục dọc phải bao hết dữ liệu VÀ cả dải kỳ vọng. Thiếu là đường hoặc dải
-  // bị vẽ tràn ra ngoài khung, thứ trông như một lỗi hiển thị chứ không ai đoán
-  // ra là do khoảng trục đặt hẹp.
-  const thap_nhat = Math.min(...duong.gia_tri, duong.duoi)
-  const cao_nhat = Math.max(...duong.gia_tri, duong.tren)
-  if (duong.truc_y.day > thap_nhat || duong.truc_y.dinh < cao_nhat) {
-    loi.push(
-      `${ten}.duong.truc_y: khoảng ${duong.truc_y.day} tới ${duong.truc_y.dinh} không bao hết dữ liệu ${thap_nhat} tới ${cao_nhat}`,
-    )
-  }
+// Học vấn và chứng chỉ là hai cột đứng cạnh nhau, thiếu một bên thì lệch hẳn.
+if (noi_dung.CHUNG_CHI.length === 0) {
+  loi.push('CHUNG_CHI: danh sách rỗng')
 }
 
 // Địa chỉ liên hệ là thứ duy nhất trang này muốn người xem dùng. Sai một ký tự
@@ -180,6 +138,10 @@ for (const kenh of noi_dung.LIEN_HE.kenh) {
   if (kenh.nhan.trim() === '') {
     loi.push(`LIEN_HE.kenh[${kenh.ten}]: thiếu nhãn hiển thị`)
   }
+}
+
+if (!noi_dung.DAPRACTICE.lien_ket.dia_chi.startsWith('https://')) {
+  loi.push('DAPRACTICE.lien_ket: phải là địa chỉ https')
 }
 
 // ---------------------------------------------------------------------------

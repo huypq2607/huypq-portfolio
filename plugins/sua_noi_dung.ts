@@ -18,7 +18,7 @@ import { thay_chuoi_trong_ma, type Doan_duong_dan } from './thay_chuoi_trong_ma.
 const DUONG_DAN_TUYEN = '/__sua-text'
 
 /** Chỉ hai tệp này được phép sửa. Mọi tên khác đều bị từ chối. */
-const TEP_CHO_PHEP = new Set(['noi_dung/noi_dung.ts', 'noi_dung/quy_trinh.ts'])
+const TEP_CHO_PHEP = new Set(['noi_dung/noi_dung.ts'])
 
 interface Yeu_cau_sua {
   readonly tep: string
