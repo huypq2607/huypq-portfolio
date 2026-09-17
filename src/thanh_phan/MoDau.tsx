@@ -1,11 +1,19 @@
 // Phần mở đầu.
 //
 // Hai lớp nền nằm dưới cùng: một lưới mảnh bị che mờ dần về phía dưới, và một
-// quầng sáng đi theo con trỏ. Cả hai đều rất nhạt và cả hai tắt hẳn ở nền
-// sáng, vì trên nền trắng chúng chỉ làm chữ khó đọc thêm chứ không thêm gì.
+// quầng sáng đi theo con trỏ. Quầng sáng tắt hẳn ở nền sáng và trên thiết bị
+// cảm ứng, vì trên nền trắng nó chỉ thành vệt xám bẩn, còn trên màn cảm ứng nó
+// nhảy giật theo ngón tay đang cuộn.
 //
 // Chuỗi mở màn chạy một lần lúc tải: từng khối dựng lên lần lượt theo đúng thứ
-// tự người ta đọc. Không có khối nào lộ ra lần thứ hai khi cuộn ngược lại.
+// tự người ta đọc. Không khối nào lộ ra lần thứ hai khi cuộn ngược lại.
+//
+// Thứ tự khối ĐỔI theo khổ màn hình, và đó là lựa chọn chứ không phải hệ quả
+// của lưới. Trên màn rộng, ảnh và hồ sơ đứng thành một cột bên phải, ngang tầm
+// mắt với tiêu đề. Trên điện thoại, nếu giữ nguyên thứ tự ấy thì khuôn mặt bị
+// đẩy xuống dưới hai đoạn văn, tức người xem phải cuộn qua gần một màn hình
+// mới thấy mình đang đọc về ai. Nên ở màn hẹp, ảnh và hồ sơ chen lên ngay sau
+// câu định vị, trước phần giới thiệu dài.
 
 import { useEffect, useRef } from 'react'
 import {
@@ -43,45 +51,36 @@ export function MoDau() {
       <div className="luoi-nen pointer-events-none absolute inset-0" aria-hidden="true" />
       <div className="quang-theo-con-tro pointer-events-none absolute inset-0" aria-hidden="true" />
 
-      <div className="relative mx-auto max-w-[78rem] px-5 pt-16 pb-10 sm:px-8 sm:pt-24 sm:pb-14">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-12">
-          <div className="lg:col-span-7">
+      <div className="relative mx-auto max-w-[78rem] px-5 pt-12 pb-10 sm:px-8 sm:pt-20 sm:pb-14">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-7 lg:col-start-1 lg:row-start-1">
             <p
-              className="ma mo-man text-[0.8rem] tracking-wide text-nhan"
+              className="ma mo-man text-[0.78rem] tracking-wide text-nhan"
               style={{ animationDelay: `${TRE.chuc_danh}ms` }}
             >
               {chu(CHUC_DANH)}
             </p>
 
             <h1
-              className="hien-lon mo-man mt-6 text-[clamp(2.9rem,7.6vw,5.6rem)] text-balance"
+              className="hien-lon mo-man mt-5 text-[clamp(2.4rem,7.4vw,5.4rem)] text-balance"
               style={{ animationDelay: `${TRE.khau_hieu}ms` }}
             >
               {chu(KHAU_HIEU)}
             </h1>
 
             <p
-              className="mo-man mt-8 max-w-[34ch] text-[clamp(1.12rem,2vw,1.45rem)] leading-[1.45]"
+              className="mo-man mt-6 max-w-[34ch] text-[clamp(1.08rem,2vw,1.45rem)] leading-[1.5]"
               style={{ animationDelay: `${TRE.dan_giai}ms` }}
             >
               {chu(DAN_GIAI)}
             </p>
-
-            <div
-              className="mo-man mt-9 max-w-[58ch] space-y-4 text-[1.01rem] text-chu-mo"
-              style={{ animationDelay: `${TRE.gioi_thieu}ms` }}
-            >
-              {GIOI_THIEU.map((doan) => (
-                <p key={doan.en}>{chu(doan)}</p>
-              ))}
-            </div>
           </div>
 
-          <div className="lg:col-span-5 lg:justify-self-end">
+          <div className="lg:col-span-5 lg:col-start-8 lg:row-span-2 lg:row-start-1 lg:justify-self-end">
             {/* Viền ảnh tô bằng chính dải sáu tầng, nên khung ảnh cũng là một
                 lần nhắc lại bảng màu chứ không phải một đường viền bất kỳ. */}
             <div
-              className="mo-man w-44 rounded-2xl p-px lg:w-72"
+              className="mo-man w-full max-w-[15rem] rounded-2xl p-px lg:w-72 lg:max-w-none"
               style={{
                 animationDelay: `${TRE.anh}ms`,
                 background:
@@ -92,12 +91,12 @@ export function MoDau() {
                 <source
                   type="image/webp"
                   srcSet="/chan_dung_400.webp 400w, /chan_dung_800.webp 800w"
-                  sizes="(min-width: 1024px) 18rem, 11rem"
+                  sizes="(min-width: 1024px) 18rem, 15rem"
                 />
                 <img
                   src="/chan_dung_400.jpg"
                   srcSet="/chan_dung_400.jpg 400w, /chan_dung_800.jpg 800w"
-                  sizes="(min-width: 1024px) 18rem, 11rem"
+                  sizes="(min-width: 1024px) 18rem, 15rem"
                   width={400}
                   height={400}
                   alt={chu(NHAN.anh_chan_dung)}
@@ -106,16 +105,13 @@ export function MoDau() {
               </picture>
             </div>
 
-            <dl
-              className="mo-man mt-8 w-44 lg:w-72"
-              style={{ animationDelay: `${TRE.ho_so}ms` }}
-            >
+            <dl className="mo-man mt-7 w-full lg:w-72" style={{ animationDelay: `${TRE.ho_so}ms` }}>
               {HO_SO.map((dong, thu_tu) => (
                 <div
                   key={dong.nhan.en}
                   className="border-t border-vien py-3 first:border-t-0 first:pt-0"
                 >
-                  <dt className="ma text-[0.72rem] text-chu-mo">{chu(dong.nhan)}</dt>
+                  <dt className="ma text-[0.7rem] text-chu-mo">{chu(dong.nhan)}</dt>
                   <dd className="mt-1 flex items-start gap-2 text-[0.94rem] leading-snug">
                     {/* Chấm nhịp chỉ gắn cho dòng cuối, dòng nói về việc sẵn
                         sàng nhận vị trí mới. Đó là dòng duy nhất mô tả một
@@ -132,6 +128,15 @@ export function MoDau() {
                 </div>
               ))}
             </dl>
+          </div>
+
+          <div
+            className="mo-man max-w-[58ch] space-y-4 text-[1.01rem] text-chu-mo lg:col-span-7 lg:col-start-1 lg:row-start-2"
+            style={{ animationDelay: `${TRE.gioi_thieu}ms` }}
+          >
+            {GIOI_THIEU.map((doan) => (
+              <p key={doan.en}>{chu(doan)}</p>
+            ))}
           </div>
         </div>
       </div>

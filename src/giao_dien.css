@@ -86,7 +86,10 @@
   --color-nhan: var(--nhan);
   --color-nhan-am: var(--nhan-am);
 
-  --font-hien: 'Archivo', ui-sans-serif, system-ui, sans-serif;
+  /* Một phông duy nhất cho mọi phần chữ nghĩa: Be Vietnam Pro, dựng riêng cho
+     dấu tiếng Việt. Phông máy chỉ dùng cho định danh thật, không phải một lựa
+     chọn thẩm mỹ mà là để phân biệt chữ người viết với chữ máy hiểu. */
+  --font-hien: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
   --font-doc: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
   --font-ma: 'JetBrains Mono', ui-monospace, monospace;
 }
@@ -130,22 +133,27 @@ body {
 /* ===========================================================================
    CHỮ
    ===========================================================================
-   Archivo có trục chiều rộng, và đó là thứ mang cá tính của trang. Tiêu đề lớn
-   đặt ở mức giãn kèm khoảng chữ âm nên khối chữ đóng lại thành một mảng đặc.
+   Be Vietnam Pro lo toàn bộ phần chữ nghĩa, vì trang song ngữ và phông này được
+   dựng riêng cho dấu tiếng Việt. Cá tính của tiêu đề đến từ độ đậm 800 cộng
+   khoảng chữ âm chứ không đến từ một phông thứ hai.
    =========================================================================== */
 
 .hien {
   font-family: var(--font-hien);
-  font-variation-settings: 'wdth' 106;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  letter-spacing: -0.012em;
 }
 
+/* Cao dòng ở đây là chỗ dễ hỏng nhất của một trang tiếng Việt.
+   Chữ có cả dấu mũ lẫn dấu thanh, ví dụ ữ, ườ, ệ, cần chỗ đứng theo chiều dọc;
+   nén cao dòng xuống dưới 1 thì dấu của dòng dưới chạm chân dòng trên, và cỡ
+   chữ càng lớn thì càng lộ. 1.04 là mức vẫn cho khối chữ đóng lại thành một
+   mảng đặc mà không ăn vào dấu. */
 .hien-lon {
   font-family: var(--font-hien);
-  font-variation-settings: 'wdth' 112;
-  font-weight: 700;
-  line-height: 0.9;
-  letter-spacing: -0.035em;
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.028em;
 }
 
 /* Chữ máy chỉ dùng cho định danh thật: tên tầng, mã lỗi, tên công cụ, câu lệnh.
@@ -159,10 +167,9 @@ body {
 
 .so-lieu {
   font-family: var(--font-hien);
-  font-variation-settings: 'wdth' 100;
   font-variant-numeric: tabular-nums;
   font-weight: 700;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
 }
 
 /* ===========================================================================

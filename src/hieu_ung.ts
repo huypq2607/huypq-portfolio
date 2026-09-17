@@ -85,6 +85,11 @@ export function theo_doi_tien_do_cuon(vach: HTMLElement): () => void {
 export function theo_doi_con_tro(vung: HTMLElement): () => void {
   if (giam_chuyen_dong()) return () => {}
 
+  // Chỉ bật trên thiết bị có con trỏ thật. Trên màn cảm ứng, pointermove chỉ
+  // sinh ra khi người ta đang miết ngón tay để cuộn, nên quầng sáng sẽ nhảy
+  // giật theo mỗi lần chạm rồi đứng im ở chỗ ngón tay vừa rời đi.
+  if (!window.matchMedia('(pointer: fine)').matches) return () => {}
+
   const khi_di_chuyen = (su_kien: PointerEvent) => {
     const khung = vung.getBoundingClientRect()
     vung.style.setProperty('--x', `${su_kien.clientX - khung.left}px`)

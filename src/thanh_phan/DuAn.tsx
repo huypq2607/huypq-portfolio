@@ -90,7 +90,7 @@ export function DuAn({ du_an, children }: Tham_so) {
             href={du_an.lien_ket.dia_chi}
             target="_blank"
             rel="noreferrer"
-            className="lien-ket hien text-[1.05rem] font-semibold"
+            className="lien-ket hien -my-2 inline-block py-2 text-[1.05rem] font-semibold"
           >
             {chu(du_an.lien_ket.nhan)}
           </a>

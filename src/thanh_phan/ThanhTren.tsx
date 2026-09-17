@@ -58,7 +58,7 @@ export function ThanhTren() {
               <li key={muc.dia_chi}>
                 <a
                   href={muc.dia_chi}
-                  className="text-[0.88rem] text-chu-mo transition-colors hover:text-nhan"
+                  className="-my-2 inline-block py-2 text-[0.88rem] text-chu-mo transition-colors hover:text-nhan"
                 >
                   {chu(muc.nhan)}
                 </a>
@@ -72,7 +72,7 @@ export function ThanhTren() {
             type="button"
             onClick={doi_nen}
             aria-label={chu(nen === 'toi' ? NHAN.doi_sang_nen_sang : NHAN.doi_sang_nen_toi)}
-            className="flex h-8 w-8 items-center justify-center rounded-md border border-vien text-chu-mo transition-colors hover:border-vien-ro hover:text-nhan"
+            className="flex h-10 w-10 items-center justify-center rounded-md border border-vien text-chu-mo transition-colors hover:border-vien-ro hover:text-nhan sm:h-8 sm:w-8"
           >
             {nen === 'toi' ? <BieuTuongMatTroi /> : <BieuTuongTrang />}
           </button>
@@ -81,15 +81,15 @@ export function ThanhTren() {
             type="button"
             onClick={doi_ngon_ngu}
             aria-label={chu(NHAN.doi_ngon_ngu)}
-            className="ma flex h-8 items-center overflow-hidden rounded-md border border-vien text-[0.72rem] font-medium"
+            className="ma flex h-10 items-center overflow-hidden rounded-md border border-vien text-[0.72rem] font-medium sm:h-8"
           >
             <span
-              className={`px-2 py-1 transition-colors ${ngon_ngu === 'en' ? 'bg-nhan text-nen' : 'text-chu-mo'}`}
+              className={`flex h-full items-center px-2.5 transition-colors ${ngon_ngu === 'en' ? 'bg-nhan text-nen' : 'text-chu-mo'}`}
             >
               EN
             </span>
             <span
-              className={`px-2 py-1 transition-colors ${ngon_ngu === 'vi' ? 'bg-nhan text-nen' : 'text-chu-mo'}`}
+              className={`flex h-full items-center px-2.5 transition-colors ${ngon_ngu === 'vi' ? 'bg-nhan text-nen' : 'text-chu-mo'}`}
             >
               VI
             </span>

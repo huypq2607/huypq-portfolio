@@ -178,14 +178,20 @@ vài trăm byte.
 
 ### Chữ
 
-**Archivo** cho tiêu đề, đặt ở trục chiều rộng giãn kèm khoảng chữ âm, nên khối
-chữ đóng lại thành một mảng đặc. **Be Vietnam Pro** cho nội dung, vì trang song
-ngữ và phông này được thiết kế riêng cho dấu tiếng Việt, thứ mà phần lớn phông
-sans dựng dấu chồng lên nhau khi chữ có cả dấu mũ lẫn dấu thanh.
+**Be Vietnam Pro** lo toàn bộ phần chữ nghĩa, từ tiêu đề lớn nhất tới đoạn văn,
+vì trang song ngữ và phông này được dựng riêng cho dấu tiếng Việt. Cá tính của
+tiêu đề đến từ độ đậm 800 cộng khoảng chữ âm chứ không đến từ một phông thứ hai.
+
+**Cao dòng của tiêu đề là chỗ dễ hỏng nhất của một trang tiếng Việt.** Chữ có cả
+dấu mũ lẫn dấu thanh, ví dụ `ữ`, `ườ`, `ệ`, cần chỗ đứng theo chiều dọc; nén cao
+dòng xuống dưới 1 thì dấu của dòng dưới chạm chân dòng trên, và cỡ chữ càng lớn
+thì càng lộ. Trang này để 1.04, mức vẫn cho khối chữ đóng lại thành một mảng đặc
+mà không ăn vào dấu.
 
 **JetBrains Mono** chỉ dùng cho định danh thật: tên tầng, mã lỗi SQLSTATE, tên
-công cụ, câu lệnh. Không dùng cho nhãn thường, vì khi ấy nó chỉ là một lớp
-trang trí giả vờ kỹ thuật.
+công cụ, câu lệnh. Đó không phải một lựa chọn thẩm mỹ mà là để phân biệt chữ
+người viết với chữ máy hiểu. Không dùng cho nhãn thường, vì khi ấy nó chỉ là
+một lớp trang trí giả vờ kỹ thuật.
 
 ### Hai hình mang toàn bộ phần táo bạo
 
@@ -199,6 +205,28 @@ trang trí giả vờ kỹ thuật.
 
 Màn hẹp đổi hẳn bố cục sơ đồ thành danh sách dọc thay vì bắt cuộn ngang. Ép
 người xem cuộn ngang để đọc một sơ đồ là cách chắc chắn khiến họ bỏ qua nó.
+
+### Trên điện thoại
+
+Bốn quyết định riêng cho màn hẹp, và cả bốn đều là thay đổi thật chứ không phải
+để mặc lưới tự co:
+
+- **Sơ đồ sáu tầng đổi hẳn bố cục** thành danh sách dọc với thanh ngang. Sáu cột
+  nhồi vào ba trăm điểm ảnh thì nhãn tầng nào cũng vỡ chữ, và ép người xem cuộn
+  ngang để đọc một sơ đồ là cách chắc chắn khiến họ bỏ qua nó.
+- **Ảnh và hồ sơ chen lên trước phần giới thiệu dài.** Giữ nguyên thứ tự của màn
+  rộng thì khuôn mặt bị đẩy xuống dưới hai đoạn văn, tức người xem phải cuộn qua
+  gần một màn hình mới thấy mình đang đọc về ai.
+- **Hai nút điều khiển cao 40 điểm ảnh** rồi thu về 32 từ mức `sm`. Ngón tay
+  không trỏ chính xác được như con trỏ chuột, và đó là hai nút duy nhất luôn
+  hiện trên mọi khổ màn hình.
+- **Quầng sáng tắt trên thiết bị cảm ứng.** `pointermove` trên màn cảm ứng chỉ
+  sinh ra khi người ta đang miết ngón tay để cuộn, nên quầng sáng sẽ nhảy giật
+  theo mỗi lần chạm rồi đứng im ở chỗ ngón tay vừa rời đi.
+
+Cỡ chữ của địa chỉ thư có sàn đủ thấp để nó nằm trọn một dòng ở khổ 320 điểm
+ảnh, kèm `break-words` làm lưới an toàn. Địa chỉ thư là thứ duy nhất trên trang
+vừa dài vừa không ngắt được ở giữa, nên nó là chỗ đầu tiên làm trang tràn ngang.
 
 ### Chuyển động
 
@@ -279,7 +307,7 @@ dapractice rồi chuyển tiếp tên miền con sang container này.
 |---|---|
 | Khung dựng | Vite 7 |
 | Giao diện | React 19, Tailwind CSS 4 |
-| Phông chữ | Archivo, Be Vietnam Pro, JetBrains Mono |
+| Phông chữ | Be Vietnam Pro, JetBrains Mono |
 | Ngôn ngữ | TypeScript, chế độ nghiêm ngặt |
 | Chạy script | tsx, không có bước biên dịch riêng |
 | Máy chủ tĩnh | GitHub Pages, hoặc Caddy 2 khi chạy bằng Docker |

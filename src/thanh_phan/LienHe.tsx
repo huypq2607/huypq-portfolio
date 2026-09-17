@@ -15,9 +15,13 @@ export function LienHe() {
     <div>
       <p className="cho-hien max-w-[52ch] text-[1.15rem] leading-relaxed">{chu(LIEN_HE.loi_moi)}</p>
 
+      {/* Sàn của cỡ chữ phải đủ thấp để địa chỉ thư nằm trọn trong một dòng ở
+          màn hẹp nhất còn gặp ngoài đời. Kèm break-words làm lưới an toàn: nếu
+          sau này địa chỉ dài hơn, nó xuống dòng chứ không đẩy cả trang tràn
+          ngang, thứ hỏng mà chỉ người mở trên điện thoại mới thấy. */}
       <a
         href={`mailto:${LIEN_HE.email}`}
-        className="hien-lon lien-ket cho-hien mt-8 inline-block text-[clamp(1.5rem,5vw,3rem)]"
+        className="hien-lon lien-ket cho-hien mt-8 inline-block max-w-full break-words text-[clamp(1.05rem,5.6vw,3rem)]"
       >
         {LIEN_HE.email}
       </a>
