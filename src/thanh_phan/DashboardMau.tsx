@@ -67,7 +67,10 @@ function Khung({
         {gia_tri_so}
       </p>
 
-      <div className="mt-6 flex-1">{children}</div>
+      {/* @container: bề rộng thẻ không đi theo bề rộng màn hình, vì lưới đổi từ
+          một cột sang hai rồi ba cột. Biểu đồ bên trong phải xếp lại theo bề
+          rộng của chính thẻ này chứ không theo điểm ngắt của trang. */}
+      <div className="@container mt-6 flex-1">{children}</div>
     </div>
   )
 }
@@ -119,7 +122,11 @@ function BieuDoCot({ cot }: { cot: Bo_dashboard['cot'] }) {
                 backgroundColor: 'var(--bd-1)',
               }}
             />
-            <span className="ma mt-2 truncate text-center text-[0.68rem] text-chu-mo">
+            {/* Nhãn chân cột xuống hai dòng chứ không cắt cụt: thẻ hẹp thì
+                "Bắc khác" cắt thành "Bắc k..." là biểu đồ hết đọc được. Chiều cao
+                chốt cứng để chân mọi cột vẫn thẳng hàng nhau, và chỉ chừa chỗ cho
+                dòng thứ hai khi thẻ hẹp, để thẻ rộng không thừa một khoảng trống. */}
+            <span className="ma mt-2 block h-[1.2em] overflow-hidden text-center text-[0.68rem] leading-[1.2] break-words text-chu-mo @max-[19rem]:h-[2.4em]">
               {chu(muc.nhan)}
             </span>
           </li>
@@ -152,7 +159,9 @@ function BieuDoTron({ tron }: { tron: Bo_dashboard['tron'] }) {
 
   return (
     <Khung ten={chu(tron.ten)} nhan_so={chu(tron.nhan_so)} gia_tri_so={chu(dan_dau.ten)}>
-      <div className="flex h-full items-center gap-5">
+      {/* Dưới 19rem thì chú giải nằm cạnh vòng tròn chỉ còn chừng 40px, đủ cắt
+          mọi nhãn thành "Cha..." và biểu đồ hết đọc được. Hẹp thì xếp dọc. */}
+      <div className="flex h-full flex-col items-center justify-center gap-4 @min-[19rem]:flex-row @min-[19rem]:gap-5">
         <svg viewBox="0 0 100 100" className="h-28 w-28 shrink-0" role="img" aria-hidden="true">
           <g transform="rotate(-90 50 50)">
             {tron.phan.map((phan, thu_tu) => {
@@ -188,7 +197,7 @@ function BieuDoTron({ tron }: { tron: Bo_dashboard['tron'] }) {
           </text>
         </svg>
 
-        <ul className="min-w-0 flex-1 space-y-2">
+        <ul className="w-full min-w-0 space-y-2 @min-[19rem]:w-auto @min-[19rem]:flex-1">
           {tron.phan.map((phan, thu_tu) => (
             <li key={phan.ten.en} className="flex items-center gap-2">
               <span
