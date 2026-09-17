@@ -133,7 +133,7 @@ export const DU_AN: readonly Du_an[] = [
     // giới thiệu ra mắt với "__ giờ mỗi tuần" còn tệ hơn là không có mục này.
     dong_gop: [
       {
-        so: { vi: '- 30% giờ mỗi tuần', en: '__ hours a week' },
+        so: { vi: '- 30% giờ mỗi tuần', en: '- 30% hours a week' },
         nhan: { vi: 'Thời gian làm báo cáo tay đã bỏ được', en: 'Manual reporting time removed' },
         boi_canh: {
           vi: 'Bản tổng hợp sáng nay được sinh từ bảng phục vụ và gửi tự động lúc bảy giờ.',
@@ -141,7 +141,7 @@ export const DU_AN: readonly Du_an[] = [
         },
       },
       {
-        so: { vi: '3 lần/ngày', en: '__ days to same day' },
+        so: { vi: '3 lần/ngày', en: '3 times a day' },
         nhan: { vi: 'Thời gian phát hiện số liệu bất thường', en: 'Time to spot an anomaly' },
         boi_canh: {
           vi: 'Trước đây phải chờ tới kỳ đối soát mới có người nhìn ra.',
@@ -149,7 +149,7 @@ export const DU_AN: readonly Du_an[] = [
         },
       },
       {
-        so: { vi: '70%', en: '__ thousand' },
+        so: { vi: '70%', en: '70%' },
         nhan: { vi: 'Quyết định chính xác từ việc xem báo cáo hàng ngày', en: 'Renewal leads pushed to telesales each month' },
         boi_canh: {
           vi: 'Tự động lên số, tự động cảnh báo bất thường',
@@ -166,7 +166,7 @@ export const DU_AN: readonly Du_an[] = [
   {
     ma: 'shine',
     ten: {
-      vi: 'Hệ thống báo cáo cho chuỗi bán lẻ hơn một trăm salon',
+      vi: 'Hệ thống báo cáo cho chuỗi hơn 100 Salon',
       en: 'A reporting system for a retail chain of over a hundred stores',
     },
     vai_tro: {
@@ -174,7 +174,7 @@ export const DU_AN: readonly Du_an[] = [
       en: 'Data Analyst at 30Shine, 2022 to 2025',
     },
     tom_tat: {
-      vi: '30Shine là chuỗi cắt tóc và chăm sóc nam giới hơn một trăm salon. Tôi gom bốn hệ nguồn độc lập gồm giao dịch, nhân sự, vật tư và chấm công về một kho dữ liệu tập trung theo Star Schema, rồi trải nó thành dashboard mà hơn một trăm quản lý salon mở hằng ngày.',
+      vi: '30Shine là chuỗi cắt tóc và chăm sóc nam giới hơn một trăm salon. Tôi gom bốn hệ nguồn độc lập gồm giao dịch, nhân sự, vật tư và chấm công về một kho dữ liệu tập trung theo Star Schema, rồi trải nó thành dashboard mà hơn 100 quản lý salon và BOD mở hằng ngày.',
       en: '30Shine is a men’s grooming chain of more than a hundred stores. I consolidated four independent source systems — transactions, people, materials and time tracking — into one central Star Schema warehouse, then surfaced it as dashboards that over a hundred store managers open every day.',
     },
     so_lieu: [
@@ -220,7 +220,7 @@ export const DU_AN: readonly Du_an[] = [
       },
     ],
     ghi_chu: {
-      vi: 'Dashboard của chuỗi là dữ liệu nội bộ nên không đưa lên đây. Tôi sẵn sàng dẫn qua từng cái trong một buổi trò chuyện.',
+      vi: 'Dashboard của chuỗi là dữ liệu nội bộ nên không đưa lên đây.',
       en: 'The chain’s dashboards hold internal data, so they are not shown here. I am happy to walk through them in a conversation.',
     },
   },
