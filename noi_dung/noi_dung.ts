@@ -9,6 +9,8 @@
 // cả hai. Sửa một bên thì phải sửa bên kia.
 
 import type {
+  Chang,
+  Chuyen_bien,
   Chung_chi,
   Dong_ho_so,
   Du_an_noi_bat,
@@ -105,43 +107,91 @@ export const KINH_NGHIEM: readonly Kinh_nghiem[] = [
         ten: { vi: 'Vai trò Data Analyst', en: 'As Data Analyst' },
         viec: [
           {
-            vi: 'Xây dựng và vận hành pipeline khép kín 6 chặng cho mảng telesales và bảo hiểm, từ lấy dữ liệu CDC tới báo cáo và cảnh báo, chạy theo lịch mỗi giờ — loại bỏ hoàn toàn thao tác thủ công trong luồng dữ liệu hằng ngày.',
-            en: 'Built and run a closed-loop six-stage pipeline for the telesales and insurance vertical, from CDC ingest through to reports and alerts, on an hourly schedule — removing manual work from the daily data flow entirely.',
+            lam: {
+              vi: 'Xây dựng và vận hành pipeline khép kín 6 chặng cho mảng telesales và bảo hiểm, từ lấy dữ liệu CDC tới báo cáo và cảnh báo, chạy theo lịch mỗi giờ.',
+              en: 'Built and run a closed-loop six-stage pipeline for the telesales and insurance vertical, from CDC ingest through to reports and alerts, on an hourly schedule.',
+            },
+            ket_qua: {
+              vi: 'Loại bỏ hoàn toàn thao tác thủ công trong luồng dữ liệu hằng ngày.',
+              en: 'Manual work removed from the daily data flow entirely.',
+            },
           },
           {
-            vi: 'Tự động hoá báo cáo hằng ngày qua Outlook gửi stakeholder lúc 7:00, thay thế quy trình tổng hợp tay mỗi sáng — giảm 30% thời gian làm báo cáo mỗi tuần.',
-            en: 'Automated the daily Outlook report to stakeholders at 07:00, replacing the morning hand-assembly — cutting 30% of weekly reporting time.',
+            lam: {
+              vi: 'Tự động hoá báo cáo hằng ngày qua Outlook gửi stakeholder lúc 7:00, thay thế quy trình tổng hợp tay mỗi sáng.',
+              en: 'Automated the daily Outlook report to stakeholders at 07:00, replacing the morning hand-assembly.',
+            },
+            ket_qua: {
+              vi: 'Giảm 30% thời gian làm báo cáo mỗi tuần.',
+              en: '30% less reporting time each week.',
+            },
           },
           {
-            vi: 'Xây dựng hệ thống cảnh báo bất thường, so chỉ số với dải kỳ vọng sau mỗi lần chạy — rút thời gian phát hiện sai lệch từ 5 ngày xuống trong ngày, xử lý trước khi lan sang báo cáo tháng.',
-            en: 'Built anomaly alerting that checks each metric against its expected band after every run — cutting time-to-detection from 5 days to same-day, so a discrepancy is fixed before it reaches the monthly report.',
+            lam: {
+              vi: 'Xây dựng hệ thống cảnh báo bất thường, so chỉ số với dải kỳ vọng sau mỗi lần chạy.',
+              en: 'Built anomaly alerting that checks each metric against its expected band after every run.',
+            },
+            ket_qua: {
+              vi: 'Rút thời gian phát hiện sai lệch từ 5 ngày xuống trong ngày, xử lý trước khi lan sang báo cáo tháng.',
+              en: 'Time to detection cut from 5 days to same day, so a discrepancy is fixed before it reaches the monthly report.',
+            },
           },
           {
-            vi: 'Vận hành dự án dbt dùng chung quy mô 534 model trên 720 bảng nguồn, 12.027 cột trong đồ thị lineage — đưa toàn bộ chỉ số của mảng về một nguồn số liệu duy nhất, chấm dứt tình trạng mỗi bộ phận báo một con số khác nhau.',
-            en: 'Operate a shared dbt project of 534 models over 720 registered sources with 12,027 columns under lineage — putting every metric in the vertical on one source of truth, ending the era of each team quoting a different number.',
+            lam: {
+              vi: 'Vận hành dự án dbt dùng chung quy mô 534 model trên 720 bảng nguồn, 12.027 cột trong đồ thị lineage.',
+              en: 'Operate a shared dbt project of 534 models over 720 registered sources, with 12,027 columns under lineage.',
+            },
+            ket_qua: {
+              vi: 'Đưa toàn bộ chỉ số của mảng về một nguồn số liệu duy nhất, chấm dứt tình trạng mỗi bộ phận báo một con số khác nhau.',
+              en: 'Every metric in the vertical on one source of truth, ending the era of each team quoting a different number.',
+            },
           },
           {
-            vi: 'Xây dựng lớp hợp nhất định danh khách hàng xuyên tolling, ví điện tử, bảo hiểm và telesales, cho phép đo vòng đời khách hàng và tái tục hợp đồng thay vì đếm giao dịch rời rạc — góp phần tăng 60% tỷ lệ tái tục mảng bảo hiểm.',
-            en: 'Built the customer identity resolution layer across tolling, e-wallet, insurance and telesales, making customer lifetime and policy renewal measurable instead of counting isolated transactions — contributing to a 60% lift in insurance renewal rate.',
+            lam: {
+              vi: 'Xây dựng lớp hợp nhất định danh khách hàng xuyên tolling, ví điện tử, bảo hiểm và telesales, cho phép đo vòng đời khách hàng và tái tục hợp đồng thay vì đếm giao dịch rời rạc.',
+              en: 'Built the customer identity resolution layer across tolling, e-wallet, insurance and telesales, making customer lifetime and policy renewal measurable instead of counting isolated transactions.',
+            },
+            ket_qua: {
+              vi: 'Tăng 60% tỷ lệ tái tục mảng bảo hiểm.',
+              en: '60% lift in insurance renewal rate.',
+            },
           },
-        ],
+                ],
       },
       {
         ten: { vi: 'Vai trò Data Engineer', en: 'As Data Engineer' },
         viec: [
           {
-            vi: 'Cung cấp bảng tổng hợp dạng phẳng cho Superset và API nội bộ, dựng sẵn chỉ số nên không phải join lúc đọc — rút thời gian tải dashboard từ phút xuống giây và giảm 20% yêu cầu báo cáo gửi về đội data.',
-            en: 'Serve flat, pre-computed tables to Superset and the internal API so nothing is joined at read time — cutting dashboard load from minutes to seconds and reducing ad-hoc report requests to the data team by 20%.',
+            lam: {
+              vi: 'Cung cấp bảng tổng hợp dạng phẳng cho Superset và API nội bộ, dựng sẵn chỉ số nên không phải join lúc đọc.',
+              en: 'Serve flat, pre-computed tables to Superset and the internal API, so nothing is joined at read time.',
+            },
+            ket_qua: {
+              vi: 'Rút thời gian tải dashboard từ phút xuống giây, giảm 20% yêu cầu báo cáo gửi về đội data.',
+              en: 'Dashboard load cut from minutes to seconds, and 20% fewer ad-hoc report requests to the data team.',
+            },
           },
           {
-            vi: 'Thiết lập ranh giới dữ liệu cá nhân: số điện thoại, email, biển số và số định danh được che tại tầng curated, canh ở bước duyệt merge request — biến yêu cầu tuân thủ thành ràng buộc kỹ thuật, loại bỏ rủi ro lộ dữ liệu cá nhân qua các bảng báo cáo.',
-            en: 'Set the personal-data boundary: phone numbers, emails, plates and ID numbers are masked at the curated tier and the boundary is enforced at merge request review — turning a compliance rule into a technical constraint and removing the risk of leaks through reporting tables.',
+            lam: {
+              vi: 'Thiết lập ranh giới dữ liệu cá nhân: số điện thoại, email, biển số và số định danh được che tại tầng curated, canh ở bước duyệt merge request.',
+              en: 'Set the personal-data boundary: phone numbers, emails, plates and ID numbers masked at the curated tier, enforced at merge request review.',
+            },
+            ket_qua: {
+              vi: 'Biến yêu cầu tuân thủ thành ràng buộc kỹ thuật, loại bỏ rủi ro lộ dữ liệu cá nhân qua các bảng báo cáo.',
+              en: 'A compliance rule turned into a technical constraint, removing the risk of leaks through reporting tables.',
+            },
           },
           {
-            vi: 'Kiến trúc và vận hành: thiết kế phân tầng landing, curated, hợp nhất định danh, precomp, datamart và serving trên Apache Iceberg với Star Schema, Fact Table, Dimension Table và SCD; luồng biến đổi bằng dbt-core và dbt-spark kèm kiểm thử dữ liệu tự động; CDC qua Debezium đồng bộ theo nhịp giờ không nạp lại toàn bảng; điều phối bằng Airflow, mọi thay đổi qua GitLab CI — chặn lỗi dữ liệu ở CI thay vì để người dùng phát hiện trên dashboard.',
-            en: 'Architecture and operations: designed the landing, curated, identity, precomp, datamart and serving tiers on Apache Iceberg with Star Schema, fact and dimension tables and SCD; transformations in dbt-core and dbt-spark with automated data tests; CDC through Debezium syncing hourly without full reloads; orchestration in Airflow with every change passing GitLab CI — so data errors are caught in CI rather than by a user staring at a dashboard.',
+            lam: {
+              vi: 'Kiến trúc và vận hành: phân tầng landing, curated, hợp nhất định danh, precomp, datamart và serving trên Apache Iceberg với Star Schema, Fact Table, Dimension Table và SCD; luồng biến đổi bằng dbt-core và dbt-spark kèm kiểm thử dữ liệu tự động; CDC qua Debezium theo nhịp giờ; điều phối bằng Airflow, mọi thay đổi qua GitLab CI.',
+              en: 'Architecture and operations: landing, curated, identity, precomp, datamart and serving tiers on Apache Iceberg with Star Schema, fact and dimension tables and SCD; transformations in dbt-core and dbt-spark with automated data tests; hourly CDC through Debezium; orchestration in Airflow, every change through GitLab CI.',
+            },
+            ket_qua: {
+              vi: 'Chặn lỗi dữ liệu ở CI thay vì để người dùng phát hiện trên dashboard.',
+              en: 'Data errors caught in CI rather than by a user staring at a dashboard.',
+            },
           },
-        ],
+                ],
       },
     ],
 
@@ -176,38 +226,127 @@ export const KINH_NGHIEM: readonly Kinh_nghiem[] = [
       {
         viec: [
           {
-            vi: 'Xây dựng 14 dashboard Power BI cho hơn 100 quản lý salon dùng hằng ngày: doanh thu theo dịch vụ và sản phẩm, năng suất nhân viên, tỷ lệ đạt KPI theo vị trí, chi nhánh và vùng — tăng 15% hiệu quả vận hành và loại bỏ hoàn toàn báo cáo thủ công cuối tuần.',
-            en: 'Built 14 Power BI dashboards used daily by over 100 salon managers: revenue by service and product, staff productivity, KPI attainment by position, branch and region — a 15% gain in operating efficiency and the end of the hand-made weekend report.',
+            lam: {
+              vi: 'Xây dựng 14 dashboard Power BI cho hơn 100 quản lý salon dùng hằng ngày: doanh thu theo dịch vụ và sản phẩm, năng suất nhân viên, tỷ lệ đạt KPI theo vị trí, chi nhánh và vùng.',
+              en: 'Built 14 Power BI dashboards used daily by over 100 salon managers: revenue by service and product, staff productivity, KPI attainment by position, branch and region.',
+            },
+            ket_qua: {
+              vi: 'Tăng 15% hiệu quả vận hành, loại bỏ hoàn toàn báo cáo thủ công cuối tuần.',
+              en: 'A 15% gain in operating efficiency, and the end of the hand-made weekend report.',
+            },
           },
           {
-            vi: 'Tự động hoá thu thập và xử lý dữ liệu từ SQL Server, Excel và API nội bộ — giảm 70% thời gian xử lý thủ công hằng tháng, để các team Vận hành, Kinh doanh và Marketing tập trung phân tích thay vì nhập liệu.',
-            en: 'Automated collection and processing from SQL Server, Excel and internal APIs — cutting 70% of monthly manual processing so the operations, sales and marketing teams could analyse instead of key in data.',
+            lam: {
+              vi: 'Tự động hoá thu thập và xử lý dữ liệu từ SQL Server, Excel và API nội bộ.',
+              en: 'Automated collection and processing from SQL Server, Excel and internal APIs.',
+            },
+            ket_qua: {
+              vi: 'Giảm 70% thời gian xử lý thủ công hằng tháng, để các team Vận hành, Kinh doanh và Marketing tập trung phân tích thay vì nhập liệu.',
+              en: '70% less manual processing each month, so the operations, sales and marketing teams could analyse instead of key in data.',
+            },
           },
           {
-            vi: 'Xây dựng hệ thống báo cáo tài chính vận hành: theo dõi doanh thu thực so với kế hoạch, kiểm soát chi phí vật tư và nhân sự theo từng salon và vùng, chuẩn hoá chỉ số cùng bộ phận Kế toán — tiết kiệm 10–15% ngân sách mỗi quý, giúp BOD nắm biên lợi nhuận theo thời gian thực.',
-            en: 'Built the operations finance reporting: actual against plan, materials and staff cost controlled per salon and region, metrics standardised together with Accounting — saving 10–15% of quarterly budget and giving the board a live view of gross margin.',
+            lam: {
+              vi: 'Xây dựng hệ thống báo cáo tài chính vận hành: doanh thu thực so với kế hoạch, kiểm soát chi phí vật tư và nhân sự theo từng salon và vùng, chuẩn hoá chỉ số cùng bộ phận Kế toán.',
+              en: 'Built the operations finance reporting: actual against plan, materials and staff cost controlled per salon and region, metrics standardised together with Accounting.',
+            },
+            ket_qua: {
+              vi: 'Tiết kiệm 10–15% ngân sách mỗi quý, BOD nắm biên lợi nhuận theo thời gian thực.',
+              en: '10 to 15% of quarterly budget saved, and a live view of gross margin for the board.',
+            },
           },
           {
-            vi: 'Phân tích cơ cấu lương thưởng và hiệu suất nhân sự toàn chuỗi, đề xuất điều chỉnh đãi ngộ theo nhóm vị trí và mức KPI — tăng 25% hiệu suất tổng thể và cải thiện tỷ lệ giữ chân nhân sự.',
-            en: 'Analysed chain-wide compensation structure and staff performance, and proposed a pay adjustment by role group and KPI band — a 25% lift in overall productivity and better retention.',
+            lam: {
+              vi: 'Phân tích cơ cấu lương thưởng và hiệu suất nhân sự toàn chuỗi, đề xuất điều chỉnh đãi ngộ theo nhóm vị trí và mức KPI.',
+              en: 'Analysed chain-wide compensation structure and staff performance, and proposed a pay adjustment by role group and KPI band.',
+            },
+            ket_qua: {
+              vi: 'Tăng 25% hiệu suất tổng thể và cải thiện tỷ lệ giữ chân nhân sự.',
+              en: 'A 25% lift in overall productivity and better retention.',
+            },
           },
           {
-            vi: 'Ứng dụng AI vào phân tích dữ liệu: cảnh báo bất thường tự động, gợi ý biểu đồ trực quan hoá và dự đoán xu hướng doanh thu — hỗ trợ BOD ra quyết định nhanh và chính xác hơn.',
-            en: 'Applied AI to the analysis work: automatic anomaly alerts, chart suggestions and revenue trend forecasting — helping the board decide faster and with better grounding.',
+            lam: {
+              vi: 'Ứng dụng AI vào phân tích dữ liệu: cảnh báo bất thường tự động, gợi ý biểu đồ trực quan hoá và dự đoán xu hướng doanh thu.',
+              en: 'Applied AI to the analysis work: automatic anomaly alerts, chart suggestions and revenue trend forecasting.',
+            },
+            ket_qua: {
+              vi: 'Hỗ trợ BOD ra quyết định nhanh và chính xác hơn.',
+              en: 'The board decides faster and with better grounding.',
+            },
           },
           {
-            vi: 'Data Warehouse và ETL: thiết kế mô hình Star Schema và Snowflake Schema với Fact Table, Dimension Table và SCD; xây dựng luồng ETL từ nhiều nguồn vào DWH kèm data cleaning, transformation và validation; áp dụng CDC để đồng bộ thay đổi theo thời gian gần thực, giữ độ trễ báo cáo thấp.',
-            en: 'Data warehouse and ETL: designed Star and Snowflake schemas with fact tables, dimension tables and SCD; built ETL flows from several sources into the warehouse with cleaning, transformation and validation; applied CDC to sync changes in near real time and keep reporting latency low.',
+            lam: {
+              vi: 'Data Warehouse và ETL: Star Schema và Snowflake Schema với Fact Table, Dimension Table và SCD; luồng ETL từ nhiều nguồn vào DWH kèm data cleaning, transformation và validation; CDC đồng bộ thay đổi theo thời gian gần thực.',
+              en: 'Data warehouse and ETL: Star and Snowflake schemas with fact tables, dimension tables and SCD; ETL flows from several sources into the warehouse with cleaning, transformation and validation; CDC syncing changes in near real time.',
+            },
+            ket_qua: {
+              vi: 'Giữ độ trễ báo cáo thấp.',
+              en: 'Reporting latency kept low.',
+            },
           },
           {
-            vi: 'Thiết kế ERD, viết tài liệu BRD và SRS, làm việc trực tiếp với BA, Dev và người dùng nghiệp vụ để chốt yêu cầu ngay từ đầu.',
-            en: 'Designed ERDs, wrote BRD and SRS documents, and worked directly with BAs, developers and business users to settle requirements before a line of code was written.',
+            lam: {
+              vi: 'Thiết kế ERD, viết tài liệu BRD và SRS, làm việc trực tiếp với BA, Dev và người dùng nghiệp vụ để chốt yêu cầu ngay từ đầu.',
+              en: 'Designed ERDs, wrote BRD and SRS documents, and worked directly with BAs, developers and business users to settle requirements from the start.',
+            },
           },
-        ],
+                ],
       },
     ],
 
     ngan_xep: ['Power BI', 'DAX', 'SQL Server', 'SSIS', 'Python', 'Star Schema', 'SCD', 'ETL', 'CDC'],
+  },
+]
+
+// ---------------------------------------------------------------------------
+// Sơ đồ dây chuyền dữ liệu
+// ---------------------------------------------------------------------------
+//
+// Sáu chặng, đúng sáu bậc của dải màu. Đó không phải trùng hợp may mắn mà là
+// lý do dải màu tồn tại: nó mã hoá vị trí trong một chuỗi có thứ tự, và dây
+// chuyền này là một chuỗi có thứ tự. Chặng một lạnh nhất vì đó là dữ liệu thô
+// chưa ai chạm vào, chặng sáu ấm nhất vì đó là lúc một con người nhận cảnh báo.
+
+export const QUY_TRINH: readonly Chang[] = [
+  { ma: 'lay', ten: { vi: 'Lấy dữ liệu', en: 'Ingest' }, nhip: { vi: 'Mỗi giờ', en: 'Hourly' } },
+  { ma: 'sach', ten: { vi: 'Làm sạch', en: 'Clean' }, nhip: { vi: 'Mỗi giờ', en: 'Hourly' } },
+  { ma: 'chi-so', ten: { vi: 'Dựng chỉ số', en: 'Cook metrics' }, nhip: { vi: 'Hằng ngày', en: 'Daily' } },
+  { ma: 'phuc-vu', ten: { vi: 'Bảng phục vụ', en: 'Serving table' }, nhip: { vi: 'Hằng ngày', en: 'Daily' } },
+  { ma: 'bao-cao', ten: { vi: 'Báo cáo Outlook', en: 'Outlook report' }, nhip: { vi: '7:00 hằng ngày', en: '07:00 daily' } },
+  { ma: 'canh-bao', ten: { vi: 'Cảnh báo bất thường', en: 'Anomaly alert' }, nhip: { vi: 'Sau mỗi lần chạy', en: 'After every run' } },
+]
+
+// ---------------------------------------------------------------------------
+// Những con số đã đổi được
+// ---------------------------------------------------------------------------
+//
+// Hai dạng nằm chung một danh sách: cặp trước và sau khi đo được cả hai đầu,
+// và một mức chênh khi chỉ đo được phần thay đổi. Không ép dạng thứ hai thành
+// dạng thứ nhất, vì làm thế là bịa ra một mốc trước mà không ai từng đo.
+
+export const CHUYEN_BIEN: readonly Chuyen_bien[] = [
+  {
+    nhan: { vi: 'Thời gian phát hiện sai lệch', en: 'Time to detect a discrepancy' },
+    truoc: { vi: '5 ngày', en: '5 days' },
+    sau: { vi: 'Trong ngày', en: 'Same day' },
+  },
+  {
+    nhan: { vi: 'Thời gian tải dashboard', en: 'Dashboard load time' },
+    truoc: { vi: 'Phút', en: 'Minutes' },
+    sau: { vi: 'Giây', en: 'Seconds' },
+  },
+  {
+    nhan: { vi: 'Giờ làm báo cáo tay mỗi tuần', en: 'Manual reporting hours a week' },
+    sau: { vi: '-30%', en: '-30%' },
+  },
+  {
+    nhan: { vi: 'Tỷ lệ tái tục mảng bảo hiểm', en: 'Insurance renewal rate' },
+    sau: { vi: '+60%', en: '+60%' },
+  },
+  {
+    nhan: { vi: 'Yêu cầu báo cáo gửi về đội data', en: 'Ad-hoc report requests to the team' },
+    sau: { vi: '-20%', en: '-20%' },
   },
 ]
 
@@ -529,6 +668,11 @@ export const NHAN = {
   nhan_hoc_van: { vi: 'Học vấn', en: 'Education' } satisfies Song,
   nhan_chung_chi: { vi: 'Chứng chỉ', en: 'Certification' } satisfies Song,
   nhan_san_pham_rieng: { vi: 'Sản phẩm cá nhân', en: 'Side project' } satisfies Song,
+  nhan_quy_trinh: { vi: 'Dây chuyền dữ liệu, sáu chặng', en: 'The data pipeline, six stages' } satisfies Song,
+  nhan_chuyen_bien: { vi: 'Những con số đã đổi được', en: 'What the numbers did' } satisfies Song,
+  nhan_dong_thoi_gian: { vi: 'Bốn năm vừa rồi', en: 'The last four years' } satisfies Song,
+  nhan_truoc: { vi: 'Trước', en: 'Before' } satisfies Song,
+  nhan_sau: { vi: 'Sau', en: 'After' } satisfies Song,
 
   doi_ngon_ngu: { vi: 'Đổi sang tiếng Anh', en: 'Switch to Vietnamese' } satisfies Song,
   bo_qua_dau_trang: { vi: 'Bỏ qua phần đầu trang', en: 'Skip to main content' } satisfies Song,

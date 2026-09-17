@@ -3,11 +3,18 @@
 // Vai trò tách riêng vì ở VETC là hai vai trò song song, phân tích và kỹ thuật
 // dữ liệu, và hai bên kể hai loại việc khác hẳn nhau. Gộp thành một danh sách
 // dài thì người đọc mất ranh giới đó, mà chính ranh giới ấy là điều đáng nói.
+//
+// Mỗi việc in làm hai nửa: nửa trên là việc đã làm, in bằng chữ mờ; nửa dưới
+// là thứ nó đổi được, in đậm hơn và có một vạch màu nhấn dẫn vào. Nhà tuyển
+// dụng lướt mắt dọc cột vạch màu ấy là đọc được toàn bộ phần kết quả mà không
+// phải đọc câu nào.
 
 import type { Kinh_nghiem } from '../../noi_dung/kieu.ts'
 import { KINH_NGHIEM, NHAN } from '../../noi_dung/noi_dung.ts'
 import { dung_ngon_ngu } from '../ngon_ngu.tsx'
+import { ChuyenBien } from './ChuyenBien.tsx'
 import { DemSo } from './DemSo.tsx'
+import { SoDoQuyTrinh } from './SoDoQuyTrinh.tsx'
 
 function MotNoi({ noi }: { noi: Kinh_nghiem }) {
   const { ngon_ngu, chu, chu_tho } = dung_ngon_ngu()
@@ -44,18 +51,29 @@ function MotNoi({ noi }: { noi: Kinh_nghiem }) {
         </dl>
       )}
 
+      {/* Hai khối hình chỉ gắn cho VETC, vì dây chuyền sáu chặng và các con số
+          đổi được đều là chuyện của nơi ấy. Gắn theo mã chứ không theo chỉ số,
+          để đảo thứ tự trong tệp nội dung không làm hình lạc sang nơi khác. */}
+      {noi.ma === 'vetc' && (
+        <div className="mt-5 space-y-5">
+          <SoDoQuyTrinh />
+          <ChuyenBien />
+        </div>
+      )}
+
       <div className="mt-7 space-y-7">
         {noi.vai_tro.map((vai, thu_tu) => (
           <div key={vai.ten?.en ?? thu_tu}>
             {vai.ten !== undefined && (
               <h4 className="ma mb-3 text-[0.78rem] tracking-wide text-chu-mo">{chu(vai.ten)}</h4>
             )}
-            {/* Dấu đầu dòng vẽ bằng pseudo-element trong CSS để nó nhận màu
-                nhấn, còn chữ thì thụt vào thẳng cột. */}
-            <ul className="space-y-3">
+            <ul className="space-y-4">
               {vai.viec.map((viec, i) => (
-                <li key={i} className="gach-dau-dong max-w-[72ch] leading-relaxed text-chu-mo">
-                  {chu(viec)}
+                <li key={i} className="gach-dau-dong max-w-[72ch]">
+                  <p className="leading-relaxed text-chu-mo">{chu(viec.lam)}</p>
+                  {viec.ket_qua !== undefined && (
+                    <p className="ket-qua mt-1.5 leading-snug font-medium">{chu(viec.ket_qua)}</p>
+                  )}
                 </li>
               ))}
             </ul>

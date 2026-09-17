@@ -29,6 +29,19 @@ export interface Dong_ho_so {
 // ---------------------------------------------------------------------------
 
 /**
+ * Một việc đã làm, tách làm hai nửa.
+ *
+ * lam là việc mình làm, ket_qua là thứ nó đổi được cho doanh nghiệp. Tách ra
+ * chứ không viết liền một câu, vì nhà tuyển dụng lướt mắt tìm đúng nửa sau, và
+ * nửa sau phải bắt được mắt mà không cần đọc hết nửa trước. Việc nào chưa đo
+ * được kết quả thì bỏ trống ket_qua, đừng bịa ra một mệnh đề nghe cho kêu.
+ */
+export interface Viec {
+  readonly lam: Song
+  readonly ket_qua?: Song
+}
+
+/**
  * Một vai trò trong một nơi làm việc.
  *
  * Tách ra khỏi Kinh_nghiem vì một nơi có thể mang hai vai trò cùng lúc: ở VETC
@@ -40,7 +53,32 @@ export interface Vai_tro {
   /** Bỏ trống khi nơi làm việc chỉ có một vai trò, để trang không in ra một
    *  cái nhãn thừa ngay phía trên danh sách duy nhất. */
   readonly ten?: Song
-  readonly viec: readonly Song[]
+  readonly viec: readonly Viec[]
+}
+
+/**
+ * Một chặng của dây chuyền dữ liệu.
+ *
+ * Thứ tự trong mảng là thứ tự chạy thật, và sơ đồ lấy đúng thứ tự ấy để chọn
+ * bậc màu. Đảo hai phần tử trong mảng là đảo luôn màu trên hình, nên sơ đồ
+ * không bao giờ nói khác dữ liệu.
+ */
+export interface Chang {
+  readonly ma: string
+  readonly ten: Song
+  readonly nhip: Song
+}
+
+/**
+ * Một con số đã đổi được.
+ *
+ * truoc bỏ trống với những con số vốn là một mức chênh, ví dụ giảm 30 phần
+ * trăm: viết "trước: 100%" ở đó là bịa ra một mốc không ai đo.
+ */
+export interface Chuyen_bien {
+  readonly nhan: Song
+  readonly truoc?: Song
+  readonly sau: Song
 }
 
 /** Một con số đáng nói của một nơi làm việc, hiện dưới dạng chữ số lớn. */
