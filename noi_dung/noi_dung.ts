@@ -314,7 +314,7 @@ export const CHUYEN_BIEN: readonly Chuyen_bien[] = [
   },
   {
     noi: 'VETC',
-    nhan: { vi: 'Thời gian tải dashboard' },
+    nhan: { vi: 'Thời gian loading dashboard' },
     chieu: 'rut',
     truoc: { vi: 'Phút' },
     sau: { vi: 'Giây' },
@@ -339,7 +339,7 @@ export const CHUYEN_BIEN: readonly Chuyen_bien[] = [
   },
   {
     noi: '30Shine',
-    nhan: { vi: 'Thời gian mỗi quản lý vùng lấy lại' },
+    nhan: { vi: 'Thời gian bổ sung nghiệp vụ báo cáo' },
     chieu: 'tang',
     sau: { vi: '4-6 giờ/tuần' },
   },
