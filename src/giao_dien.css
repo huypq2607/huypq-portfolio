@@ -1,113 +1,284 @@
 @import 'tailwindcss';
 
-/* ---------------------------------------------------------------------------
-   Bảng màu và phông chữ
-   ---------------------------------------------------------------------------
-   Nền là giấy xanh lạnh như bản vẽ kỹ thuật chứ không phải nền kem hay nền
-   đen. Lý do: chất liệu công việc trên trang này là kiến trúc dữ liệu, tức
-   là sơ đồ và tầng lớp, nên nền bản vẽ nói đúng thứ cần nói. Điểm nhấn chỉ
-   có một màu xanh mòng két, và nó chỉ được phép dùng cho thứ đang chảy hoặc
-   đang sống: đường dữ liệu, số liệu, liên kết.
+/* ===========================================================================
+   BẢNG MÀU
+   ===========================================================================
+   Trang có hai chế độ nền, và cả hai dùng chung một ý tưởng: sáu tầng dữ liệu
+   là một chuỗi CÓ THỨ TỰ, đầu này là dữ liệu thô lạnh ngắt, đầu kia là bảng
+   phục vụ nơi nghiệp vụ chạm vào. Nên bảng màu không phải một màu nhấn cộng
+   xám, mà là một DẢI LIÊN TỤC từ xanh băng tới hổ phách trải đúng theo sáu
+   tầng đó. Hai đầu dải trở thành màu nhấn của cả trang.
 
-   Archivo có trục chiều rộng nên tiêu đề đặt ở mức giãn đọc như chữ trên bản
-   vẽ kỹ thuật. Be Vietnam Pro lo phần nội dung vì trang song ngữ và phông này
-   được thiết kế riêng cho dấu tiếng Việt, thứ mà phần lớn phông sans dựng dấu
-   chồng lên nhau khi chữ có dấu mũ kèm dấu thanh.
-   --------------------------------------------------------------------------- */
-@theme {
-  --color-giay: #eef1f3;
-  --color-giay-noi: #f8fafb;
-  --color-giay-sau: #e2e8ec;
-  --color-muc: #10243a;
-  --color-muc-mo: #4a637b;
-  --color-duong: #c3ced7;
-  --color-dong: #0a6a5b;
+   Nhờ vậy màu ở đây mang thông tin chứ không trang trí: nhìn một đốm hổ phách
+   là biết nó thuộc tầng cuối, nhìn một đốm xanh băng là biết nó thuộc tầng
+   gốc. Một dải tuần tự cũng là cách tô màu đúng cho dữ liệu có thứ tự, giống
+   hệt cách chọn bảng màu cho biểu đồ.
 
-  --font-hien: 'Archivo', ui-sans-serif, system-ui, sans-serif;
-  --font-doc: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
+   Nền tối là mặc định. Nó là xanh đen thật, có sắc lam đo được, chứ không phải
+   đen ngả xám: nền xám trung tính làm mọi màu nhấn trên nó trông bẩn đi một
+   nấc, và đó là lỗi hay gặp nhất ở các trang nền tối.
+   =========================================================================== */
+
+:root {
+  color-scheme: dark;
+
+  --nen: #070a12;
+  --nen-diu: #0b101b;
+  --be-mat: #0e1523;
+  --be-mat-cao: #161f31;
+  --vien: #1f2a3e;
+  --vien-ro: #2c3a52;
+  --chu: #e9eff9;
+  --chu-mo: #8fa1bc;
+
+  /* Dải sáu tầng, lạnh tới ấm */
+  --tang-1: #3ec8f0;
+  --tang-2: #35cfc4;
+  --tang-3: #5ad394;
+  --tang-4: #afd160;
+  --tang-5: #efb84e;
+  --tang-6: #f79a4b;
+
+  --nhan: var(--tang-1);
+  --nhan-am: var(--tang-6);
+
+  /* -------------------------------------------------------------------------
+     Bảng màu riêng cho biểu đồ
+     -------------------------------------------------------------------------
+     Tách khỏi dải sáu tầng vì biểu đồ có ba việc khác nhau và mỗi việc có luật
+     tô màu riêng.
+
+     bd-1 tới bd-4 là bảng PHÂN LOẠI, dùng cho những thứ khác loại nhau như bốn
+     kênh khai thác. Thứ tự cố định và không bao giờ xoay vòng: kênh nào cũng
+     giữ nguyên màu của nó kể cả khi bộ lọc bỏ bớt kênh khác đi.
+
+     bac-1 tới bac-4 là dải TUẦN TỰ một sắc, dùng cho cùng một phép đo ở nhiều
+     bậc, ví dụ bốn bậc của phễu tái tục. Một sắc chạy từ nhạt tới đậm, tuyệt
+     đối không phải cầu vồng.
+
+     canh-bao là màu TRẠNG THÁI, chỉ dùng cho cảnh báo và không bao giờ được
+     mượn làm màu thứ năm của bảng phân loại.
+
+     Cả ba bộ đã qua bộ kiểm dải màu cho từng chế độ nền: dải độ sáng, sàn độ
+     bão hoà, khoảng cách giữa các cặp kề nhau dưới mô phỏng mù màu, và độ
+     tương phản với nền của khối biểu đồ.
+     ------------------------------------------------------------------------- */
+  --bd-1: #2e9ec7;
+  --bd-2: #cf7634;
+  --bd-3: #8a6cdb;
+  --bd-4: #37a976;
+
+  --bac-1: #7fd6f2;
+  --bac-2: #4fbde3;
+  --bac-3: #2e9ec7;
+  --bac-4: #1c7ba0;
+
+  --canh-bao: #e5534b;
+
+  /* Độ sáng của lớp phát quang trong phần mở đầu. Tắt hẳn ở nền sáng. */
+  --do-sang-quang: 0.16;
 }
 
-/* ---------------------------------------------------------------------------
-   Nền chung
-   --------------------------------------------------------------------------- */
+[data-giao-dien='sang'] {
+  color-scheme: light;
+
+  --nen: #f6f8fc;
+  --nen-diu: #eef2f8;
+  --be-mat: #ffffff;
+  --be-mat-cao: #f2f6fb;
+  --vien: #dde4ef;
+  --vien-ro: #c3cfe0;
+  --chu: #0a101c;
+  --chu-mo: #55647e;
+
+  /* Cùng một dải nhưng tối và đậm hơn, vì màu sáng trên nền trắng tụt độ tương
+     phản xuống dưới mức đọc được. Giữ nguyên thứ tự sắc độ để ý nghĩa của dải
+     không đổi giữa hai chế độ. */
+  --tang-1: #0b82b4;
+  --tang-2: #0a9084;
+  --tang-3: #23855a;
+  --tang-4: #6d7f1c;
+  --tang-5: #a8741a;
+  --tang-6: #c05c16;
+
+  --nhan: var(--tang-1);
+  --nhan-am: var(--tang-6);
+
+  /* Cùng ba bộ nhưng tính lại cho nền trắng. Không lật ngược bộ của nền tối:
+     màu sáng trên nền trắng tụt cả độ tương phản lẫn khoảng cách nhận biết,
+     nên đây là một bộ được chọn riêng và kiểm riêng. */
+  --bd-1: #0b82b4;
+  --bd-2: #c05c16;
+  --bd-3: #7c5cd6;
+  --bd-4: #23855a;
+
+  --bac-1: #74c1e0;
+  --bac-2: #3fa3cc;
+  --bac-3: #1d85b2;
+  --bac-4: #0a5f82;
+
+  --canh-bao: #c0362e;
+
+  --do-sang-quang: 0;
+}
+
+@theme inline {
+  --color-nen: var(--nen);
+  --color-nen-diu: var(--nen-diu);
+  --color-be-mat: var(--be-mat);
+  --color-be-mat-cao: var(--be-mat-cao);
+  --color-vien: var(--vien);
+  --color-vien-ro: var(--vien-ro);
+  --color-chu: var(--chu);
+  --color-chu-mo: var(--chu-mo);
+  --color-nhan: var(--nhan);
+  --color-nhan-am: var(--nhan-am);
+
+  /* Một phông duy nhất cho mọi phần chữ nghĩa: Be Vietnam Pro, dựng riêng cho
+     dấu tiếng Việt. Phông máy chỉ dùng cho định danh thật, không phải một lựa
+     chọn thẩm mỹ mà là để phân biệt chữ người viết với chữ máy hiểu. */
+  --font-hien: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
+  --font-doc: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
+  --font-ma: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* ===========================================================================
+   NỀN CHUNG
+   =========================================================================== */
+
 html {
   scroll-behavior: smooth;
-  /* Bù cho thanh trên dính, để mục nhảy tới không bị thanh che mất tiêu đề. */
-  scroll-padding-top: 5.5rem;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  scroll-padding-top: 6rem;
 }
 
 body {
-  background-color: var(--color-giay);
-  color: var(--color-muc);
+  background-color: var(--nen);
+  color: var(--chu);
   font-family: var(--font-doc);
-  font-size: 1rem;
-  line-height: 1.65;
+  line-height: 1.68;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+
+  /* Đổi chế độ nền thì màu trôi sang chứ không giật. Chỉ áp cho hai thuộc tính
+     này, không dùng transition: all, vì như thế sẽ nuốt cả các chuyển động
+     khác đang chạy. */
+  transition:
+    background-color 260ms ease,
+    color 260ms ease;
 }
 
 ::selection {
-  background-color: var(--color-dong);
-  color: var(--color-giay-noi);
+  background-color: var(--nhan);
+  color: var(--nen);
 }
 
-/* Viền bắt phím luôn nhìn thấy được, kể cả trên nền sâu. */
 :focus-visible {
-  outline: 2px solid var(--color-dong);
+  outline: 2px solid var(--nhan);
   outline-offset: 3px;
-  border-radius: 1px;
+  border-radius: 2px;
 }
 
-/* ---------------------------------------------------------------------------
-   Chữ hiển thị
-   ---------------------------------------------------------------------------
-   Trục wdth của Archivo là thứ mang cá tính của trang. Giãn vừa phải ở tiêu
-   đề lớn, thu về gần chuẩn ở tiêu đề nhỏ để chữ không loãng.
-   --------------------------------------------------------------------------- */
+/* ===========================================================================
+   CHỮ
+   ===========================================================================
+   Be Vietnam Pro lo toàn bộ phần chữ nghĩa, vì trang song ngữ và phông này được
+   dựng riêng cho dấu tiếng Việt. Cá tính của tiêu đề đến từ độ đậm 800 cộng
+   khoảng chữ âm chứ không đến từ một phông thứ hai.
+   =========================================================================== */
+
 .hien {
   font-family: var(--font-hien);
-  font-variation-settings: 'wdth' 108;
-  letter-spacing: -0.005em;
+  font-weight: 600;
+  letter-spacing: -0.012em;
 }
 
+/* Cao dòng ở đây là chỗ dễ hỏng nhất của một trang tiếng Việt.
+   Chữ có cả dấu mũ lẫn dấu thanh, ví dụ ữ, ườ, ệ, cần chỗ đứng theo chiều dọc;
+   nén cao dòng xuống dưới 1 thì dấu của dòng dưới chạm chân dòng trên, và cỡ
+   chữ càng lớn thì càng lộ. 1.04 là mức vẫn cho khối chữ đóng lại thành một
+   mảng đặc mà không ăn vào dấu. */
 .hien-lon {
   font-family: var(--font-hien);
-  font-variation-settings: 'wdth' 114;
-  font-weight: 700;
-  line-height: 0.92;
-  letter-spacing: -0.03em;
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.028em;
 }
 
-/* Số liệu dùng chữ số đều bề rộng để các cột số thẳng hàng nhau. */
-.so-lieu {
-  font-family: var(--font-hien);
-  font-variation-settings: 'wdth' 100;
-  font-variant-numeric: tabular-nums;
-  font-weight: 600;
+/* Chữ máy chỉ dùng cho định danh thật: tên tầng, mã lỗi, tên công cụ, câu lệnh.
+   Không dùng cho nhãn thường, vì khi ấy nó chỉ là một lớp trang trí giả vờ kỹ
+   thuật. */
+.ma {
+  font-family: var(--font-ma);
+  font-feature-settings: 'zero' 1;
   letter-spacing: -0.02em;
 }
 
-/* ---------------------------------------------------------------------------
-   Sơ đồ sáu tầng dữ liệu
-   ---------------------------------------------------------------------------
-   Chiều cao cột tỷ lệ THẲNG với số model, không lấy căn bậc hai cho dễ nhìn.
-   Tầng landing chỉ có 3 model nên cột của nó gần như một vạch, và đó đúng là
-   sự thật cần thấy: tầng đó hầu như chỉ khai báo nguồn chứ không dựng model.
-   --------------------------------------------------------------------------- */
-.cot-tang {
-  background-color: var(--color-dong);
-  transform-origin: bottom;
+.so-lieu {
+  font-family: var(--font-hien);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  letter-spacing: -0.025em;
 }
 
-/* Một chuyển động duy nhất của cả trang: đường dữ liệu chạy từ trái sang phải
-   một lần lúc tải, các cột dựng lên theo khi đường đi qua. Không lặp lại, và
-   không có hiệu ứng nào khác khi cuộn trang. */
+/* ===========================================================================
+   LỚP NỀN CỦA PHẦN MỞ ĐẦU
+   ===========================================================================
+   Một lưới mảnh cộng một quầng sáng đi theo con trỏ. Trên nền sáng, lưới dịu
+   đi còn quầng sáng tắt hẳn: một quầng sáng trên nền trắng chỉ thành vệt xám
+   bẩn, còn lưới thì vẫn giữ được chút chất bản vẽ nếu đủ nhạt.
+   =========================================================================== */
+
+.luoi-nen {
+  opacity: 1;
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--vien) 70%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--vien) 70%, transparent) 1px, transparent 1px);
+  background-size: 68px 68px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 78%);
+}
+
+/* Trên nền sáng lưới chỉ cần thấy thoáng qua. Để nguyên độ đậm của nền tối
+   thì nó biến trang thành một tờ giấy kẻ ô, và chữ đen trên đó khó đọc hẳn. */
+[data-giao-dien='sang'] .luoi-nen {
+  opacity: 0.45;
+}
+
+.quang-theo-con-tro {
+  background: radial-gradient(
+    520px circle at var(--x, 26%) var(--y, 22%),
+    color-mix(in oklab, var(--nhan) 55%, transparent),
+    transparent 70%
+  );
+  opacity: var(--do-sang-quang);
+  transition: opacity 260ms ease;
+}
+
+/* ===========================================================================
+   CHUYỂN ĐỘNG
+   ===========================================================================
+   Ba nhóm, và mỗi nhóm chỉ chạy một lần.
+
+   Nhóm một là chuỗi mở màn: các dòng tiêu đề dựng lên lần lượt.
+   Nhóm hai là sơ đồ sáu tầng: đường dữ liệu chạy từ trái sang phải, các cột
+   dựng lên theo khi đường đi qua.
+   Nhóm ba là phần lộ ra khi cuộn tới, gắn bằng IntersectionObserver chứ không
+   phải bằng vị trí cuộn, nên nó không chạy lại mỗi lần cuộn ngược lên.
+
+   Tất cả đều tắt hẳn khi trình duyệt báo prefers-reduced-motion. Đó không phải
+   phép lịch sự: với một số người, chuyển động trên màn hình gây chóng mặt thật.
+   =========================================================================== */
+
+@keyframes dung-len {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @keyframes dung-cot {
   from {
     transform: scaleY(0);
@@ -117,7 +288,7 @@ body {
   }
 }
 
-@keyframes chay-duong {
+@keyframes chay-ngang {
   from {
     transform: scaleX(0);
   }
@@ -129,61 +300,212 @@ body {
 @keyframes hien-dan {
   from {
     opacity: 0;
+    transform: scale(0.4);
   }
   to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes tho-nhe {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
     opacity: 1;
   }
 }
 
+.mo-man {
+  animation: dung-len 760ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 .cot-tang {
-  animation: dung-cot 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: bottom;
+  animation: dung-cot 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  /* Quầng sáng dưới chân cột. Trên nền tối nó làm cột trông như đang phát
+     sáng thật; trên nền trắng nó chỉ thành một vệt bẩn, nên tắt hẳn. */
+  box-shadow: 0 0 26px -6px var(--mau-tang, var(--nhan));
+}
+
+[data-giao-dien='sang'] .cot-tang,
+[data-giao-dien='sang'] .thanh-tang {
+  box-shadow: none;
+}
+
+.thanh-tang {
+  box-shadow: 0 0 20px -6px var(--mau-tang, var(--nhan));
+}
+
+.thanh-tang {
+  transform-origin: left;
+  animation: chay-ngang 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .duong-chay {
   transform-origin: left;
-  animation: chay-duong 1500ms cubic-bezier(0.33, 1, 0.68, 1) both;
+  animation: chay-ngang 1600ms cubic-bezier(0.33, 1, 0.68, 1) both;
 }
 
 .nut-tang {
-  animation: hien-dan 320ms linear both;
+  animation: hien-dan 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.nhip-song {
+  animation: tho-nhe 2.6s ease-in-out infinite;
+}
+
+/* Phần lộ ra khi cuộn tới. Trạng thái nghỉ do lớp này đặt, và lớp da-hien do
+   IntersectionObserver gắn vào sẽ gỡ nó ra. */
+.cho-hien {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cho-hien.da-hien {
+  opacity: 1;
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .mo-man,
   .cot-tang,
+  .thanh-tang,
   .duong-chay,
-  .nut-tang {
+  .nut-tang,
+  .nhip-song {
     animation: none;
+  }
+
+  .cho-hien {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  /* Trên nền sáng lưới chỉ cần thấy thoáng qua. Để nguyên độ đậm của nền tối
+   thì nó biến trang thành một tờ giấy kẻ ô, và chữ đen trên đó khó đọc hẳn. */
+[data-giao-dien='sang'] .luoi-nen {
+  opacity: 0.45;
+}
+
+.quang-theo-con-tro {
+    display: none;
   }
 }
 
-/* ---------------------------------------------------------------------------
-   Bảng bảy lớp hộp cát
-   ---------------------------------------------------------------------------
-   Mỗi hàng thụt vào sâu hơn hàng trên một nấc, để bảng tự nói ra rằng đây là
-   bảy lớp bọc nhau chứ không phải bảy mục ngang hàng. Nấc thụt bị chặn trần
-   trên màn hình hẹp, nếu không thì hàng cuối chỉ còn một cột chữ rất gầy.
-   --------------------------------------------------------------------------- */
+/* ===========================================================================
+   CÁC KHỐI DÙNG LẠI
+   =========================================================================== */
+
+/* Vạch tiến độ cuộn trên thanh đầu trang, tô bằng chính dải sáu tầng. Nó vừa
+   cho biết đang ở đâu trong trang, vừa nhắc lại bảng màu mà không cần thêm một
+   mảng trang trí nào. */
+.vach-tien-do {
+  background: linear-gradient(
+    to right,
+    var(--tang-1),
+    var(--tang-2),
+    var(--tang-3),
+    var(--tang-4),
+    var(--tang-5),
+    var(--tang-6)
+  );
+  transform-origin: left;
+}
+
+/* Thẻ nổi: nền bề mặt, viền mảnh, và một vệt sáng rất nhạt ở cạnh trên để khối
+   tách khỏi nền mà không cần đổ bóng. Đổ bóng trên nền tối gần như vô hình,
+   nên dùng ánh sáng cạnh là cách đúng ở đây. */
+.the-noi {
+  background-color: var(--be-mat);
+  border: 1px solid var(--vien);
+  box-shadow: inset 0 1px 0 0 color-mix(in oklab, var(--chu) 6%, transparent);
+}
+
 .hang-lop {
-  border-left: 2px solid var(--color-dong);
+  border-left: 2px solid var(--mau-lop, var(--nhan));
   margin-left: calc(var(--muc-thut) * 0.3rem);
 }
 
 @media (min-width: 768px) {
   .hang-lop {
-    margin-left: calc(var(--muc-thut) * 0.85rem);
+    margin-left: calc(var(--muc-thut) * 0.9rem);
   }
 }
 
-/* ---------------------------------------------------------------------------
-   Liên kết trong nội dung
-   --------------------------------------------------------------------------- */
+/* ===========================================================================
+   CHẾ ĐỘ SỬA TẠI CHỖ
+   ===========================================================================
+   Chỉ có khi chạy npm run dev. Cờ data-dang-sua đặt trên thẻ html, nên một
+   luật duy nhất ở đây tô viền cho mọi ô sửa được, thay vì mỗi ô tự mang lớp
+   riêng rồi phải nhớ gắn cho đúng.
+
+   Viền đứt khi chưa chạm tới, viền liền khi rê chuột, viền đậm khi đang gõ.
+   Ba mức đó cho biết ô nào sửa được mà không phải phủ màu lên cả trang, vì phủ
+   màu thì không còn thấy trang thật trông ra sao nữa, mà thấy được trang thật
+   mới là lý do người ta sửa tại chỗ thay vì sửa trong bảng.
+   =========================================================================== */
+
+[data-dang-sua] .o-sua {
+  position: relative;
+  border-radius: 2px;
+  outline: 1px dashed color-mix(in oklab, var(--nhan) 45%, transparent);
+  outline-offset: 2px;
+  cursor: text;
+}
+
+[data-dang-sua] .o-sua:hover {
+  outline-style: solid;
+  background-color: color-mix(in oklab, var(--nhan) 8%, transparent);
+}
+
+[data-dang-sua] .o-sua:focus {
+  outline: 2px solid var(--nhan);
+  outline-offset: 2px;
+  background-color: color-mix(in oklab, var(--nhan) 12%, transparent);
+}
+
+[data-dang-sua] .o-sua[data-hong] {
+  outline: 2px solid var(--canh-bao);
+}
+
+/* Lời báo lỗi hiện ngay dưới ô vừa hỏng. Nổi lên trên chứ không chen vào dòng,
+   để chữ quanh nó không nhảy chỗ đúng lúc người ta đang đọc lại câu vừa gõ. */
+[data-dang-sua] .o-sua[data-hong]::after {
+  content: attr(data-hong);
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 60;
+  white-space: nowrap;
+  border-radius: 4px;
+  background-color: var(--canh-bao);
+  padding: 2px 8px;
+  font-family: var(--font-ma);
+  font-size: 0.7rem;
+  color: var(--nen);
+}
+
 .lien-ket {
-  color: var(--color-dong);
+  color: var(--nhan);
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.2em;
+  text-underline-offset: 0.22em;
+  text-decoration-color: color-mix(in oklab, var(--nhan) 45%, transparent);
+  transition: text-decoration-color 180ms ease;
 }
 
 .lien-ket:hover {
-  text-decoration-thickness: 2px;
+  text-decoration-color: var(--nhan);
 }

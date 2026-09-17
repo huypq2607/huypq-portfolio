@@ -87,6 +87,20 @@ if (tep.some((t) => t.includes('Huy đút túi'))) {
 // Tệp thừa và thẻ bắt buộc
 // ---------------------------------------------------------------------------
 
+// Trang sửa chữ ghi thẳng vào tệp nguồn, nên nó tuyệt đối không được có mặt
+// trong bản phát hành. Nó bị loại nhờ import.meta.env.DEV thành hằng false lúc
+// dựng, nhưng đó là thứ một lần sửa ẩu có thể phá mà không kiểm thử nào kêu:
+// gói phình thêm còn trang vẫn chạy y như cũ.
+for (const t of tep) {
+  if (!t.endsWith('.js') && !t.endsWith('.html')) continue
+  const noi_dung = readFileSync(t, 'utf8')
+  for (const dau_vet of ['__sua-text', 'TrangSua', 'Sửa chữ tại chỗ', 'vi_tri_cua']) {
+    if (noi_dung.includes(dau_vet)) {
+      loi.push(`Trang sửa chữ lọt vào bản phát hành: ${t} có chứa ${dau_vet}`)
+    }
+  }
+}
+
 const tep_ban_do = tep.filter((t) => t.endsWith('.map'))
 if (tep_ban_do.length > 0) {
   loi.push(`Bản dựng còn tệp bản đồ nguồn: ${tep_ban_do.join(', ')}`)

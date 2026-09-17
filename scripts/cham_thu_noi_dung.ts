@@ -6,6 +6,8 @@
 // thành công, nên nó phải có một phép kiểm chuyển đỏ.
 
 import * as noi_dung from '../noi_dung/noi_dung.ts'
+import * as quy_trinh from '../noi_dung/quy_trinh.ts'
+import { MOI_BO_DASHBOARD } from '../noi_dung/bo_dashboard.ts'
 
 /** Ngưỡng độ dài để coi hai bản giống hệt nhau là quên dịch chứ không phải cố
  *  ý. Chuỗi ngắn như "534" hay "set local role" giống nhau là bình thường. */
@@ -51,6 +53,18 @@ for (const [ten, gia_tri] of Object.entries(noi_dung)) {
   duyet(gia_tri, ten)
 }
 
+// Nội dung của dây chuyền và ba dashboard nằm ở tệp riêng, nhưng chịu đúng một
+// luật song ngữ như phần còn lại, nên duyệt luôn ở đây.
+for (const [ten, gia_tri] of Object.entries(quy_trinh)) {
+  duyet(gia_tri, `quy_trinh.${ten}`)
+}
+
+// Bộ dashboard của VETC lắp lại từ chính các hằng trong quy_trinh, nên chuỗi
+// của nó bị duyệt hai lượt. Không sao, danh sách lỗi được lọc trùng ở cuối.
+for (const bo of MOI_BO_DASHBOARD) {
+  duyet(bo, `bo_dashboard.${bo.ma}`)
+}
+
 // ---------------------------------------------------------------------------
 // Các phép kiểm riêng, không suy ra được từ việc duyệt cây
 // ---------------------------------------------------------------------------
@@ -86,14 +100,85 @@ noi_dung.LOP_HOP_CAT.forEach((lop, thu_tu) => {
   }
 })
 
+// Chỗ trống trong phần giá trị mang lại phải được điền trước khi phát hành.
+//
+// Đây là loại hỏng tệ nhất trong cả tệp nội dung: trang vẫn dựng được, vẫn chạy
+// được, chỉ là nó khoe với người tuyển dụng một con số chưa ai điền. Cổng này
+// chặn thẳng lệnh dựng, vì nhắc bằng cảnh báo thì sẽ có lần bị lướt qua.
+for (const du_an of noi_dung.DU_AN) {
+  if (du_an.dong_gop === undefined) continue
+  du_an.dong_gop.forEach((muc, thu_tu) => {
+    for (const [ten_truong, cap] of Object.entries(muc)) {
+      for (const [ma_ngon_ngu, van] of Object.entries(cap as Record<string, string>)) {
+        if (van.includes('__')) {
+          loi.push(
+            `DU_AN[${du_an.ma}].dong_gop[${thu_tu}].${ten_truong}.${ma_ngon_ngu}: còn chỗ trống chưa điền số thật`,
+          )
+        }
+      }
+    }
+  })
+}
+
+// Kiểm từng bộ dashboard. Đây là nhóm phép kiểm chỉ nhìn ảnh chụp mới thấy,
+// còn mã thì vẫn chạy trơn tru với dữ liệu sai.
+for (const bo of MOI_BO_DASHBOARD) {
+  const ten = `bo_dashboard.${bo.ma}`
+
+  // Các phần của biểu đồ tròn phải cộng lại đúng 100, nếu không hình vẽ ra một
+  // tỷ lệ không có thật.
+  const tong_phan = bo.tron.phan.reduce((tong, p) => tong + p.phan_tram, 0)
+  if (tong_phan !== 100) {
+    loi.push(`${ten}.tron: tổng phần trăm là ${tong_phan}, phải là 100`)
+  }
+
+  // Biểu đồ cột cần đủ cột, và không cột nào âm hay bằng không, vì chiều cao
+  // tính theo tỷ lệ với cột cao nhất.
+  if (bo.cot.muc.length < 2) {
+    loi.push(`${ten}.cot: cần ít nhất 2 cột`)
+  }
+  for (const muc of bo.cot.muc) {
+    if (!(muc.gia_tri > 0)) {
+      loi.push(`${ten}.cot[${muc.nhan.en}]: giá trị phải lớn hơn 0`)
+    }
+  }
+
+  // Dải kỳ vọng phải có đáy thấp hơn trần, và điểm được đánh dấu cảnh báo phải
+  // thật sự nằm ngoài dải. Đánh dấu một điểm bình thường là cả khối thành sai.
+  const { duong } = bo
+  if (!(duong.duoi < duong.tren)) {
+    loi.push(`${ten}.duong: đáy dải ${duong.duoi} phải nhỏ hơn trần ${duong.tren}`)
+  }
+  const diem = duong.gia_tri[duong.diem_canh_bao]
+  if (diem === undefined) {
+    loi.push(`${ten}.duong: diem_canh_bao ${duong.diem_canh_bao} nằm ngoài chuỗi`)
+  } else if (diem >= duong.duoi && diem <= duong.tren) {
+    loi.push(`${ten}.duong: điểm ${diem} vẫn nằm trong dải ${duong.duoi} tới ${duong.tren}`)
+  }
+
+  // Trục dọc phải bao hết dữ liệu VÀ cả dải kỳ vọng. Thiếu là đường hoặc dải
+  // bị vẽ tràn ra ngoài khung, thứ trông như một lỗi hiển thị chứ không ai đoán
+  // ra là do khoảng trục đặt hẹp.
+  const thap_nhat = Math.min(...duong.gia_tri, duong.duoi)
+  const cao_nhat = Math.max(...duong.gia_tri, duong.tren)
+  if (duong.truc_y.day > thap_nhat || duong.truc_y.dinh < cao_nhat) {
+    loi.push(
+      `${ten}.duong.truc_y: khoảng ${duong.truc_y.day} tới ${duong.truc_y.dinh} không bao hết dữ liệu ${thap_nhat} tới ${cao_nhat}`,
+    )
+  }
+}
+
 // Địa chỉ liên hệ là thứ duy nhất trang này muốn người xem dùng. Sai một ký tự
 // ở đây thì mọi công sức còn lại thành vô nghĩa.
 if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(noi_dung.LIEN_HE.email)) {
   loi.push(`LIEN_HE.email: không đúng dạng địa chỉ thư (${noi_dung.LIEN_HE.email})`)
 }
-for (const khoa of ['github', 'san_pham'] as const) {
-  if (!noi_dung.LIEN_HE[khoa].startsWith('https://')) {
-    loi.push(`LIEN_HE.${khoa}: phải là địa chỉ https`)
+for (const kenh of noi_dung.LIEN_HE.kenh) {
+  if (!kenh.dia_chi.startsWith('https://')) {
+    loi.push(`LIEN_HE.kenh[${kenh.ten}]: phải là địa chỉ https, đang là "${kenh.dia_chi}"`)
+  }
+  if (kenh.nhan.trim() === '') {
+    loi.push(`LIEN_HE.kenh[${kenh.ten}]: thiếu nhãn hiển thị`)
   }
 }
 
@@ -101,9 +186,11 @@ for (const khoa of ['github', 'san_pham'] as const) {
 // Kết quả
 // ---------------------------------------------------------------------------
 
-if (loi.length > 0) {
-  console.error(`Nội dung chưa đạt, ${loi.length} lỗi:\n`)
-  for (const dong of loi) console.error(`  - ${dong}`)
+const loi_rieng = [...new Set(loi)]
+
+if (loi_rieng.length > 0) {
+  console.error(`Nội dung chưa đạt, ${loi_rieng.length} lỗi:\n`)
+  for (const dong of loi_rieng) console.error(`  - ${dong}`)
   process.exit(1)
 }
 

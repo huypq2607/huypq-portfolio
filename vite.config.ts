@@ -6,6 +6,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { sua_noi_dung } from './plugins/sua_noi_dung.ts'
 
 export default defineConfig({
   base: '/',
@@ -14,7 +15,8 @@ export default defineConfig({
   // nên phải khai tường minh thay vì để Vite tự tìm thư mục public.
   publicDir: 'cong_khai',
 
-  plugins: [react(), tailwindcss()],
+  // sua_noi_dung chỉ chạy lúc phát triển, xem chú thích trong chính plugin đó.
+  plugins: [react(), tailwindcss(), sua_noi_dung()],
 
   build: {
     // Bỏ tệp bản đồ nguồn trong bản phát hành. Trang này không có logic nào

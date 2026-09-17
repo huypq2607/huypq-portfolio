@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-giao-dien="toi">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,8 +10,17 @@
       content="Three years building data platforms and pipelines from source system to chart. Currently at VETC, Tasco group."
     />
 
+    <!-- Màu thanh trạng thái trên trình duyệt điện thoại. Giá trị này được cập
+         nhật lại theo chế độ nền khi người xem đổi nền. -->
+    <meta name="theme-color" content="#070a12" />
+
     <link rel="icon" href="/bieu_tuong.svg" type="image/svg+xml" />
     <link rel="canonical" href="%VITE_DIA_CHI_TRANG%/" />
+
+    <!-- Đặt chế độ nền trước khi trang vẽ khung hình đầu tiên. Là tệp riêng
+         chứ không phải thẻ script nội tuyến, vì Content-Security-Policy khai
+         script-src 'self' mà không kèm 'unsafe-inline'. -->
+    <script src="/giao_dien_som.js"></script>
 
     <!-- Thẻ chia sẻ liên kết. Người tuyển dụng hay dán địa chỉ vào Slack hoặc
          LinkedIn, và một ô xem trước trống rỗng ở đó trông như trang đã hỏng. -->
@@ -33,7 +42,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=Be+Vietnam+Pro:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
     />
   </head>
   <body>

@@ -21,5 +21,5 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["src", "noi_dung", "scripts", "vite.config.ts"]
+  "include": ["src", "noi_dung", "scripts", "plugins", "vite.config.ts"]
 }
