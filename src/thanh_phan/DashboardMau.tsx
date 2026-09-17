@@ -47,8 +47,11 @@ function Khung({
 }) {
   const { chu } = dung_ngon_ngu()
 
+  // min-w-0 vì thẻ này là một ô của lưới, mà ô lưới mặc định không được phép
+  // hẹp hơn nội dung bên trong. Thiếu nó thì ở màn hình 320px, thẻ nào có nhãn
+  // dài sẽ nong ô rộng ra và đẩy cả trang tràn ngang.
   return (
-    <div className="the-noi flex flex-col rounded-xl p-5">
+    <div className="the-noi flex min-w-0 flex-col rounded-xl p-5">
       <div className="flex items-start justify-between gap-3">
         <h5 className="hien text-[0.98rem] leading-snug font-semibold">{ten}</h5>
         <span className="ma shrink-0 rounded-md border border-vien px-2 py-0.5 text-[0.65rem] text-chu-mo">
