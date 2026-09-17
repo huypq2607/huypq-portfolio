@@ -7,6 +7,7 @@ import type { Root } from 'react-dom/client'
 
 import './giao_dien.css'
 import type { Du_an } from '../noi_dung/kieu.ts'
+import { BO_SHINE, BO_VETC } from '../noi_dung/bo_dashboard.ts'
 import { DU_AN, NHAN } from '../noi_dung/noi_dung.ts'
 import { theo_doi_hien_ra } from './hieu_ung.ts'
 import { Cung_cap_ngon_ngu, dung_ngon_ngu } from './ngon_ngu.tsx'
@@ -66,7 +67,7 @@ function Trang() {
         <KhungMuc ma="du-an" tieu_de={NHAN.muc_du_an}>
           <DuAn du_an={DU_AN_VETC}>
             <QuyTrinh />
-            <DashboardMau />
+            <DashboardMau bo={BO_VETC} />
           </DuAn>
         </KhungMuc>
 
@@ -74,7 +75,9 @@ function Trang() {
             án đầu mang tiêu đề mục, hai dự án sau nối tiếp bên dưới. */}
         <section className="bg-nen-diu">
           <div className="mx-auto max-w-[78rem] px-5 py-16 sm:px-8 sm:py-24">
-            <DuAn du_an={DU_AN_SHINE} />
+            <DuAn du_an={DU_AN_SHINE}>
+              <DashboardMau bo={BO_SHINE} />
+            </DuAn>
           </div>
         </section>
 

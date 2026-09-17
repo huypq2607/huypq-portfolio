@@ -7,6 +7,7 @@
 
 import * as noi_dung from '../noi_dung/noi_dung.ts'
 import * as quy_trinh from '../noi_dung/quy_trinh.ts'
+import { MOI_BO_DASHBOARD } from '../noi_dung/bo_dashboard.ts'
 
 /** Ngưỡng độ dài để coi hai bản giống hệt nhau là quên dịch chứ không phải cố
  *  ý. Chuỗi ngắn như "534" hay "set local role" giống nhau là bình thường. */
@@ -58,6 +59,12 @@ for (const [ten, gia_tri] of Object.entries(quy_trinh)) {
   duyet(gia_tri, `quy_trinh.${ten}`)
 }
 
+// Bộ dashboard của VETC lắp lại từ chính các hằng trong quy_trinh, nên chuỗi
+// của nó bị duyệt hai lượt. Không sao, danh sách lỗi được lọc trùng ở cuối.
+for (const bo of MOI_BO_DASHBOARD) {
+  duyet(bo, `bo_dashboard.${bo.ma}`)
+}
+
 // ---------------------------------------------------------------------------
 // Các phép kiểm riêng, không suy ra được từ việc duyệt cây
 // ---------------------------------------------------------------------------
@@ -93,13 +100,6 @@ noi_dung.LOP_HOP_CAT.forEach((lop, thu_tu) => {
   }
 })
 
-// Bốn kênh trong biểu đồ cơ cấu doanh thu phải cộng lại đúng 100 phần trăm,
-// nếu không thì thanh xếp chồng vẽ ra một tỷ lệ không có thật.
-const tong_phan_tram = quy_trinh.KENH_DOANH_THU.reduce((tong, kenh) => tong + kenh.phan_tram, 0)
-if (tong_phan_tram !== 100) {
-  loi.push(`quy_trinh.KENH_DOANH_THU: tổng phần trăm là ${tong_phan_tram}, phải là 100`)
-}
-
 // Chỗ trống trong phần giá trị mang lại phải được điền trước khi phát hành.
 //
 // Đây là loại hỏng tệ nhất trong cả tệp nội dung: trang vẫn dựng được, vẫn chạy
@@ -120,26 +120,51 @@ for (const du_an of noi_dung.DU_AN) {
   })
 }
 
-// Doanh thu theo tháng phải có đủ cột và không cột nào âm hay bằng không, vì
-// chiều cao cột tính theo tỷ lệ với cột cao nhất.
-if (quy_trinh.DOANH_THU_THANG.length < 2) {
-  loi.push('quy_trinh.DOANH_THU_THANG: cần ít nhất 2 tháng để vẽ biểu đồ cột')
-}
-for (const cot of quy_trinh.DOANH_THU_THANG) {
-  if (!(cot.ty_dong > 0)) {
-    loi.push(`quy_trinh.DOANH_THU_THANG[${cot.thang}]: giá trị phải lớn hơn 0`)
-  }
-}
+// Kiểm từng bộ dashboard. Đây là nhóm phép kiểm chỉ nhìn ảnh chụp mới thấy,
+// còn mã thì vẫn chạy trơn tru với dữ liệu sai.
+for (const bo of MOI_BO_DASHBOARD) {
+  const ten = `bo_dashboard.${bo.ma}`
 
-// Điểm cảnh báo phải nằm trong chuỗi và phải thật sự nằm ngoài dải kỳ vọng.
-// Đánh dấu một điểm bình thường là cảnh báo thì cả khối minh hoạ thành sai.
-{
-  const { gia_tri, duoi, tren, diem_canh_bao } = quy_trinh.CHUOI_CANH_BAO
-  const diem = gia_tri[diem_canh_bao]
+  // Các phần của biểu đồ tròn phải cộng lại đúng 100, nếu không hình vẽ ra một
+  // tỷ lệ không có thật.
+  const tong_phan = bo.tron.phan.reduce((tong, p) => tong + p.phan_tram, 0)
+  if (tong_phan !== 100) {
+    loi.push(`${ten}.tron: tổng phần trăm là ${tong_phan}, phải là 100`)
+  }
+
+  // Biểu đồ cột cần đủ cột, và không cột nào âm hay bằng không, vì chiều cao
+  // tính theo tỷ lệ với cột cao nhất.
+  if (bo.cot.muc.length < 2) {
+    loi.push(`${ten}.cot: cần ít nhất 2 cột`)
+  }
+  for (const muc of bo.cot.muc) {
+    if (!(muc.gia_tri > 0)) {
+      loi.push(`${ten}.cot[${muc.nhan.en}]: giá trị phải lớn hơn 0`)
+    }
+  }
+
+  // Dải kỳ vọng phải có đáy thấp hơn trần, và điểm được đánh dấu cảnh báo phải
+  // thật sự nằm ngoài dải. Đánh dấu một điểm bình thường là cả khối thành sai.
+  const { duong } = bo
+  if (!(duong.duoi < duong.tren)) {
+    loi.push(`${ten}.duong: đáy dải ${duong.duoi} phải nhỏ hơn trần ${duong.tren}`)
+  }
+  const diem = duong.gia_tri[duong.diem_canh_bao]
   if (diem === undefined) {
-    loi.push(`quy_trinh.CHUOI_CANH_BAO: diem_canh_bao ${diem_canh_bao} nằm ngoài chuỗi`)
-  } else if (diem >= duoi && diem <= tren) {
-    loi.push(`quy_trinh.CHUOI_CANH_BAO: điểm ${diem} vẫn nằm trong dải kỳ vọng ${duoi} tới ${tren}`)
+    loi.push(`${ten}.duong: diem_canh_bao ${duong.diem_canh_bao} nằm ngoài chuỗi`)
+  } else if (diem >= duong.duoi && diem <= duong.tren) {
+    loi.push(`${ten}.duong: điểm ${diem} vẫn nằm trong dải ${duong.duoi} tới ${duong.tren}`)
+  }
+
+  // Trục dọc phải bao hết dữ liệu VÀ cả dải kỳ vọng. Thiếu là đường hoặc dải
+  // bị vẽ tràn ra ngoài khung, thứ trông như một lỗi hiển thị chứ không ai đoán
+  // ra là do khoảng trục đặt hẹp.
+  const thap_nhat = Math.min(...duong.gia_tri, duong.duoi)
+  const cao_nhat = Math.max(...duong.gia_tri, duong.tren)
+  if (duong.truc_y.day > thap_nhat || duong.truc_y.dinh < cao_nhat) {
+    loi.push(
+      `${ten}.duong.truc_y: khoảng ${duong.truc_y.day} tới ${duong.truc_y.dinh} không bao hết dữ liệu ${thap_nhat} tới ${cao_nhat}`,
+    )
   }
 }
 
@@ -161,9 +186,11 @@ for (const kenh of noi_dung.LIEN_HE.kenh) {
 // Kết quả
 // ---------------------------------------------------------------------------
 
-if (loi.length > 0) {
-  console.error(`Nội dung chưa đạt, ${loi.length} lỗi:\n`)
-  for (const dong of loi) console.error(`  - ${dong}`)
+const loi_rieng = [...new Set(loi)]
+
+if (loi_rieng.length > 0) {
+  console.error(`Nội dung chưa đạt, ${loi_rieng.length} lỗi:\n`)
+  for (const dong of loi_rieng) console.error(`  - ${dong}`)
   process.exit(1)
 }
 
