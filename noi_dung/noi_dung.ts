@@ -321,7 +321,7 @@ export const NHAN = {
   nhan_truc_model: { vi: 'Số model mỗi tầng', en: 'Model count per tier' } satisfies Song,
   dieu_huong_du_an: { vi: 'Dự án', en: 'Work' } satisfies Song,
   nhan_vai_tro: { vi: 'Vai trò', en: 'Role' } satisfies Song,
-  nhan_ngan_xep: { vi: 'Ngăn xếp', en: 'Stack' } satisfies Song,
+  nhan_ngan_xep: { vi: 'Tech stack', en: 'Stack' } satisfies Song,
   nhan_dong_gop: { vi: 'Giá trị mang lại', en: 'Business impact' } satisfies Song,
   nhan_hop_cat: {
     vi: 'Bộ lọc 7 lớp, nơi câu lệnh của người lạ chạy trên Postgres thật',
