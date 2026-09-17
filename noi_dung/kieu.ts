@@ -46,7 +46,25 @@ export interface Du_an {
   readonly so_lieu: readonly { readonly so: Song; readonly nhan: Song }[]
   readonly ngan_xep: readonly string[]
   readonly ghi_chu: Song
+  /** Giá trị đóng góp đã định lượng. Bỏ trống khi chưa có số đáng tin. */
+  readonly dong_gop?: readonly Dong_gop[]
   readonly lien_ket?: { readonly nhan: Song; readonly dia_chi: string }
+}
+
+/**
+ * Một giá trị đóng góp đã định lượng được.
+ *
+ * Ba phần, và thiếu phần nào thì con số cũng mất nghĩa:
+ *
+ *   so        con số, dạng đã định dạng sẵn theo từng ngôn ngữ
+ *   nhan      con số ấy đo cái gì
+ *   boi_canh  so với cái gì, vì "giảm bốn giờ" không nói lên điều gì nếu
+ *             người đọc không biết trước đó là bao nhiêu giờ
+ */
+export interface Dong_gop {
+  readonly so: Song
+  readonly nhan: Song
+  readonly boi_canh: Song
 }
 
 /** Một nhóm công cụ trong bảng kỹ năng. */

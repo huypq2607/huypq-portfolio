@@ -100,6 +100,26 @@ if (tong_phan_tram !== 100) {
   loi.push(`quy_trinh.KENH_DOANH_THU: tổng phần trăm là ${tong_phan_tram}, phải là 100`)
 }
 
+// Chỗ trống trong phần giá trị mang lại phải được điền trước khi phát hành.
+//
+// Đây là loại hỏng tệ nhất trong cả tệp nội dung: trang vẫn dựng được, vẫn chạy
+// được, chỉ là nó khoe với người tuyển dụng một con số chưa ai điền. Cổng này
+// chặn thẳng lệnh dựng, vì nhắc bằng cảnh báo thì sẽ có lần bị lướt qua.
+for (const du_an of noi_dung.DU_AN) {
+  if (du_an.dong_gop === undefined) continue
+  du_an.dong_gop.forEach((muc, thu_tu) => {
+    for (const [ten_truong, cap] of Object.entries(muc)) {
+      for (const [ma_ngon_ngu, van] of Object.entries(cap as Record<string, string>)) {
+        if (van.includes('__')) {
+          loi.push(
+            `DU_AN[${du_an.ma}].dong_gop[${thu_tu}].${ten_truong}.${ma_ngon_ngu}: còn chỗ trống chưa điền số thật`,
+          )
+        }
+      }
+    }
+  })
+}
+
 // Doanh thu theo tháng phải có đủ cột và không cột nào âm hay bằng không, vì
 // chiều cao cột tính theo tỷ lệ với cột cao nhất.
 if (quy_trinh.DOANH_THU_THANG.length < 2) {

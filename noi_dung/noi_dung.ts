@@ -128,8 +128,38 @@ export const DU_AN: readonly Du_an[] = [
       'Superset',
       'GitLab CI',
     ],
+    // CHỖ TRỐNG PHẢI ĐIỀN. Dấu gạch dưới đôi là chỗ chờ con số thật, và cổng
+    // cham-thu-noi-dung chặn lệnh dựng khi còn chỗ nào chưa điền. Một trang
+    // giới thiệu ra mắt với "__ giờ mỗi tuần" còn tệ hơn là không có mục này.
+    dong_gop: [
+      {
+        so: { vi: '__ giờ mỗi tuần', en: '__ hours a week' },
+        nhan: { vi: 'Thời gian làm báo cáo tay đã bỏ được', en: 'Manual reporting time removed' },
+        boi_canh: {
+          vi: 'Bản tổng hợp sáng nay được sinh từ bảng phục vụ và gửi tự động lúc bảy giờ.',
+          en: 'The morning summary is now generated from the serving table and sent automatically at seven.',
+        },
+      },
+      {
+        so: { vi: '__ ngày còn cùng ngày', en: '__ days to same day' },
+        nhan: { vi: 'Thời gian phát hiện số liệu bất thường', en: 'Time to spot an anomaly' },
+        boi_canh: {
+          vi: 'Trước đây phải chờ tới kỳ đối soát mới có người nhìn ra.',
+          en: 'Previously nobody noticed until the reconciliation cycle came round.',
+        },
+      },
+      {
+        so: { vi: '__ nghìn', en: '__ thousand' },
+        nhan: { vi: 'Lead tái tục đẩy sang telesales mỗi tháng', en: 'Renewal leads pushed to telesales each month' },
+        boi_canh: {
+          vi: 'Danh sách dựng tự động từ bảng phục vụ, không còn ai lọc tay.',
+          en: 'The list is built automatically from the serving table; nobody filters it by hand.',
+        },
+      },
+    ],
+
     ghi_chu: {
-      vi: 'Các con số mô tả dự án dùng chung của cả phòng. Số điện thoại, email, biển số và số giấy tờ không bao giờ rời tầng curated, ranh giới đó được canh ở khâu duyệt merge request. Đó cũng là lý do trang này không có một dòng mã hay một tên bảng nào của dự án.',
+      vi: 'Đây là số liệu demo, không phải số liệu thực tế.',
       en: 'The figures describe the whole team’s shared project. Phone numbers, emails, plates and ID numbers never leave the curated tier; that boundary is enforced at merge request review. It is also why no line of code and no table name from that project appears on this page.',
     },
   },
@@ -227,8 +257,9 @@ export const NHAN = {
   dieu_huong_du_an: { vi: 'Dự án', en: 'Work' } satisfies Song,
   nhan_vai_tro: { vi: 'Vai trò', en: 'Role' } satisfies Song,
   nhan_ngan_xep: { vi: 'Ngăn xếp', en: 'Stack' } satisfies Song,
+  nhan_dong_gop: { vi: 'Giá trị mang lại', en: 'What it changed' } satisfies Song,
   nhan_hop_cat: {
-    vi: 'Hộp cát bảy lớp, nơi câu lệnh của người lạ chạy trên Postgres thật',
+    vi: 'Bộ lọc 7 lớp, nơi câu lệnh của người lạ chạy trên Postgres thật',
     en: 'The seven-layer sandbox where a stranger’s SQL runs on a real Postgres',
   } satisfies Song,
   cot_lop: { vi: 'Lớp', en: 'Layer' } satisfies Song,
