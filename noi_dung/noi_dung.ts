@@ -81,30 +81,6 @@ export const TANG_DU_LIEU: readonly Tang_du_lieu[] = [
   { ma: 'serving', so_model: 83, vai_tro: { vi: 'Bảng phẳng cho BI và API', en: 'Flat tables for BI and API' } },
 ]
 
-export const NANG_LUC: readonly Nang_luc[] = [
-  {
-    tieu_de: { vi: 'Vận hành nền tảng, không chỉ viết model', en: 'Run the platform, not just write models' },
-    than: {
-      vi: 'Bố trí và bảo trì bảng Iceberg, chiến lược nạp tăng dần và merge, và một materialization dbt tự viết khi bản gốc của adapter không còn tin được trước một REST catalog trả kết quả chập chờn.',
-      en: 'Iceberg table layout and maintenance, incremental and merge strategy, and a hand-written dbt materialization for when the adapter’s own one could no longer be trusted against a REST catalog that answered inconsistently.',
-    },
-  },
-  {
-    tieu_de: { vi: 'Đưa dữ liệu đi hết chặng', en: 'Carry data the whole way' },
-    than: {
-      vi: 'CDC từ cơ sở dữ liệu nguồn, qua tầng chuẩn hoá và tầng chỉ số, tới bảng phẳng cho một biểu đồ hay một API đọc. Kể cả những hệ thống không cho API nào và phải lấy bằng đường khác.',
-      en: 'CDC out of the source database, through the curated and metric tiers, to the flat table a chart or an API reads. Including the systems that offer no API and have to be read some other way.',
-    },
-  },
-  {
-    tieu_de: { vi: 'Dựng sản phẩm quanh dữ liệu', en: 'Build the product around the data' },
-    than: {
-      vi: 'TypeScript, Postgres, Docker, CI. Tôi đã tự dựng và tự phát hành một sản phẩm có người trả tiền, nên biết rõ những bảng mình bàn giao phải chịu được gì khi có người thật dùng.',
-      en: 'TypeScript, Postgres, Docker, CI. I have shipped and operated a paid product alone, so I know what the tables I hand over have to survive once real people are on them.',
-    },
-  },
-]
-
 /** Bảy lớp của hộp cát SQL trong dapractice. Cột mã lỗi là mã SQLSTATE thật
  *  mà người học nhận được, không phải mã do ứng dụng tự đặt. */
 export const LOP_HOP_CAT: readonly Lop_hop_cat[] = [
@@ -331,13 +307,12 @@ export const NHAN = {
     vi: 'Hơn ba năm xây nền tảng dữ liệu và đường ống dữ liệu từ nguồn tới biểu đồ. Hiện làm tại VETC, tập đoàn Tasco.',
     en: 'Three years building data platforms and pipelines from source system to chart. Currently at VETC, Tasco group.',
   } satisfies Song,
-  muc_nang_luc: { vi: 'Tôi làm gì', en: 'What I do' } satisfies Song,
   muc_du_an: { vi: 'Hai thứ tôi đã dựng', en: 'Two things I have built' } satisfies Song,
   muc_cach_lam: { vi: 'Cách tôi làm việc', en: 'How I work' } satisfies Song,
   muc_ky_nang: { vi: 'Công cụ', en: 'Tools' } satisfies Song,
   muc_lien_he: { vi: 'Liên hệ', en: 'Get in touch' } satisfies Song,
   so_do_tang: {
-    vi: 'Kiến trúc dữ liệu tôi làm việc bên trong mỗi ngày',
+    vi: 'Kiến trúc dữ liệu tôi làm việc mỗi ngày',
     en: 'The data architecture I work inside every day',
   } satisfies Song,
   nhan_model: { vi: 'model', en: 'models' } satisfies Song,

@@ -29,7 +29,8 @@ export interface Tang_du_lieu {
   readonly vai_tro: Song
 }
 
-/** Một năng lực chính, hiện thành một mục trong danh sách ngay dưới phần mở đầu. */
+/** Một ý có tiêu đề riêng, hiện thành một hàng hai cột trong danh sách. Dùng
+ *  cho phần cách làm việc và cho các quyết định trong mỗi dự án. */
 export interface Nang_luc {
   readonly tieu_de: Song
   readonly than: Song

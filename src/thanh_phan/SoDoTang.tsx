@@ -39,7 +39,7 @@ export function SoDoTang() {
   const { chu } = dung_ngon_ngu()
 
   return (
-    <section className="mx-auto max-w-[78rem] px-5 pb-12 sm:px-8 sm:pb-16">
+    <section className="mx-auto max-w-[78rem] px-5 pb-4 sm:px-8 sm:pb-6">
       <div className="the-noi rounded-2xl px-5 py-6 sm:px-8 sm:py-8">
         <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
           <h2 className="hien text-[0.95rem] font-medium">{chu(NHAN.so_do_tang)}</h2>

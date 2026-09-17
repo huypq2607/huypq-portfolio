@@ -7,7 +7,7 @@ import type { Root } from 'react-dom/client'
 
 import './giao_dien.css'
 import type { Du_an } from '../noi_dung/kieu.ts'
-import { CACH_LAM, DU_AN, NANG_LUC, NHAN } from '../noi_dung/noi_dung.ts'
+import { CACH_LAM, DU_AN, NHAN } from '../noi_dung/noi_dung.ts'
 import { theo_doi_hien_ra } from './hieu_ung.ts'
 import { Cung_cap_ngon_ngu, dung_ngon_ngu } from './ngon_ngu.tsx'
 import { Cung_cap_nen } from './nen.tsx'
@@ -62,10 +62,6 @@ function Trang() {
       <main>
         <MoDau />
         <SoDoTang />
-
-        <KhungMuc ma="nang-luc" tieu_de={NHAN.muc_nang_luc} nen_diu>
-          <DanhSachY muc={NANG_LUC} />
-        </KhungMuc>
 
         <KhungMuc ma="du-an" tieu_de={NHAN.muc_du_an}>
           <DuAn du_an={DU_AN_VETC}>
