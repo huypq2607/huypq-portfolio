@@ -37,8 +37,10 @@ function Khung({
   mau_so,
   children,
 }: {
-  ten: string
-  nhan_so: string
+  // Tiêu đề và nhãn nhận ReactNode chứ không phải chuỗi, để chúng vẫn sửa tại
+  // chỗ được. Chỉ những chỗ đi vào THUỘC TÍNH mới cần chuỗi trần.
+  ten: ReactNode
+  nhan_so: ReactNode
   gia_tri_so: ReactNode
   mau_so?: string
   children: ReactNode
@@ -218,7 +220,7 @@ function toa_do_y(gia_tri: number): number {
 }
 
 function BieuDoDuong() {
-  const { ngon_ngu, chu } = dung_ngon_ngu()
+  const { ngon_ngu, chu, chu_tho } = dung_ngon_ngu()
   const dinh_dang = bo_dinh_dang(ngon_ngu)
 
   const { gia_tri, duoi, tren, diem_canh_bao } = CHUOI_CANH_BAO
@@ -240,7 +242,7 @@ function BieuDoDuong() {
         viewBox={`0 0 ${KHUNG_VE.rong} ${KHUNG_VE.cao}`}
         className="block w-full"
         role="img"
-        aria-label={chu(NHAN_QUY_TRINH.bd_duong_mo_ta)}
+        aria-label={chu_tho(NHAN_QUY_TRINH.bd_duong_mo_ta)}
       >
         <rect
           x={KHUNG_VE.trai}

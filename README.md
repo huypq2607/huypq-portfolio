@@ -58,7 +58,9 @@ plugins/         Chỉ chạy lúc phát triển
   sua_noi_dung.ts          Tuyến ghi chữ ngược vào tệp nguồn
   thay_chuoi_trong_ma.ts   Thay đúng một chuỗi qua cây cú pháp TypeScript
 
-src/sua/         Trang /sua, cũng chỉ có lúc phát triển
+src/sua/         Phần sửa chữ, chỉ có lúc phát triển
+  ban_do.ts                Tra từ một cặp song ngữ ra vị trí của nó trong nguồn
+  TrangSua.tsx             Bảng liệt kê toàn bộ chuỗi tại /sua
 
 cong_khai/       Tệp tĩnh chép nguyên sang dist
   giao_dien_som.js   Đặt chế độ nền trước khi trang vẽ khung hình đầu tiên
@@ -324,13 +326,33 @@ chỉ cao vài điểm ảnh.
 
 ## Sửa chữ mà không mở tệp mã
 
-Chạy `npm run dev` rồi mở **`/sua`**, hoặc bấm nút ở góc dưới trang chính. Trang
-liệt kê toàn bộ 243 chuỗi thành cặp ô Việt và Anh đặt cạnh nhau, có tìm kiếm
-theo chữ hoặc theo đường dẫn khoá. **Rời con trỏ khỏi ô là ghi thẳng vào tệp
-nguồn**, rồi Vite tự nạp lại trang chính.
+Chạy `npm run dev` rồi dùng thanh công cụ ở góc dưới phải. Có hai lối, dùng
+chung một đường ghi vào tệp nguồn. **Rời con trỏ khỏi ô là ghi thẳng vào tệp
+nguồn**, rồi Vite nạp lại trang; vị trí cuộn và chế độ sửa giữ nguyên.
 
-Hai bản đặt cạnh nhau vì việc dễ sai nhất khi sửa một trang song ngữ là sửa một
-bên rồi quên bên kia.
+**Sửa chữ tại chỗ** — bấm nút để bật, rồi bấm thẳng vào bất kỳ câu chữ nào trên
+trang và gõ. Enter lưu và thoát, Escape huỷ, Shift+Enter xuống dòng. Dùng khi
+sửa vài từ và cần thấy câu chữ trong đúng bối cảnh của nó.
+
+**Bảng** tại `/sua` — liệt kê toàn bộ chuỗi thành cặp ô Việt và Anh đặt cạnh
+nhau, có tìm kiếm. Dùng khi rà soát một lượt, và vì hai bản cạnh nhau thì chỗ
+quên dịch lộ ra ngay lúc đang gõ.
+
+### Ba cái bẫy đã gặp thật khi dựng phần này
+
+- **contentEditable và React đánh nhau.** Nếu để React dựng nút chữ bên trong ô,
+  trình duyệt thay nút ấy lúc người ta gõ, rồi lần vẽ lại kế tiếp React đi gỡ
+  đúng nút đã không còn và vỡ với `NotFoundError: removeChild`, sập trắng cả
+  trang. Cách chữa: thẻ `span` **không có con trong JSX**, chữ đặt bằng tay qua
+  tham chiếu, và không đặt lại khi ô đang được gõ.
+- **`createRoot` gọi lại mỗi lần nạp nóng.** Sửa chữ thì tệp bị ghi liên tục,
+  `main.tsx` chạy lại, `createRoot` gọi lần hai trên cùng phần tử và React mất
+  dấu cây cũ. Gốc React cất trong `import.meta.hot.data` để sống qua các lần cập
+  nhật.
+- **Điều kiện hiện thanh công cụ phải là `import.meta.env.DEV` viết thẳng ra**,
+  không được lấy cờ tương đương qua ngữ cảnh. Lấy qua ngữ cảnh là giá trị lúc
+  chạy, Rollup không gấp được nhánh, và chuỗi chữ của thanh công cụ vẫn nằm
+  trong gói phát hành. Cổng `do_kich_thuoc` canh đúng điều này.
 
 ### Vì sao đi qua cây cú pháp chứ không tìm và thay chuỗi
 

@@ -38,7 +38,7 @@ const TRE = {
 } as const
 
 export function MoDau() {
-  const { chu } = dung_ngon_ngu()
+  const { chu, chu_tho } = dung_ngon_ngu()
   const vung = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
@@ -99,7 +99,7 @@ export function MoDau() {
                   sizes="(min-width: 1024px) 18rem, 15rem"
                   width={400}
                   height={400}
-                  alt={chu(NHAN.anh_chan_dung)}
+                  alt={chu_tho(NHAN.anh_chan_dung)}
                   className="block w-full rounded-2xl"
                 />
               </picture>

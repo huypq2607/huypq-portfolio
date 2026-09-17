@@ -444,6 +444,59 @@ body {
   }
 }
 
+/* ===========================================================================
+   CHẾ ĐỘ SỬA TẠI CHỖ
+   ===========================================================================
+   Chỉ có khi chạy npm run dev. Cờ data-dang-sua đặt trên thẻ html, nên một
+   luật duy nhất ở đây tô viền cho mọi ô sửa được, thay vì mỗi ô tự mang lớp
+   riêng rồi phải nhớ gắn cho đúng.
+
+   Viền đứt khi chưa chạm tới, viền liền khi rê chuột, viền đậm khi đang gõ.
+   Ba mức đó cho biết ô nào sửa được mà không phải phủ màu lên cả trang, vì phủ
+   màu thì không còn thấy trang thật trông ra sao nữa, mà thấy được trang thật
+   mới là lý do người ta sửa tại chỗ thay vì sửa trong bảng.
+   =========================================================================== */
+
+[data-dang-sua] .o-sua {
+  position: relative;
+  border-radius: 2px;
+  outline: 1px dashed color-mix(in oklab, var(--nhan) 45%, transparent);
+  outline-offset: 2px;
+  cursor: text;
+}
+
+[data-dang-sua] .o-sua:hover {
+  outline-style: solid;
+  background-color: color-mix(in oklab, var(--nhan) 8%, transparent);
+}
+
+[data-dang-sua] .o-sua:focus {
+  outline: 2px solid var(--nhan);
+  outline-offset: 2px;
+  background-color: color-mix(in oklab, var(--nhan) 12%, transparent);
+}
+
+[data-dang-sua] .o-sua[data-hong] {
+  outline: 2px solid var(--canh-bao);
+}
+
+/* Lời báo lỗi hiện ngay dưới ô vừa hỏng. Nổi lên trên chứ không chen vào dòng,
+   để chữ quanh nó không nhảy chỗ đúng lúc người ta đang đọc lại câu vừa gõ. */
+[data-dang-sua] .o-sua[data-hong]::after {
+  content: attr(data-hong);
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 60;
+  white-space: nowrap;
+  border-radius: 4px;
+  background-color: var(--canh-bao);
+  padding: 2px 8px;
+  font-family: var(--font-ma);
+  font-size: 0.7rem;
+  color: var(--nen);
+}
+
 .lien-ket {
   color: var(--nhan);
   text-decoration: underline;

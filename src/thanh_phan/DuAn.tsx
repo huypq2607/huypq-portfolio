@@ -18,7 +18,7 @@ interface Tham_so {
 }
 
 export function DuAn({ du_an, children }: Tham_so) {
-  const { ngon_ngu, chu } = dung_ngon_ngu()
+  const { ngon_ngu, chu, chu_tho } = dung_ngon_ngu()
 
   return (
     <article>
@@ -47,7 +47,7 @@ export function DuAn({ du_an, children }: Tham_so) {
               className="so-lieu text-[clamp(1.6rem,3.4vw,2.3rem)] leading-none"
               style={{ color: `var(--tang-${thu_tu + 2})` }}
             >
-              <DemSo dich={chu(o.so)} ngon_ngu={ngon_ngu} />
+              <DemSo dich={chu_tho(o.so)} ngon_ngu={ngon_ngu} />
             </dt>
             <dd className="mt-2.5 text-[0.8rem] leading-snug text-chu-mo">{chu(o.nhan)}</dd>
           </div>

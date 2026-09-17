@@ -94,7 +94,7 @@ if (tep.some((t) => t.includes('Huy đút túi'))) {
 for (const t of tep) {
   if (!t.endsWith('.js') && !t.endsWith('.html')) continue
   const noi_dung = readFileSync(t, 'utf8')
-  for (const dau_vet of ['__sua-text', 'TrangSua']) {
+  for (const dau_vet of ['__sua-text', 'TrangSua', 'Sửa chữ tại chỗ', 'vi_tri_cua']) {
     if (noi_dung.includes(dau_vet)) {
       loi.push(`Trang sửa chữ lọt vào bản phát hành: ${t} có chứa ${dau_vet}`)
     }

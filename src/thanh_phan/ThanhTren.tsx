@@ -36,7 +36,7 @@ function BieuTuongTrang() {
 }
 
 export function ThanhTren() {
-  const { ngon_ngu, chu, doi_ngon_ngu } = dung_ngon_ngu()
+  const { ngon_ngu, chu, chu_tho, doi_ngon_ngu } = dung_ngon_ngu()
   const { nen, doi_nen } = dung_nen()
   const vach = useRef<HTMLDivElement | null>(null)
 
@@ -71,7 +71,7 @@ export function ThanhTren() {
           <button
             type="button"
             onClick={doi_nen}
-            aria-label={chu(nen === 'toi' ? NHAN.doi_sang_nen_sang : NHAN.doi_sang_nen_toi)}
+            aria-label={chu_tho(nen === 'toi' ? NHAN.doi_sang_nen_sang : NHAN.doi_sang_nen_toi)}
             className="flex h-10 w-10 items-center justify-center rounded-md border border-vien text-chu-mo transition-colors hover:border-vien-ro hover:text-nhan sm:h-8 sm:w-8"
           >
             {nen === 'toi' ? <BieuTuongMatTroi /> : <BieuTuongTrang />}
@@ -80,7 +80,7 @@ export function ThanhTren() {
           <button
             type="button"
             onClick={doi_ngon_ngu}
-            aria-label={chu(NHAN.doi_ngon_ngu)}
+            aria-label={chu_tho(NHAN.doi_ngon_ngu)}
             className="ma flex h-10 items-center overflow-hidden rounded-md border border-vien text-[0.72rem] font-medium sm:h-8"
           >
             <span

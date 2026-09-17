@@ -3,6 +3,7 @@
 
 import { StrictMode, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
+import type { Root } from 'react-dom/client'
 
 import './giao_dien.css'
 import type { Du_an } from '../noi_dung/kieu.ts'
@@ -38,7 +39,7 @@ const DU_AN_VETC = lay_du_an('vetc')
 const DU_AN_DAPRACTICE = lay_du_an('dapractice')
 
 function Trang() {
-  const { chu } = dung_ngon_ngu()
+  const { chu, dang_sua, bat_tat_sua } = dung_ngon_ngu()
 
   // Gắn bộ theo dõi sau khi cây đã dựng xong, vì nó tìm phần tử bằng bộ chọn
   // trên DOM thật. Nội dung của trang là tĩnh nên một lượt quét là đủ.
@@ -94,13 +95,32 @@ function Trang() {
         </KhungMuc>
       </main>
 
+      {/* Thanh công cụ chỉ hiện lúc phát triển. Hai lối sửa chữ, dùng chung
+          một đường ghi vào tệp nguồn: bấm thẳng vào chữ trên trang, hoặc mở
+          bảng liệt kê toàn bộ chuỗi khi cần rà soát một lượt. */}
+      {/* Điều kiện phải là import.meta.env.DEV viết thẳng ra ở đây, không được
+          lấy cờ tương đương từ ngữ cảnh. Vite thay hằng này bằng false lúc
+          dựng nên cả khối thành mã chết và bị loại; lấy qua ngữ cảnh thì đó là
+          giá trị lúc chạy, Rollup không gấp được, và chuỗi chữ của thanh công
+          cụ vẫn nằm trong gói phát hành. Cổng do_kich_thuoc canh đúng điều này. */}
       {import.meta.env.DEV && (
-        <a
-          href="/sua"
-          className="ma fixed right-4 bottom-4 z-50 rounded-lg border border-vien bg-be-mat px-3 py-2 text-[0.75rem] shadow-lg"
-        >
-          Sửa chữ
-        </a>
+        <div className="fixed right-4 bottom-4 z-50 flex items-center gap-1 rounded-lg border border-vien bg-be-mat p-1.5 shadow-lg">
+          <button
+            type="button"
+            onClick={bat_tat_sua}
+            className="ma rounded-md px-2.5 py-1.5 text-[0.72rem] transition-colors"
+            style={
+              dang_sua
+                ? { backgroundColor: 'var(--nhan)', color: 'var(--nen)' }
+                : { color: 'var(--chu-mo)' }
+            }
+          >
+            {dang_sua ? 'Đang sửa chữ' : 'Sửa chữ tại chỗ'}
+          </button>
+          <a href="/sua" className="ma px-2 py-1.5 text-[0.72rem] text-chu-mo">
+            Bảng
+          </a>
+        </div>
       )}
 
       <footer className="border-t border-vien">
@@ -115,7 +135,20 @@ function Trang() {
 const goc = document.getElementById('goc')
 if (goc === null) throw new Error('Không tìm thấy phần tử gốc để gắn giao diện')
 
-const re = createRoot(goc)
+// Giữ lại gốc React qua các lần nạp nóng.
+//
+// createRoot chỉ được gọi MỘT lần cho một phần tử. Mỗi lần Vite nạp nóng tệp
+// này, cả module chạy lại; gọi createRoot lần nữa trên cùng phần tử thì React
+// mất dấu cây cũ, rồi mọi lần vẽ sau đó vỡ với NotFoundError removeChild và
+// sập trắng trang. Lỗi này lộ ra rõ nhất khi đang sửa chữ tại chỗ, vì đó là
+// lúc tệp bị ghi lại liên tục.
+//
+// import.meta.hot.data sống qua các lần cập nhật của chính module này, nên nó
+// là chỗ đúng để cất gốc. Lúc dựng bản phát hành thì import.meta.hot không tồn
+// tại, nhánh này thành createRoot bình thường.
+const bo_nho = import.meta.hot?.data as { goc_react?: Root } | undefined
+const re: Root = bo_nho?.goc_react ?? createRoot(goc)
+if (bo_nho !== undefined) bo_nho.goc_react = re
 
 // Trang sửa chữ chỉ tồn tại lúc phát triển.
 //

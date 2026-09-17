@@ -6,6 +6,8 @@
 // nếu không sẽ có chuỗi cổng canh gác kiểm mà trang sửa không thấy, hoặc
 // ngược lại.
 
+import { ghi_chuoi } from './ban_do.ts'
+
 export type Doan = string | number
 
 export interface Muc_sua {
@@ -111,19 +113,5 @@ export async function ghi_vao_nguon(
   gia_tri: string,
 ): Promise<void> {
   const duong_dan = ngon_ngu === null ? muc.duong_dan : [...muc.duong_dan, ngon_ngu]
-
-  const tra_loi = await fetch('/__sua-text', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ tep: muc.tep, duong_dan, gia_tri }),
-  })
-
-  if (!tra_loi.ok) {
-    const than: unknown = await tra_loi.json().catch(() => null)
-    const mo_ta =
-      typeof than === 'object' && than !== null && 'loi' in than
-        ? String((than as { loi: unknown }).loi)
-        : `mã ${tra_loi.status}`
-    throw new Error(mo_ta)
-  }
+  await ghi_chuoi(muc.tep, duong_dan, gia_tri)
 }
