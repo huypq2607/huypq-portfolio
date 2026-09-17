@@ -21,7 +21,7 @@ import type {
 export const TEN = 'Phạm Quang Huy'
 
 export const CHUC_DANH: Song = {
-  vi: 'Kỹ sư Dữ liệu và Phân tích Dữ liệu',
+  vi: 'Data Engineer & Data Analyst',
   en: 'Data Engineer & Data Analyst',
 }
 
