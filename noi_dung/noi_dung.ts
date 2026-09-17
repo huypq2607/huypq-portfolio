@@ -590,7 +590,7 @@ export const DU_AN_NOI_BAT: readonly Du_an_noi_bat[] = [
 export const DAPRACTICE: Khoi_phu = {
   ten: { vi: 'dapractice', en: 'dapractice' },
   mo_ta: {
-    vi: 'Nền tảng luyện SQL tôi tự xây và tự vận hành từ đầu tới cuối: sản phẩm, máy chủ, giao diện, hạ tầng. Bấm một đường dẫn là có ngay một Postgres thật với dữ liệu bẩn cố ý, làm bài và được chấm tự động.',
+    vi: 'Nền tảng luyện tập dành cho dân Phân tích dữ liệu tôi tự xây và tự vận hành. Có đầy đủ từng chặng đường để trở thành 1 DA chuyên nghiệp. Có AI đóng vai trò là trợ lý học tập.',
     en: 'A SQL practice platform I built and run end to end: product, server, interface, infrastructure. Follow a link and you get a real Postgres with deliberately dirty data, an exercise, and automatic grading.',
   },
   lien_ket: {
@@ -624,7 +624,7 @@ export const CHUNG_CHI: readonly Chung_chi[] = [
 
 export const LIEN_HE = {
   loi_moi: {
-    vi: 'Nếu bạn đang tuyển cho một vị trí nền tảng dữ liệu hoặc analytics engineering, remote hay tại chỗ, hãy viết cho tôi. Tôi đọc hết.',
+    vi: 'Sđt: 0972.617.963',
     en: 'If you are hiring for a data platform or analytics engineering role, remote or on-site, write to me. I read everything.',
   } satisfies Song,
   email: 'huypq2607@gmail.com',
