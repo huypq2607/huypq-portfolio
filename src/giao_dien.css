@@ -82,24 +82,45 @@
 [data-giao-dien='sang'] {
   color-scheme: light;
 
-  --nen: #f6f8fc;
-  --nen-diu: #eef2f8;
+  /* Nền hạ hẳn xuống khỏi mức gần trắng. Bản cũ để nền ở độ sáng 93,8% còn
+     bề mặt thẻ ở 100%, tức hai thứ chênh nhau đúng 1,06 lần: mảng trắng lớn
+     thì chói mắt, mà thẻ đặt lên đó lại không tách ra khỏi nền.
+
+     Nền tối dựng chiều sâu bằng cách cho bề mặt SÁNG HƠN nền. Nền sáng giữ
+     nguyên quan hệ ấy chứ không đảo: nền là mảng có sắc, thẻ mới là chỗ trắng.
+     Nhờ vậy chỗ trắng chỉ còn ở diện tích nhỏ, hết chói, mà thẻ thì nổi lên
+     thật chứ không phải trắng trên trắng. */
+  --nen: #eceff6;
+  --nen-diu: #e3e8f2;
   --be-mat: #ffffff;
-  --be-mat-cao: #f2f6fb;
-  --vien: #dde4ef;
-  --vien-ro: #c3cfe0;
-  --chu: #0a101c;
-  --chu-mo: #55647e;
+  --be-mat-cao: #f7f9fd;
+
+  /* Viền cũ chỉ hơn nền 1,2 lần, tức gần như không nhìn thấy, nên mọi đường
+     phân cách của trang biến mất và bố cục trôi thành một mảng. */
+  --vien: #ccd6e6;
+  --vien-ro: #a9bacf;
+
+  --chu: #0b111d;
+  --chu-mo: #4e5d76;
 
   /* Cùng một dải nhưng tối và đậm hơn, vì màu sáng trên nền trắng tụt độ tương
      phản xuống dưới mức đọc được. Giữ nguyên thứ tự sắc độ để ý nghĩa của dải
-     không đổi giữa hai chế độ. */
-  --tang-1: #0b82b4;
-  --tang-2: #0a9084;
-  --tang-3: #23855a;
-  --tang-4: #6d7f1c;
-  --tang-5: #a8741a;
-  --tang-6: #c05c16;
+     không đổi giữa hai chế độ.
+
+     Độ sáng của từng bậc được hạ tới đúng mức đạt 4,5:1 trên nền dịu, tức chỗ
+     nền đậm nhất mà chữ màu nhấn phải nằm lên. Bộ cũ không đạt được mức ấy ở
+     bất kỳ đâu: bậc một chỉ đạt 4,32 ngay cả trên nền trắng tinh, nên mọi con
+     số và nhãn cỡ nhỏ mang màu nhấn đều dưới ngưỡng đọc.
+
+     Góc màu và sắc độ giữ nguyên, chỉ hạ độ sáng, nên dải vẫn đi từ xanh băng
+     tới hổ phách đúng như cũ. Mực đậm hơn còn hợp với nền sáng hơn: trên nền
+     tối chữ nổi lên nhờ phát sáng, trên nền sáng nó nổi lên nhờ đậm. */
+  --tang-1: #0e6f9a;
+  --tang-2: #0f746a;
+  --tang-3: #06774c;
+  --tang-4: #5e6f03;
+  --tang-5: #8d5f08;
+  --tang-6: #a94e09;
 
   --nhan: var(--tang-1);
   --nhan-am: var(--tang-6);
@@ -119,7 +140,7 @@
 
   --canh-bao: #c0362e;
 
-  --do-sang-quang: 0;
+  --do-sang-quang: 0.09;
 }
 
 @theme inline {
@@ -371,13 +392,7 @@ body {
     transition: none;
   }
 
-  /* Trên nền sáng lưới chỉ cần thấy thoáng qua. Để nguyên độ đậm của nền tối
-   thì nó biến trang thành một tờ giấy kẻ ô, và chữ đen trên đó khó đọc hẳn. */
-[data-giao-dien='sang'] .luoi-nen {
-  opacity: 0.45;
-}
-
-.quang-theo-con-tro {
+  .quang-theo-con-tro {
     display: none;
   }
 }
@@ -409,6 +424,16 @@ body {
   background-color: var(--be-mat);
   border: 1px solid var(--vien);
   box-shadow: inset 0 1px 0 0 color-mix(in oklab, var(--chu) 6%, transparent);
+}
+
+/* Trên nền sáng, vệt sáng ở cạnh trên không nhìn thấy gì vì bề mặt vốn đã
+   trắng. Chiều sâu ở đây phải đến từ bóng đổ, và bóng phải ngả xanh theo nền
+   chứ không phải xám trung tính: bóng xám trên nền có sắc lam đọc ra thành
+   vết bẩn. */
+[data-giao-dien='sang'] .the-noi {
+  box-shadow:
+    0 1px 2px -1px color-mix(in oklab, #0b111d 10%, transparent),
+    0 6px 16px -8px color-mix(in oklab, #0b111d 14%, transparent);
 }
 
 
