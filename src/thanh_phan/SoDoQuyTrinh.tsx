@@ -65,14 +65,21 @@ export function SoDoQuyTrinh({ chang: cac_chang }: { chang: readonly Chang[] }) 
         {cac_chang.map((chang, thu_tu) => {
           const mau = `var(--tang-${bac_mau(thu_tu, cac_chang.length)})`
           return (
-            <li key={chang.ma} className="relative min-w-0">
+            <li
+              key={chang.ma}
+              className="relative grid min-w-0 grid-cols-[2.25rem_minmax(0,1fr)] items-start gap-x-3.5 md:block"
+            >
               {/* Đường nối chạy từ chấm này sang chấm sau. Chặng cuối không có
                   đường, vì sau nó không còn gì nữa.
 
                   Hai bản: ngang khi các chặng xếp một hàng, dọc khi chúng xếp
                   chồng trên màn hẹp. Thiếu bản dọc thì trên điện thoại sáu chấm
                   rời nhau trông như một danh sách, mà điều cần thấy là dữ liệu
-                  đi theo một chiều. */}
+                  đi theo một chiều.
+
+                  Bản dọc chạy đúng tâm vòng tròn, nên ở màn hẹp chữ phải nằm
+                  sang cột bên phải chứ không được nằm ngay dưới vòng tròn.
+                  Nằm dưới thì đường kẻ xuyên thẳng qua tên chặng và dòng nhịp. */}
               {thu_tu < cac_chang.length - 1 && (
                 <>
                   <span
@@ -116,10 +123,14 @@ export function SoDoQuyTrinh({ chang: cac_chang }: { chang: readonly Chang[] }) 
                   bên dưới luôn bắt đầu cùng một độ cao dù tên chặng dài ngắn
                   khác nhau. Xếp dọc thì không cần, và chừa chỗ ở đó chỉ tổ
                   thêm khoảng trắng. */}
-              <p className="mt-3 text-[0.9rem] leading-snug font-medium md:min-h-[2.75em]">
-                {chu(chang.ten)}
-              </p>
-              <p className="ma mt-1 text-[0.7rem] text-chu-mo">{chu(chang.nhip)}</p>
+              {/* Khoảng cách trên chỉ có ở bố cục chồng dọc. Ở bố cục cạnh
+                  nhau, chữ phải bắt đầu ngang đỉnh vòng tròn. */}
+              <div className="min-w-0 md:mt-3">
+                <p className="text-[0.9rem] leading-snug font-medium md:min-h-[2.75em]">
+                  {chu(chang.ten)}
+                </p>
+                <p className="ma mt-1 text-[0.7rem] text-chu-mo">{chu(chang.nhip)}</p>
+              </div>
             </li>
           )
         })}
