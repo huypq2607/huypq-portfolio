@@ -28,16 +28,35 @@ export interface Dong_ho_so {
 // ---------------------------------------------------------------------------
 
 /**
- * Một việc đã làm, tách làm hai nửa.
+ * Một việc đã làm, tách làm ba phần.
  *
- * lam là việc mình làm, ket_qua là thứ nó đổi được cho doanh nghiệp. Tách ra
- * chứ không viết liền một câu, vì nhà tuyển dụng lướt mắt tìm đúng nửa sau, và
- * nửa sau phải bắt được mắt mà không cần đọc hết nửa trước. Việc nào chưa đo
- * được kết quả thì bỏ trống ket_qua, đừng bịa ra một mệnh đề nghe cho kêu.
+ * lam là việc mình làm, ket_qua là thứ nó đổi được cho doanh nghiệp, so là con
+ * số của chính kết quả ấy. Tách ra chứ không viết liền một câu, vì nhà tuyển
+ * dụng lướt mắt tìm đúng con số, và con số phải bắt được mắt mà không cần đọc
+ * chữ nào.
+ *
+ * so đứng riêng một cột nên ket_qua KHÔNG lặp lại con số nữa: viết "−30%" ở cột
+ * rồi lại viết "Giảm 30% thời gian làm báo cáo" ở câu là nói hai lần một điều.
+ * Câu vì thế thành một mệnh đề đọc nối vào con số, ví dụ "thời gian làm báo cáo
+ * mỗi tuần". Việc nào không đo được thành một con số thì bỏ trống so, và câu
+ * ket_qua quay về dạng câu đầy đủ.
+ *
+ * Việc nào chưa đo được kết quả thì bỏ trống cả ket_qua lẫn so, đừng bịa ra một
+ * mệnh đề nghe cho kêu.
  */
 export interface Viec {
   readonly lam: Song
   readonly ket_qua?: Song
+  /** Con số của kết quả, hiện thành cột riêng cỡ chữ lớn. */
+  readonly so?: Song
+  /**
+   * Mã hình vẽ kèm việc này, tra trong BieuTuongViec.
+   *
+   * Hình vẽ theo NGHĨA của câu chứ không theo hướng tăng giảm: câu nói về tiền
+   * thì vẽ ví, câu nói về người thì vẽ người. Bỏ trống thì việc ấy không có
+   * hình, và trang vẽ một chấm tròn mờ vào chỗ đó.
+   */
+  readonly hinh?: string
 }
 
 /**
@@ -61,6 +80,10 @@ export interface Vai_tro {
  * Thứ tự trong mảng là thứ tự chạy thật, và sơ đồ lấy đúng thứ tự ấy để chọn
  * bậc màu. Đảo hai phần tử trong mảng là đảo luôn màu trên hình, nên sơ đồ
  * không bao giờ nói khác dữ liệu.
+ *
+ * Dây chuyền thuộc về một nơi làm việc cụ thể chứ không phải của cả trang, nên
+ * nó nằm trong Kinh_nghiem. Mỗi nơi một dây chuyền riêng, số chặng khác nhau
+ * cũng được: màu trải theo số chặng thật chứ không gán cứng một tới sáu.
  */
 export interface Chang {
   readonly ma: string
@@ -104,6 +127,9 @@ export interface Kinh_nghiem {
   readonly thoi_gian: Song
   readonly vai_tro: readonly Vai_tro[]
   readonly so_lieu?: readonly So_lieu[]
+  /** Dây chuyền dữ liệu của nơi này. Bỏ trống khi nơi ấy không có dây chuyền
+   *  nào đáng vẽ, và khi đó trang không in ra một sơ đồ rỗng. */
+  readonly quy_trinh?: readonly Chang[]
   /** Tên công nghệ giữ nguyên ở cả hai ngôn ngữ nên là chuỗi trần. */
   readonly ngan_xep?: readonly string[]
 }

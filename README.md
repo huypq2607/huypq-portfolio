@@ -155,17 +155,19 @@ thẻ hướng trong EXIF, bỏ bước này thì ảnh cắt ra bị xoay ngang
 
 ### Dải màu là thông tin, không phải trang trí
 
-Dây chuyền dữ liệu sáu chặng là một chuỗi **có thứ tự**: đầu này là dữ liệu thô
+Một dây chuyền dữ liệu là một chuỗi **có thứ tự**: đầu này là dữ liệu thô
 lạnh ngắt vừa lấy về, đầu kia là lúc một con người nhận được cảnh báo. Nên bảng
 màu của trang không phải một màu nhấn cộng xám, mà là một **dải liên tục từ xanh
-băng tới hổ phách** trải đúng theo sáu chặng đó. Hai đầu dải trở thành màu nhấn
+băng tới hổ phách** trải đúng theo chuỗi đó. Hai đầu dải trở thành màu nhấn
 của cả trang.
 
 Nhờ vậy màu ở đây mang thông tin: nhìn một đốm hổ phách là biết nó thuộc bậc
 cuối của một chuỗi, nhìn một đốm xanh băng là biết nó thuộc bậc đầu. Dải ấy
 xuất hiện lại ở ba chỗ, và mỗi chỗ vẫn mang đúng một nghĩa là **vị trí trong
-một chuỗi có thứ tự**: sơ đồ dây chuyền sáu chặng, dòng thời gian nghề nghiệp,
-và vạch tiến độ cuộn.
+một chuỗi có thứ tự**: các sơ đồ dây chuyền dữ liệu, dòng thời gian nghề
+nghiệp, và vạch tiến độ cuộn. Hai dây chuyền dài ngắn khác nhau nên bậc màu
+được TRẢI theo số chặng thật: chặng cuối của cả hai đều là bậc sáu, đúng với
+nghĩa đây là điểm cuối.
 
 Đây cũng là cách tô màu đúng cho dữ liệu có thứ tự, giống hệt cách chọn bảng
 màu cho một biểu đồ.
@@ -209,13 +211,41 @@ một lớp trang trí giả vờ kỹ thuật.
 
 ### Hai hình mang toàn bộ phần táo bạo
 
-- **Sơ đồ dây chuyền sáu chặng** trong khối VETC. Màu gán theo thứ tự chặng
-  trong tệp nội dung, nên đảo hai chặng là hình đảo theo: hình không bao giờ nói
-  khác dữ liệu. Có đúng một khoảnh khắc chuyển động trên cả trang, là vệt sáng
-  chạy dọc dây chuyền một lần khi cuộn tới.
+- **Sơ đồ dây chuyền dữ liệu**, mỗi nơi làm việc một sơ đồ: VETC sáu chặng,
+  30Shine năm chặng. Màu gán theo thứ tự chặng trong tệp nội dung, nên đảo hai
+  chặng là hình đảo theo: hình không bao giờ nói khác dữ liệu. Có đúng một
+  khoảnh khắc chuyển động trên cả trang, là vệt sáng chạy dọc dây chuyền một
+  lần khi cuộn tới.
 - **Dòng thời gian nghề nghiệp** cạnh đoạn mục tiêu. Bốn mốc dựng lại từ chính
   HOC_VAN, CHUNG_CHI và KINH_NGHIEM chứ không chép tay, nên sửa một nơi là nó
   đổi theo.
+
+### Gạch đầu dòng của phần kinh nghiệm
+
+Mỗi việc in làm ba cột: hình vẽ, con số của kết quả, rồi chữ. Lướt mắt dọc cột
+con số là nắm được toàn bộ phần kết quả mà không phải đọc câu nào; cột chữ chỉ
+đọc khi muốn biết làm thế nào.
+
+**Con số đứng cột riêng nên câu kết quả không lặp lại nó nữa**, mà thành một
+mệnh đề đọc nối vào con số: `−30%` rồi `thời gian làm báo cáo mỗi tuần`. Cổng
+canh gác so đúng chữ số ở cột với câu và chuyển đỏ khi thấy lặp. Việc nào không
+đo được thành một con số thì cột ấy để trống chứ không đặt dấu gạch, vì dấu
+gạch đọc ra thành "chỗ này chưa điền".
+
+**Hình vẽ theo nghĩa của câu, không theo hướng tăng giảm.** Câu nói về tiền thì
+vẽ ví, nói về người thì vẽ người, nói về thời gian thì vẽ đồng hồ cát. Vẽ theo
+hướng tăng giảm thì mười lăm câu chỉ còn ba hình, mà một hình lặp lại năm lần
+thì cột ấy không nói thêm được gì so với việc đọc chính câu chữ. Hình để màu
+chữ mờ và chỉ sáng lên màu nhấn khi con trỏ đi tới, vì dải sáu bậc của trang
+mã hoá vị trí trong một chuỗi có thứ tự, mượn nó làm bảng màu phân loại cho
+mười lăm cái hình là phá mất nghĩa ấy.
+
+**Cả khối một nơi làm việc được một sống dọc ôm lấy**, chạy từ dòng tên công ty
+xuống hết gạch cuối cùng. Không có nó thì tên công ty cách thẻ của chính nó xa
+hơn cách khối phía trên, và mắt gom nhầm tên vào khối trên.
+
+Dưới 640px lưới rút còn hai cột và con số tụt xuống nằm ngay trên câu kết quả
+của nó, vì ba cột nhồi vào màn hẹp thì phần chữ chỉ còn hơn trăm điểm ảnh.
 
 Màn hẹp đổi hẳn bố cục sơ đồ thành danh sách dọc thay vì bắt cuộn ngang. Ép
 người xem cuộn ngang để đọc một sơ đồ là cách chắc chắn khiến họ bỏ qua nó.
@@ -226,9 +256,9 @@ Bốn quyết định riêng cho màn hẹp, và cả bốn đều là thay đ�
 để mặc lưới tự co:
 
 - **Sơ đồ dây chuyền đổi hẳn bố cục** thành danh sách dọc, kèm đường nối dọc
-  riêng cho trạng thái ấy. Sáu cột nhồi vào ba trăm điểm ảnh thì nhãn chặng nào
-  cũng vỡ chữ, và ép người xem cuộn ngang để đọc một sơ đồ là cách chắc chắn
-  khiến họ bỏ qua nó.
+  riêng cho trạng thái ấy. Năm sáu cột nhồi vào ba trăm điểm ảnh thì nhãn chặng
+  nào cũng vỡ chữ, và ép người xem cuộn ngang để đọc một sơ đồ là cách chắc
+  chắn khiến họ bỏ qua nó.
 - **Ảnh và hồ sơ chen lên trước phần giới thiệu dài.** Giữ nguyên thứ tự của màn
   rộng thì khuôn mặt bị đẩy xuống dưới hai đoạn văn, tức người xem phải cuộn qua
   gần một màn hình mới thấy mình đang đọc về ai.
@@ -273,11 +303,12 @@ Hai chi tiết kỹ thuật đáng nhớ nếu sau này sửa:
 Cả hai đều là SVG và CSS thuần, không kéo thêm thư viện vẽ nào, và cả hai đều
 dựng lại từ chính tệp nội dung chứ không chép số sang một chỗ riêng.
 
-**Sơ đồ dây chuyền sáu chặng** trong khối VETC. Sáu chấm nối nhau, màu lấy theo
-thứ tự chặng trên dải màu của trang. Từ 768px trở lên xếp ngang đủ sáu cột, hẹp
-hơn thì xếp dọc, và mỗi trạng thái có đường nối riêng để chiều đi của dữ liệu
-luôn nhìn ra được. Ba cột thì không làm, vì đường nối dọc khi ấy sẽ nối xuống ô
-cách ba chặng, tức hình nói sai thứ tự.
+**Sơ đồ dây chuyền dữ liệu**, một sơ đồ cho mỗi nơi làm việc có khai `quy_trinh`.
+Các chấm nối nhau, màu lấy theo thứ tự chặng trên dải màu của trang. Từ 768px
+trở lên xếp ngang đủ số chặng, hẹp hơn thì xếp dọc, và mỗi trạng thái có đường
+nối riêng để chiều đi của dữ liệu luôn nhìn ra được. Chỉ có đúng hai trạng thái
+ấy, không có bậc ba cột ở giữa, vì đường nối dọc khi ấy sẽ nối xuống ô cách vài
+chặng, tức hình nói sai thứ tự.
 
 **Dòng thời gian nghề nghiệp** cạnh đoạn mục tiêu. Bốn mốc dựng lại từ HOC_VAN,
 CHUNG_CHI và KINH_NGHIEM, nên sang năm sửa một nơi là nó đổi theo.
@@ -419,8 +450,15 @@ Vài điều dễ quên:
 
 - **Khối số liệu của một nơi làm việc cần từ hai ô trở lên**, vì nó là lưới ba
   cột. Một con số đứng lẻ trông như phần còn lại chưa nạp xong.
-- **Hai nơi làm việc phải giữ mã `vetc` và `shine`.** Sơ đồ dây chuyền và dải
-  con số gắn vào khối VETC theo mã, nên đổi mã là hình lạc sang nơi khác.
+- **Hai nơi làm việc phải giữ mã `vetc` và `shine`**, vì cổng canh gác đòi đủ
+  hai mã ấy. Riêng sơ đồ dây chuyền thì không còn gắn theo mã: nơi nào khai
+  `quy_trinh` thì nơi ấy có sơ đồ.
+- **Mỗi chặng của dây chuyền phải có hình trong `BieuTuongChang`.** Chặng thiếu
+  hình thì vòng tròn hiện ra rỗng trong khi trang vẫn dựng xong, nên cổng canh
+  gác đối chiếu mã chặng với danh sách `MA_CO_HINH` và chuyển đỏ khi thiếu.
+- **Mỗi việc khai `hinh` phải có hình trong `BieuTuongViec`**, và khai `so` thì
+  phải có `ket_qua` đi kèm. Thiếu hình thì chỗ ấy trống trơn, còn con số không
+  có câu thì không ai biết nó đo cái gì; cả hai đều dựng xong bình thường.
 - **Mỗi dự án nổi bật phải nêu được giá trị mang lại.** Dự án không đổi được gì
   cho doanh nghiệp thì thuộc về phần kinh nghiệm, không thuộc mục này, và cổng
   canh gác chặn lệnh dựng khi danh sách ấy rỗng.

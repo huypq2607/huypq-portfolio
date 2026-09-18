@@ -1,10 +1,11 @@
 // Biểu tượng cho từng chặng của dây chuyền dữ liệu.
 //
-// Vẽ tay bằng nét chứ không lấy từ bộ biểu tượng có sẵn, vì cả bộ chỉ có sáu
-// hình và mỗi hình phải nói đúng việc của chặng đó: khối trụ là kho dữ liệu,
-// phễu là lọc, cột là dựng chỉ số, lưới là bảng phẳng, phong bì là thư, chuông
-// là cảnh báo. Kéo cả một thư viện biểu tượng về cho sáu hình là đổi vài chục
-// kilobyte lấy thứ mình vẽ trong hai mươi dòng.
+// Vẽ tay bằng nét chứ không lấy từ bộ biểu tượng có sẵn, vì mỗi hình phải nói
+// đúng việc của chặng đó: khối trụ là kho dữ liệu nguồn, phễu là lọc, cột là
+// dựng chỉ số, lưới là bảng phẳng, phong bì là thư, chuông là cảnh báo, chồng
+// phiến là kho dữ liệu đã dựng, và khung có cột bên trong là dashboard. Kéo cả
+// một thư viện biểu tượng về cho tám hình là đổi vài chục kilobyte lấy thứ
+// mình vẽ trong hai mươi dòng.
 //
 // Nét mảnh và dùng currentColor, nên biểu tượng nhận đúng màu bậc của chặng mà
 // không phải truyền màu vào.
@@ -22,7 +23,20 @@ const HINH: Record<string, string> = {
   'bao-cao': 'M3 6h18v12H3V6Zm0 0 9 7 9-7',
   // Chuông.
   'canh-bao': 'M18 9a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6M13.7 20a2 2 0 0 1-3.4 0',
+  // Ba phiến chồng lên nhau, tức kho dữ liệu đã dựng thành tầng. Khác khối trụ
+  // của chặng lấy dữ liệu: khối trụ là hệ nguồn của người khác, chồng phiến là
+  // kho mình dựng ra.
+  kho: 'M12 3 3 7.5 12 12l9-4.5L12 3ZM3 12l9 4.5L21 12M3 16.5 12 21l9-4.5',
+  // Khung màn hình có ba cột bên trong, tức dashboard. Không dùng lại hình ba
+  // cột trần của chặng dựng chỉ số, vì chỉ số và nơi người ta xem chỉ số là hai
+  // chặng khác nhau và hai hình giống nhau sẽ xoá mất ranh giới đó.
+  dashboard: 'M3 4.5h18v13H3v-13ZM8 14v-3.5M12 14V8M16 14v-2M9 21h6',
 }
+
+/** Những mã chặng đã có hình. Cổng cham-thu-noi-dung đối chiếu danh sách này
+ *  với các chặng khai trong tệp nội dung, vì chặng thiếu hình thì vòng tròn
+ *  hiện ra rỗng trong khi trang vẫn dựng xong và không có gì báo. */
+export const MA_CO_HINH: readonly string[] = Object.keys(HINH)
 
 export function BieuTuongChang({ ma, className }: { ma: string; className?: string }) {
   const d = HINH[ma]

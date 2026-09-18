@@ -11,6 +11,7 @@
 
 import type { Song } from '../../noi_dung/kieu.ts'
 import { CHUNG_CHI, HOC_VAN, KINH_NGHIEM } from '../../noi_dung/noi_dung.ts'
+import { bac_mau } from '../mau.ts'
 import { dung_ngon_ngu } from '../ngon_ngu.tsx'
 
 interface Moc {
@@ -18,12 +19,6 @@ interface Moc {
   readonly thoi_gian: Song
   readonly ten: Song
   readonly phu: Song
-}
-
-/** Trải n mốc lên sáu bậc màu, mốc đầu bậc một và mốc cuối bậc sáu. */
-function bac_mau(thu_tu: number, tong: number): number {
-  if (tong <= 1) return 1
-  return Math.round(1 + (thu_tu * 5) / (tong - 1))
 }
 
 function dung_moc(): readonly Moc[] {
