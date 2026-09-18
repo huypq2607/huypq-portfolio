@@ -9,7 +9,6 @@
 // cả hai. Sửa một bên thì phải sửa bên kia.
 
 import type {
-  Chang,
   Chuyen_bien,
   Chung_chi,
   Dong_ho_so,
@@ -95,6 +94,18 @@ export const KINH_NGHIEM: readonly Kinh_nghiem[] = [
       { so: { vi: '12.027' }, nhan: { vi: 'cột trong đồ thị lineage' } },
     ],
 
+    // Sáu chặng, chạy khép kín từ lúc lấy dữ liệu tới lúc một con người nhận
+    // được cảnh báo. Thứ tự ở đây là thứ tự chạy thật, và sơ đồ lấy đúng thứ
+    // tự ấy để chọn màu, nên đảo hai dòng là đảo luôn màu trên hình.
+    quy_trinh: [
+      { ma: 'lay', ten: { vi: 'Lấy dữ liệu' }, nhip: { vi: 'Mỗi giờ' } },
+      { ma: 'sach', ten: { vi: 'Làm sạch' }, nhip: { vi: 'Mỗi giờ' } },
+      { ma: 'chi-so', ten: { vi: 'Dựng chỉ số' }, nhip: { vi: 'Hằng ngày' } },
+      { ma: 'phuc-vu', ten: { vi: 'Bảng phục vụ' }, nhip: { vi: 'Hằng ngày' } },
+      { ma: 'bao-cao', ten: { vi: 'Báo cáo Outlook' }, nhip: { vi: '7:00 hằng ngày' } },
+      { ma: 'canh-bao', ten: { vi: 'Cảnh báo bất thường' }, nhip: { vi: 'Sau mỗi lần chạy' } },
+    ],
+
     vai_tro: [
       {
         ten: { vi: 'Vai trò Data Analyst' },
@@ -106,22 +117,27 @@ export const KINH_NGHIEM: readonly Kinh_nghiem[] = [
             ket_qua: {
               vi: 'Loại bỏ hoàn toàn thao tác thủ công trong luồng dữ liệu hằng ngày.',
             },
+            hinh: 'bo-thu-cong',
           },
           {
             lam: {
               vi: 'Tự động hoá báo cáo hằng ngày qua Outlook gửi stakeholder lúc 7:00, thay thế quy trình tổng hợp tay mỗi sáng.',
             },
             ket_qua: {
-              vi: 'Giảm 30% thời gian làm báo cáo mỗi tuần.',
+              vi: 'thời gian làm báo cáo mỗi tuần',
             },
+            so: { vi: '−30%' },
+            hinh: 'thoi-gian',
           },
           {
             lam: {
               vi: 'Xây dựng hệ thống cảnh báo bất thường, so chỉ số với dải kỳ vọng sau mỗi lần chạy.',
             },
             ket_qua: {
-              vi: 'Rút thời gian phát hiện sai lệch từ 5 ngày xuống trong ngày, xử lý trước khi lan sang báo cáo tháng.',
+              vi: 'phát hiện sai lệch, thay vì sau 5 ngày như trước, xử lý trước khi lan sang báo cáo tháng',
             },
+            so: { vi: 'Trong ngày' },
+            hinh: 'phat-hien',
           },
           {
             lam: {
@@ -130,14 +146,17 @@ export const KINH_NGHIEM: readonly Kinh_nghiem[] = [
             ket_qua: {
               vi: 'Đưa toàn bộ chỉ số của mảng về một nguồn số liệu duy nhất, chấm dứt tình trạng mỗi bộ phận báo một con số khác nhau.',
             },
+            hinh: 'gop-mot-moi',
           },
           {
             lam: {
               vi: 'Xây dựng lớp hợp nhất định danh khách hàng xuyên tolling, ví điện tử, bảo hiểm và telesales, cho phép đo vòng đời khách hàng và tái tục hợp đồng thay vì đếm giao dịch rời rạc.',
             },
             ket_qua: {
-              vi: 'Tăng 60% tỷ lệ tái tục mảng bảo hiểm.',
+              vi: 'tỷ lệ tái tục mảng bảo hiểm',
             },
+            so: { vi: '+60%' },
+            hinh: 'tai-tuc',
           },
                 ],
       },
@@ -149,8 +168,10 @@ export const KINH_NGHIEM: readonly Kinh_nghiem[] = [
               vi: 'Cung cấp bảng tổng hợp dạng phẳng cho Superset và API nội bộ, dựng sẵn chỉ số nên không phải join lúc đọc.',
             },
             ket_qua: {
-              vi: 'Rút thời gian tải dashboard từ phút xuống giây, giảm 20% yêu cầu báo cáo gửi về đội data.',
+              vi: 'thời gian tải dashboard, và giảm 20% yêu cầu báo cáo gửi về đội data',
             },
+            so: { vi: 'Phút → giây' },
+            hinh: 'toc-do',
           },
           {
             lam: {
@@ -159,6 +180,7 @@ export const KINH_NGHIEM: readonly Kinh_nghiem[] = [
             ket_qua: {
               vi: 'Biến yêu cầu tuân thủ thành ràng buộc kỹ thuật, loại bỏ rủi ro lộ dữ liệu cá nhân qua các bảng báo cáo.',
             },
+            hinh: 'che-chan',
           },
           {
             lam: {
@@ -167,6 +189,7 @@ export const KINH_NGHIEM: readonly Kinh_nghiem[] = [
             ket_qua: {
               vi: 'Chặn lỗi dữ liệu ở CI thay vì để người dùng phát hiện trên dashboard.',
             },
+            hinh: 'chan-loi',
           },
                 ],
       },
@@ -199,6 +222,18 @@ export const KINH_NGHIEM: readonly Kinh_nghiem[] = [
       { so: { vi: '10 triệu' }, nhan: { vi: 'dòng tích luỹ trong kho dữ liệu' } },
     ],
 
+    // Năm chặng chứ không phải sáu. Không độn thêm một chặng cho bằng VETC:
+    // dây chuyền ở đây dừng lại ở cảnh báo vượt ngưỡng, và bịa ra chặng thứ
+    // sáu chỉ để hai hình cân nhau là nói sai. Màu vẫn trải hết dải vì bậc
+    // tính theo số chặng thật.
+    quy_trinh: [
+      { ma: 'lay', ten: { vi: 'Lấy dữ liệu' }, nhip: { vi: 'Neartime' } },
+      { ma: 'sach', ten: { vi: 'Làm sạch và kiểm tra' }, nhip: { vi: 'Mỗi lần nạp' } },
+      { ma: 'kho', ten: { vi: 'Kho dữ liệu' }, nhip: { vi: 'Hằng ngày' } },
+      { ma: 'dashboard', ten: { vi: 'Dashboard Power BI' }, nhip: { vi: 'Độ trễ dưới 15 phút' } },
+      { ma: 'canh-bao', ten: { vi: 'Cảnh báo vượt ngưỡng' }, nhip: { vi: 'Khi vượt ngưỡng' } },
+    ],
+
     vai_tro: [
       {
         viec: [
@@ -207,32 +242,40 @@ export const KINH_NGHIEM: readonly Kinh_nghiem[] = [
               vi: 'Xây dựng 14 dashboard Power BI cho hơn 100 quản lý salon dùng hằng ngày: doanh thu theo dịch vụ và sản phẩm, năng suất nhân viên, tỷ lệ đạt KPI theo vị trí, chi nhánh và vùng.',
             },
             ket_qua: {
-              vi: 'Tăng 15% hiệu quả vận hành, loại bỏ hoàn toàn báo cáo thủ công cuối tuần.',
+              vi: 'hiệu quả vận hành, và loại bỏ hoàn toàn báo cáo thủ công cuối tuần',
             },
+            so: { vi: '+15%' },
+            hinh: 'leo-bac',
           },
           {
             lam: {
               vi: 'Tự động hoá thu thập và xử lý dữ liệu từ SQL Server, Excel và API nội bộ.',
             },
             ket_qua: {
-              vi: 'Giảm 70% thời gian xử lý thủ công hằng tháng, để các team Vận hành, Kinh doanh và Marketing tập trung phân tích thay vì nhập liệu.',
+              vi: 'thời gian xử lý thủ công hằng tháng, để Vận hành, Kinh doanh và Marketing tập trung phân tích thay vì nhập liệu',
             },
+            so: { vi: '−70%' },
+            hinh: 'bot-viec',
           },
           {
             lam: {
               vi: 'Xây dựng hệ thống báo cáo tài chính vận hành: doanh thu thực so với kế hoạch, kiểm soát chi phí vật tư và nhân sự theo từng salon và vùng, chuẩn hoá chỉ số cùng bộ phận Kế toán.',
             },
             ket_qua: {
-              vi: 'Tiết kiệm 10–15% ngân sách mỗi quý, BOD nắm biên lợi nhuận theo thời gian thực.',
+              vi: 'ngân sách tiết kiệm mỗi quý, BOD nắm biên lợi nhuận theo thời gian thực',
             },
+            so: { vi: '10–15%' },
+            hinh: 'ngan-sach',
           },
           {
             lam: {
               vi: 'Phân tích cơ cấu lương thưởng và hiệu suất nhân sự toàn chuỗi, đề xuất điều chỉnh đãi ngộ theo nhóm vị trí và mức KPI.',
             },
             ket_qua: {
-              vi: 'Tăng 25% hiệu suất tổng thể và cải thiện tỷ lệ giữ chân nhân sự.',
+              vi: 'hiệu suất tổng thể, và cải thiện tỷ lệ giữ chân nhân sự',
             },
+            so: { vi: '+25%' },
+            hinh: 'nhan-su',
           },
           {
             lam: {
@@ -241,6 +284,7 @@ export const KINH_NGHIEM: readonly Kinh_nghiem[] = [
             ket_qua: {
               vi: 'Hỗ trợ BOD ra quyết định nhanh và chính xác hơn.',
             },
+            hinh: 'quyet-dinh',
           },
           {
             lam: {
@@ -249,11 +293,13 @@ export const KINH_NGHIEM: readonly Kinh_nghiem[] = [
             ket_qua: {
               vi: 'Giữ độ trễ báo cáo thấp.',
             },
+            hinh: 'do-tre',
           },
           {
             lam: {
               vi: 'Thiết kế ERD, viết tài liệu BRD và SRS, làm việc trực tiếp với BA, Dev và người dùng nghiệp vụ để chốt yêu cầu ngay từ đầu.',
             },
+            hinh: 'tai-lieu',
           },
                 ],
       },
@@ -261,24 +307,6 @@ export const KINH_NGHIEM: readonly Kinh_nghiem[] = [
 
     ngan_xep: ['Power BI', 'DAX', 'SQL Server', 'SSIS', 'Python', 'Star Schema', 'SCD', 'ETL', 'CDC'],
   },
-]
-
-// ---------------------------------------------------------------------------
-// Sơ đồ dây chuyền dữ liệu
-// ---------------------------------------------------------------------------
-//
-// Sáu chặng, đúng sáu bậc của dải màu. Đó không phải trùng hợp may mắn mà là
-// lý do dải màu tồn tại: nó mã hoá vị trí trong một chuỗi có thứ tự, và dây
-// chuyền này là một chuỗi có thứ tự. Chặng một lạnh nhất vì đó là dữ liệu thô
-// chưa ai chạm vào, chặng sáu ấm nhất vì đó là lúc một con người nhận cảnh báo.
-
-export const QUY_TRINH: readonly Chang[] = [
-  { ma: 'lay', ten: { vi: 'Lấy dữ liệu' }, nhip: { vi: 'Mỗi giờ' } },
-  { ma: 'sach', ten: { vi: 'Làm sạch' }, nhip: { vi: 'Mỗi giờ' } },
-  { ma: 'chi-so', ten: { vi: 'Dựng chỉ số' }, nhip: { vi: 'Hằng ngày' } },
-  { ma: 'phuc-vu', ten: { vi: 'Bảng phục vụ' }, nhip: { vi: 'Hằng ngày' } },
-  { ma: 'bao-cao', ten: { vi: 'Báo cáo Outlook' }, nhip: { vi: '7:00 hằng ngày' } },
-  { ma: 'canh-bao', ten: { vi: 'Cảnh báo bất thường' }, nhip: { vi: 'Sau mỗi lần chạy' } },
 ]
 
 // ---------------------------------------------------------------------------
@@ -599,7 +627,7 @@ export const NHAN = {
   nhan_hoc_van: { vi: 'Học vấn' } satisfies Song,
   nhan_chung_chi: { vi: 'Chứng chỉ' } satisfies Song,
   nhan_san_pham_rieng: { vi: 'Sản phẩm cá nhân' } satisfies Song,
-  nhan_quy_trinh: { vi: 'Dây chuyền dữ liệu, sáu chặng' } satisfies Song,
+  nhan_quy_trinh: { vi: 'Pipeline dữ liệu' } satisfies Song,
   muc_ket_qua: { vi: 'Tôi đã đóng góp cho Tổ chức trong 4 năm qua' } satisfies Song,
   nhan_dong_thoi_gian: { vi: 'Bốn năm vừa rồi' } satisfies Song,
 

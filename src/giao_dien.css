@@ -446,6 +446,32 @@ body {
   }
 }
 
+/* Sống dọc ôm lấy cả khối một nơi làm việc, chạy từ dòng tên công ty xuống hết
+   gạch cuối cùng.
+
+   Nó giải một chuyện cụ thể: tên công ty vốn cách thẻ của chính nó xa hơn cách
+   khối phía trên, nên mắt gom nhầm tên vào khối trên. Một vạch chạy suốt thì
+   không còn gì để suy nữa, nhìn là thấy khối bắt đầu ở đâu và kết thúc ở đâu.
+
+   Nhạt dần xuống dưới: đậm ở đầu khối nơi có tên công ty, rồi tắt dần khi
+   xuống tới những gạch cuối. Nhờ vậy nó đánh dấu điểm bắt đầu mà không kẻ một
+   cây gậy đặc suốt chiều cao khối, thứ sẽ tranh mất sự chú ý với chính phần
+   chữ mà nó có nhiệm vụ gom lại. */
+.song-khoi::before {
+  content: '';
+  position: absolute;
+  top: 0.4rem;
+  bottom: 0.3rem;
+  left: 0;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(
+    180deg,
+    var(--nhan),
+    color-mix(in oklab, var(--nhan) 12%, transparent)
+  );
+}
+
 /* Gạch đầu dòng vẽ bằng pseudo-element chứ không dùng list-style, vì hai lý
    do: dấu chấm nhận được màu nhấn thay vì màu chữ, và dòng thứ hai của một ý
    dài thụt thẳng cột với dòng đầu chứ không chui xuống dưới dấu chấm. */

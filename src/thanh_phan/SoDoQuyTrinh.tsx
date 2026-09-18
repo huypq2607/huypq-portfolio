@@ -1,21 +1,29 @@
-// Sơ đồ dây chuyền dữ liệu sáu chặng.
+// Sơ đồ dây chuyền dữ liệu của một nơi làm việc.
 //
 // Đây là hình thay cho một câu dài. Câu "lấy dữ liệu, làm sạch, dựng chỉ số,
 // bảng phục vụ, báo cáo, cảnh báo" phải đọc hết mới hình dung được thứ tự;
-// sáu chấm nối nhau thì nhìn một cái là xong.
+// mấy cái chấm nối nhau thì nhìn một cái là xong.
 //
 // Màu lấy từ dải sáu bậc của trang, đúng thứ tự chặng. Dải ấy có mặt để mã hoá
 // vị trí trong một chuỗi, nên gán nó theo thứ tự chạy thật là dùng đúng việc:
 // đảo hai chặng trong tệp nội dung là màu trên hình đảo theo, hình không bao
 // giờ nói khác dữ liệu.
+//
+// Dây chuyền truyền vào từ ngoài chứ không đọc một hằng cố định, vì mỗi nơi
+// làm việc có dây chuyền riêng và số chặng không bằng nhau. Bậc màu vì thế
+// phải TRẢI theo số chặng thật: gán cứng một tới sáu thì dây chuyền năm chặng
+// dừng ở giữa dải, đứng cạnh dây chuyền sáu chặng trông như bị cắt cụt.
 
 import { useEffect, useRef, useState } from 'react'
-import { NHAN, QUY_TRINH } from '../../noi_dung/noi_dung.ts'
+import type { CSSProperties } from 'react'
+import type { Chang } from '../../noi_dung/kieu.ts'
+import { NHAN } from '../../noi_dung/noi_dung.ts'
 import { BieuTuongChang } from './BieuTuongChang.tsx'
 import { giam_chuyen_dong } from '../hieu_ung.ts'
+import { bac_mau } from '../mau.ts'
 import { dung_ngon_ngu } from '../ngon_ngu.tsx'
 
-export function SoDoQuyTrinh() {
+export function SoDoQuyTrinh({ chang: cac_chang }: { chang: readonly Chang[] }) {
   const { chu } = dung_ngon_ngu()
   const tham_chieu = useRef<HTMLDivElement | null>(null)
   const [da_chay, dat_da_chay] = useState(false)
@@ -47,29 +55,32 @@ export function SoDoQuyTrinh() {
     <div ref={tham_chieu} className="the-noi min-w-0 rounded-xl p-5 sm:p-6">
       <p className="ma text-[0.72rem] text-chu-mo">{chu(NHAN.nhan_quy_trinh)}</p>
 
-      {/* Trên màn hẹp sáu chặng xếp dọc, trên màn rộng xếp ngang. Ngang mà nhồi
-          sáu cột vào 320px thì mỗi cột còn bốn chục điểm ảnh, không đủ cho một
-          chữ nào của tiếng Việt. */}
-      <ol className="mt-5 grid grid-cols-1 gap-x-3 gap-y-5 md:grid-cols-6">
-        {QUY_TRINH.map((chang, thu_tu) => {
-          const mau = `var(--tang-${thu_tu + 1})`
+      {/* Trên màn hẹp các chặng xếp dọc, trên màn rộng xếp ngang. Ngang mà nhồi
+          năm sáu cột vào 320px thì mỗi cột còn dăm chục điểm ảnh, không đủ cho
+          một chữ nào của tiếng Việt. */}
+      <ol
+        className="mt-5 grid grid-cols-1 gap-x-3 gap-y-5 md:grid-cols-[repeat(var(--so-chang),minmax(0,1fr))]"
+        style={{ '--so-chang': cac_chang.length } as CSSProperties}
+      >
+        {cac_chang.map((chang, thu_tu) => {
+          const mau = `var(--tang-${bac_mau(thu_tu, cac_chang.length)})`
           return (
             <li key={chang.ma} className="relative min-w-0">
               {/* Đường nối chạy từ chấm này sang chấm sau. Chặng cuối không có
                   đường, vì sau nó không còn gì nữa.
 
-                  Hai bản: ngang khi sáu chặng xếp một hàng, dọc khi chúng xếp
+                  Hai bản: ngang khi các chặng xếp một hàng, dọc khi chúng xếp
                   chồng trên màn hẹp. Thiếu bản dọc thì trên điện thoại sáu chấm
                   rời nhau trông như một danh sách, mà điều cần thấy là dữ liệu
                   đi theo một chiều. */}
-              {thu_tu < QUY_TRINH.length - 1 && (
+              {thu_tu < cac_chang.length - 1 && (
                 <>
                   <span
                     aria-hidden="true"
                     className={`absolute top-[1.12rem] left-10 hidden h-px md:block ${da_chay ? 'duong-chay' : ''}`}
                     style={{
                       right: '-0.75rem',
-                      background: `linear-gradient(90deg, ${mau}, var(--tang-${thu_tu + 2}))`,
+                      background: `linear-gradient(90deg, ${mau}, var(--tang-${bac_mau(thu_tu + 1, cac_chang.length)}))`,
                       opacity: 0.55,
                       animationDelay: `${thu_tu * 120}ms`,
                     }}
@@ -78,7 +89,7 @@ export function SoDoQuyTrinh() {
                     aria-hidden="true"
                     className="absolute top-10 -bottom-[1.25rem] left-[1.12rem] w-px md:hidden"
                     style={{
-                      background: `linear-gradient(180deg, ${mau}, var(--tang-${thu_tu + 2}))`,
+                      background: `linear-gradient(180deg, ${mau}, var(--tang-${bac_mau(thu_tu + 1, cac_chang.length)}))`,
                       opacity: 0.5,
                     }}
                   />

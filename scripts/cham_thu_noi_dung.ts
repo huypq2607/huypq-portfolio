@@ -10,6 +10,8 @@
 // được nó đổi gì cho doanh nghiệp, hay một chỗ trống chưa điền số.
 
 import * as noi_dung from '../noi_dung/noi_dung.ts'
+import { MA_CO_HINH } from '../src/thanh_phan/BieuTuongChang.tsx'
+import { MA_HINH_VIEC } from '../src/thanh_phan/BieuTuongViec.tsx'
 
 const loi: string[] = []
 
@@ -78,6 +80,80 @@ for (const noi of noi_dung.KINH_NGHIEM) {
   // lẻ trong lưới ba cột trông như phần còn lại chưa nạp xong.
   if (noi.so_lieu !== undefined && noi.so_lieu.length < 2) {
     loi.push(`KINH_NGHIEM[${noi.ma}].so_lieu: có ${noi.so_lieu.length} con số, cần ít nhất 2`)
+  }
+}
+
+// Hình vẽ và con số của từng việc.
+//
+// Ba kiểu hỏng lặng lẽ. Khai một mã hình chưa vẽ thì chỗ ấy trống trơn mà trang
+// vẫn dựng xong. Khai con số mà không có câu kết quả thì con số đứng chơ vơ
+// không ai biết nó đo cái gì. Và câu kết quả lặp lại ĐÚNG con số đang đứng ở
+// cột thì trang nói hai lần một điều, ví dụ cột ghi "−30%" còn câu ghi "Giảm
+// 30% thời gian làm báo cáo".
+//
+// Chỉ so đúng con số ở cột, không cấm mọi chữ số. Một câu kết quả hoàn toàn có
+// quyền nhắc tới mốc trước đó, ví dụ "thay vì sau 5 ngày như trước", hoặc kèm
+// thêm một chỉ số khác, ví dụ "và giảm 20% yêu cầu báo cáo". Cấm hết chữ số thì
+// cổng này chặn nhầm cả hai trường hợp ấy.
+for (const noi of noi_dung.KINH_NGHIEM) {
+  for (const vai of noi.vai_tro) {
+    for (const viec of vai.viec) {
+      const dau = `KINH_NGHIEM[${noi.ma}] "${viec.lam.vi.slice(0, 34)}..."`
+
+      if (viec.hinh !== undefined && !MA_HINH_VIEC.includes(viec.hinh)) {
+        loi.push(`${dau}: hình "${viec.hinh}" chưa vẽ trong BieuTuongViec`)
+      }
+
+      if (viec.so !== undefined && viec.ket_qua === undefined) {
+        loi.push(`${dau}: khai con số nhưng không có câu kết quả đi kèm`)
+      }
+
+      if (viec.so !== undefined && viec.ket_qua !== undefined) {
+        // Bóc phần chữ số của con số ở cột, ví dụ "−30%" thành "30", rồi tìm
+        // đúng chuỗi ấy trong câu. Bỏ qua khi con số vốn không có chữ số nào,
+        // ví dụ "Phút → giây".
+        const chu_so = viec.so.vi.match(/\d+/g) ?? []
+        for (const con of chu_so) {
+          if (viec.ket_qua.vi.includes(con)) {
+            loi.push(
+              `${dau}: câu kết quả lặp lại con số "${con}" đã đứng ở cột ("${viec.so.vi}")`,
+            )
+          }
+        }
+      }
+    }
+  }
+}
+
+// Dây chuyền dữ liệu của từng nơi làm việc.
+//
+// Ba kiểu hỏng lặng lẽ được canh ở đây. Một chặng thiếu hình thì vòng tròn hiện
+// ra rỗng. Hai chặng trùng mã thì React dựng lại sai phần tử khi danh sách đổi.
+// Một dây chuyền chỉ có đúng một chặng thì nó không còn là dây chuyền, mà là
+// một cái chấm đứng lẻ giữa thẻ. Cả ba đều dựng được và đều trông gần như bình
+// thường.
+for (const noi of noi_dung.KINH_NGHIEM) {
+  const { quy_trinh } = noi
+  if (quy_trinh === undefined) continue
+
+  if (quy_trinh.length < 2) {
+    loi.push(
+      `KINH_NGHIEM[${noi.ma}].quy_trinh: có ${quy_trinh.length} chặng, một dây chuyền cần ít nhất 2`,
+    )
+  }
+
+  const ma_chang = new Set<string>()
+  for (const chang of quy_trinh) {
+    if (ma_chang.has(chang.ma)) {
+      loi.push(`KINH_NGHIEM[${noi.ma}].quy_trinh: mã chặng "${chang.ma}" bị trùng`)
+    }
+    ma_chang.add(chang.ma)
+
+    if (!MA_CO_HINH.includes(chang.ma)) {
+      loi.push(
+        `KINH_NGHIEM[${noi.ma}].quy_trinh: chặng "${chang.ma}" chưa có hình trong BieuTuongChang`,
+      )
+    }
   }
 }
 
