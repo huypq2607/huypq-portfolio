@@ -11,11 +11,12 @@
   },
   "scripts": {
     "dev": "npm run kiem-tra-moi-truong && vite",
-    "build": "npm run kiem-tra-moi-truong && tsc --noEmit && npm run cham-thu-noi-dung && vite build && npm run do-kich-thuoc",
+    "build": "npm run kiem-tra-moi-truong && tsc --noEmit && npm run cham-thu-noi-dung && npm run cham-tuong-phan && vite build && npm run do-kich-thuoc",
     "preview": "vite preview",
     "cham-thu-noi-dung": "tsx scripts/cham_thu_noi_dung.ts",
     "do-kich-thuoc": "tsx scripts/do_kich_thuoc.ts",
-    "kiem-tra-moi-truong": "tsx --env-file-if-exists=.env scripts/kiem_tra_moi_truong.ts"
+    "kiem-tra-moi-truong": "tsx --env-file-if-exists=.env scripts/kiem_tra_moi_truong.ts",
+    "cham-tuong-phan": "tsx scripts/cham_tuong_phan.ts"
   },
   "dependencies": {
     "react": "^19.2.0",

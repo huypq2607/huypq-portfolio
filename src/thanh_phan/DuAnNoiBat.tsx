@@ -12,7 +12,7 @@ function MotDuAn({ du_an }: { du_an: Du_an_noi_bat }) {
   const { chu } = dung_ngon_ngu()
 
   return (
-    <article className="the-noi flex min-w-0 flex-col rounded-xl p-5 sm:p-6">
+    <article className="the-noi flex min-w-0 flex-col p-5 sm:p-6">
       <div className="flex items-start justify-between gap-3">
         <h3 className="hien text-[1.02rem] leading-snug font-semibold">{chu(du_an.ten)}</h3>
         <span

@@ -52,7 +52,7 @@ export function SoDoQuyTrinh({ chang: cac_chang }: { chang: readonly Chang[] }) 
   }, [])
 
   return (
-    <div ref={tham_chieu} className="the-noi min-w-0 rounded-xl p-5 sm:p-6">
+    <div ref={tham_chieu} className="the-noi min-w-0 p-5 sm:p-6">
       <p className="ma text-[0.72rem] text-chu-mo">{chu(NHAN.nhan_quy_trinh)}</p>
 
       {/* Trên màn hẹp các chặng xếp dọc, trên màn rộng xếp ngang. Ngang mà nhồi

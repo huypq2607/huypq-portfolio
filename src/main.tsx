@@ -21,6 +21,7 @@ import { MoDau } from './thanh_phan/MoDau.tsx'
 import { MucTieu } from './thanh_phan/MucTieu.tsx'
 import { SanPhamRieng } from './thanh_phan/SanPhamRieng.tsx'
 import { ThanhTren } from './thanh_phan/ThanhTren.tsx'
+import { TruongMau } from './thanh_phan/TruongMau.tsx'
 
 function Trang() {
   const { chu, dang_sua, bat_tat_sua } = dung_ngon_ngu()
@@ -40,6 +41,10 @@ function Trang() {
       >
         {chu(NHAN.bo_qua_dau_trang)}
       </a>
+
+      {/* Tầng màu phải đứng trước mọi thứ trong cây, vì nó nằm ở lớp dưới cùng
+          và các bề mặt kính phía trên lấy nó làm thứ để khúc xạ. */}
+      <TruongMau />
 
       <ThanhTren />
 

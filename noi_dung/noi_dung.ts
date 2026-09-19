@@ -90,8 +90,8 @@ export const KINH_NGHIEM: readonly Kinh_nghiem[] = [
 
     so_lieu: [
       { so: { vi: '534' }, nhan: { vi: 'model dbt' } },
-      { so: { vi: '720' }, nhan: { vi: 'bảng nguồn đã khai' } },
-      { so: { vi: '12.027' }, nhan: { vi: 'cột trong đồ thị lineage' } },
+      { so: { vi: '720' }, nhan: { vi: 'bảng nguồn' } },
+      { so: { vi: '12.027' }, nhan: { vi: 'dòng dữ liệu mỗi giờ' } },
     ],
 
     // Sáu chặng, chạy khép kín từ lúc lấy dữ liệu tới lúc một con người nhận
@@ -101,9 +101,10 @@ export const KINH_NGHIEM: readonly Kinh_nghiem[] = [
       { ma: 'lay', ten: { vi: 'Lấy dữ liệu' }, nhip: { vi: 'Mỗi giờ' } },
       { ma: 'sach', ten: { vi: 'Làm sạch' }, nhip: { vi: 'Mỗi giờ' } },
       { ma: 'chi-so', ten: { vi: 'Dựng chỉ số' }, nhip: { vi: 'Hằng ngày' } },
-      { ma: 'phuc-vu', ten: { vi: 'Bảng phục vụ' }, nhip: { vi: 'Hằng ngày' } },
-      { ma: 'bao-cao', ten: { vi: 'Báo cáo Outlook' }, nhip: { vi: '7:00 hằng ngày' } },
+      { ma: 'phuc-vu', ten: { vi: 'Master data' }, nhip: { vi: 'Hằng ngày' } },
+      { ma: 'dashboard', ten: { vi: 'Dashboard Superset' }, nhip: { vi: 'Hằng ngày' } },
       { ma: 'canh-bao', ten: { vi: 'Cảnh báo bất thường' }, nhip: { vi: 'Sau mỗi lần chạy' } },
+      { ma: 'bao-cao', ten: { vi: 'Gửi mail Outlook' }, nhip: { vi: '7:00 hằng ngày' } },
     ],
 
     vai_tro: [
@@ -229,9 +230,10 @@ export const KINH_NGHIEM: readonly Kinh_nghiem[] = [
     quy_trinh: [
       { ma: 'lay', ten: { vi: 'Lấy dữ liệu' }, nhip: { vi: 'Neartime' } },
       { ma: 'sach', ten: { vi: 'Làm sạch và kiểm tra' }, nhip: { vi: 'Mỗi lần nạp' } },
-      { ma: 'kho', ten: { vi: 'Kho dữ liệu' }, nhip: { vi: 'Hằng ngày' } },
+      { ma: 'kho', ten: { vi: 'Master data' }, nhip: { vi: 'Hằng ngày' } },
       { ma: 'dashboard', ten: { vi: 'Dashboard Power BI' }, nhip: { vi: 'Độ trễ dưới 15 phút' } },
       { ma: 'canh-bao', ten: { vi: 'Cảnh báo vượt ngưỡng' }, nhip: { vi: 'Khi vượt ngưỡng' } },
+      { ma: 'nhan-tin', ten: { vi: 'Gửi thông báo qua Lark' }, nhip: { vi: '8:00 hàng ngày' } },
     ],
 
     vai_tro: [

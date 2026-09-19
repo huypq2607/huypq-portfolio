@@ -22,22 +22,36 @@
 :root {
   color-scheme: dark;
 
-  --nen: #070a12;
-  --nen-diu: #0b101b;
-  --be-mat: #0e1523;
-  --be-mat-cao: #161f31;
-  --vien: #1f2a3e;
-  --vien-ro: #2c3a52;
-  --chu: #e9eff9;
-  --chu-mo: #8fa1bc;
+  /* Nền và bề mặt lấy đúng bộ nền tối của Apple: nền đen tuyệt đối, bề mặt
+     dùng bộ elevated. Đen tuyệt đối là lựa chọn của Apple cho màn OLED, và
+     nó cho bộ màu hệ thống bên trên chỗ tương phản rộng nhất. */
+  --nen: #000000;
+  --nen-diu: #1c1c1e;
+  --be-mat: #2c2c2e;
+  --be-mat-cao: #3a3a3c;
+  --vien: #38383a;
+  --vien-ro: #48484a;
+  --chu: #ffffff;
+  --chu-mo: rgb(235 235 245 / 0.6);
 
-  /* Dải sáu tầng, lạnh tới ấm */
-  --tang-1: #3ec8f0;
-  --tang-2: #35cfc4;
-  --tang-3: #5ad394;
-  --tang-4: #afd160;
-  --tang-5: #efb84e;
-  --tang-6: #f79a4b;
+  /* Lớp kính. Nền rất trong để màu của tầng phía sau lọt qua thay vì bị panel
+     tự tối lại. Vệt loé ở cạnh trên là thứ bán được cảm giác thuỷ tinh: thiếu
+     nó thì panel chỉ là một ô mờ. */
+  --kinh-nen: rgb(22 22 26 / 0.34);
+  --kinh-vien: rgb(255 255 255 / 0.14);
+  --kinh-loe: rgb(255 255 255 / 0.22);
+  --kinh-do-dam-truong: 0.2;
+
+  /* Dải sáu tầng, lạnh tới ấm, lấy nguyên sáu màu hệ thống Apple bản nền tối:
+     cyan, teal, mint, green, yellow, orange. Thứ tự ấy vốn đã đi từ lạnh sang
+     ấm nên nó khớp đúng nghĩa mà dải này mang: vị trí trong một chuỗi có thứ
+     tự. Cả sáu đều đạt từ 8,8:1 trở lên trên bề mặt thẻ. */
+  --tang-1: #3cd3fe;
+  --tang-2: #00d2e0;
+  --tang-3: #00dac3;
+  --tang-4: #30d158;
+  --tang-5: #ffd600;
+  --tang-6: #ff9230;
 
   --nhan: var(--tang-1);
   --nhan-am: var(--tang-6);
@@ -90,37 +104,49 @@
      nguyên quan hệ ấy chứ không đảo: nền là mảng có sắc, thẻ mới là chỗ trắng.
      Nhờ vậy chỗ trắng chỉ còn ở diện tích nhỏ, hết chói, mà thẻ thì nổi lên
      thật chứ không phải trắng trên trắng. */
-  --nen: #eceff6;
-  --nen-diu: #e3e8f2;
+  --nen: #eef0f5;
+  --nen-diu: #e5e5ea;
   --be-mat: #ffffff;
-  --be-mat-cao: #f7f9fd;
+  --be-mat-cao: #f2f2f7;
 
   /* Viền cũ chỉ hơn nền 1,2 lần, tức gần như không nhìn thấy, nên mọi đường
      phân cách của trang biến mất và bố cục trôi thành một mảng. */
-  --vien: #ccd6e6;
-  --vien-ro: #a9bacf;
+  --vien: #c6c6c8;
+  --vien-ro: #aeaeb2;
 
-  --chu: #0b111d;
-  --chu-mo: #4e5d76;
+  --kinh-nen: rgb(255 255 255 / 0.62);
+  --kinh-vien: rgb(255 255 255 / 0.7);
+  --kinh-loe: rgb(255 255 255 / 0.9);
+  /* Tầng màu phải nhạt hơn hẳn trên nền sáng: cùng độ đậm ấy trên nền trắng
+     thì nó ngả thành vệt bẩn chứ không ra màu. */
+  --kinh-do-dam-truong: 0.14;
 
-  /* Cùng một dải nhưng tối và đậm hơn, vì màu sáng trên nền trắng tụt độ tương
-     phản xuống dưới mức đọc được. Giữ nguyên thứ tự sắc độ để ý nghĩa của dải
-     không đổi giữa hai chế độ.
+  --chu: #000000;
+  /* Bản label-secondary thường của Apple chỉ được 3,44:1 trên nền trắng, tức
+     dưới ngưỡng đọc; đây là bản accessible mà chính tệp token của họ khuyên
+     dùng cho chữ nhỏ trên web. */
+  --chu-mo: rgb(60 60 67 / 0.75);
 
-     Độ sáng của từng bậc được hạ tới đúng mức đạt 4,5:1 trên nền dịu, tức chỗ
-     nền đậm nhất mà chữ màu nhấn phải nằm lên. Bộ cũ không đạt được mức ấy ở
+  /* Vẫn đúng sáu sắc hệ thống Apple như bản nền tối, chỉ hạ độ sáng.
+
+     Không dùng thẳng bộ màu Apple bản nền sáng được: trên nền xám của họ, cyan
+     chỉ đạt 1,76:1 và yellow đạt 1,23:1, tức không đọc nổi. Bộ Increase
+     Contrast của chính Apple cũng chỉ lên tới 3,7:1. Chính tài liệu HIG dặn
+     đừng cho rằng màu của Apple thì đương nhiên đạt chuẩn tiếp cận, nên ở đây
+     giữ nguyên góc màu của họ và hạ độ sáng tới mức đạt 4,5:1 trên nền dịu,
+     tức chỗ nền đậm nhất mà chữ màu nhấn phải nằm lên. Bộ cũ không đạt mức ấy ở
      bất kỳ đâu: bậc một chỉ đạt 4,32 ngay cả trên nền trắng tinh, nên mọi con
      số và nhãn cỡ nhỏ mang màu nhấn đều dưới ngưỡng đọc.
 
      Góc màu và sắc độ giữ nguyên, chỉ hạ độ sáng, nên dải vẫn đi từ xanh băng
      tới hổ phách đúng như cũ. Mực đậm hơn còn hợp với nền sáng hơn: trên nền
      tối chữ nổi lên nhờ phát sáng, trên nền sáng nó nổi lên nhờ đậm. */
-  --tang-1: #0e6f9a;
-  --tang-2: #0f746a;
-  --tang-3: #06774c;
-  --tang-4: #5e6f03;
-  --tang-5: #8d5f08;
-  --tang-6: #a94e09;
+  --tang-1: #0f7087;
+  --tang-2: #0e727a;
+  --tang-3: #107367;
+  --tang-4: #09772c;
+  --tang-5: #7e6401;
+  --tang-6: #9f5201;
 
   --nhan: var(--tang-1);
   --nhan-am: var(--tang-6);
@@ -143,7 +169,50 @@
   --do-sang-quang: 0.09;
 }
 
+/* ---------------------------------------------------------------------------
+   Token của Human Interface Guidelines
+   ---------------------------------------------------------------------------
+   Bo góc, nhịp chuyển động và vùng chạm lấy theo bộ token HIG. Ba nhóm này
+   không phải màu nên chúng dùng chung cho cả hai chế độ nền.
+
+   Đường cong lò xo là thứ làm chuyển động đọc ra kiểu Apple: hệ thống của họ
+   chạy bằng lò xo chứ không phải hàm ease, và linear() là cách gần nhất mà CSS
+   diễn lại được. Ba mốc thời lượng cũng theo HIG: 150ms cho đổi trạng thái,
+   250ms cho chuyển cảnh, 350ms cho một khối lớn dịch chuyển.
+   --------------------------------------------------------------------------- */
+:root {
+  --r-sm: 10px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 22px;
+
+  /* Vùng chạm nhỏ nhất theo HIG. Đây là vùng BẮT được ngón tay chứ không phải
+     ô nhìn thấy, nên một nút nhỏ phải nới vùng chạm ra chứ không phải phóng to
+     hình lên. */
+  --cham: 44px;
+
+  --nhip-lo-xo: linear(0, 0.35 12%, 0.72 24%, 0.95 34%, 1.04 43%, 1.05 55%, 1 76%, 1);
+  --nhip-ra: cubic-bezier(0, 0, 0.2, 1);
+  --lau-nhanh: 150ms;
+  --lau-vua: 250ms;
+  --lau-cham: 350ms;
+
+  /* Bóng đổ theo thang của HIG. Bản nền tối đậm hơn hẳn vì bóng nhạt trên nền
+     đen thì không ai thấy. */
+  --bong-nho: 0 1px 2px rgb(0 0 0 / 0.06), 0 1px 1px rgb(0 0 0 / 0.04);
+  --bong-vua: 0 4px 12px rgb(0 0 0 / 0.1);
+  --bong-lon: 0 12px 40px rgb(0 0 0 / 0.16);
+}
+
+:root:not([data-giao-dien='sang']) {
+  --bong-nho: 0 1px 2px rgb(0 0 0 / 0.4);
+  --bong-vua: 0 4px 12px rgb(0 0 0 / 0.5);
+  --bong-lon: 0 12px 40px rgb(0 0 0 / 0.6);
+}
+
 @theme inline {
+  --radius-lg: var(--r-lg);
+  --radius-xl: var(--r-xl);
   --color-nen: var(--nen);
   --color-nen-diu: var(--nen-diu);
   --color-be-mat: var(--be-mat);
@@ -167,7 +236,16 @@
    NỀN CHUNG
    =========================================================================== */
 
+/* Thân chữ 17px thay vì 16px.
+   Đây là khác biệt lớn nhất giữa một trang trông giống Apple và một trang
+   trông gần giống: thang chữ của iOS lấy 17pt làm thân chữ, mà 1pt bằng đúng
+   1px trên web. Trang nào để 16px thì mọi cỡ chữ đều nhỏ hơn đúng một nấc.
+
+   Đặt ở gốc bằng phần trăm chứ không đặt px, để người chỉnh cỡ chữ trong trình
+   duyệt vẫn được tôn trọng. Toàn bộ cỡ chữ và khoảng cách của trang khai bằng
+   rem nên chúng nở theo, giữ nguyên tỷ lệ giữa các thành phần. */
 html {
+  font-size: 106.25%;
   scroll-behavior: smooth;
   scroll-padding-top: 6rem;
 }
@@ -180,12 +258,20 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 
+  /* Giãn chữ âm nhẹ ở cỡ thân chữ.
+     HIG nói phông hệ thống giãn âm trong khoảng 13 tới 23pt rồi giãn dương từ
+     24pt trở lên. Be Vietnam Pro không phải phông ấy, nhưng luật thì là luật
+     của nghề chữ chứ không của riêng một phông: cỡ nhỏ cần siết lại cho chữ
+     kết thành từ, cỡ lớn cần nới ra cho chữ khỏi dính. Bỏ hẳn phần này là
+     trang đọc ra thành Helvetica đặt mặc định. */
+  letter-spacing: -0.014em;
+
   /* Đổi chế độ nền thì màu trôi sang chứ không giật. Chỉ áp cho hai thuộc tính
      này, không dùng transition: all, vì như thế sẽ nuốt cả các chuyển động
      khác đang chạy. */
   transition:
-    background-color 260ms ease,
-    color 260ms ease;
+    background-color var(--lau-vua) var(--nhip-ra),
+    color var(--lau-vua) var(--nhip-ra);
 }
 
 ::selection {
@@ -193,10 +279,13 @@ body {
   color: var(--nen);
 }
 
+/* Vòng tiêu điểm là bản web của Full Keyboard Access. HIG đòi nó phải THẤY
+   được, nên vòng dày ba điểm ảnh lùi ra hai điểm, và bo theo đúng hình của
+   phần tử thay vì bo cứng 2px như trước, để nó ôm sát nút bo tròn. */
 :focus-visible {
-  outline: 2px solid var(--nhan);
-  outline-offset: 3px;
-  border-radius: 2px;
+  outline: 3px solid var(--nhan);
+  outline-offset: 2px;
+  border-radius: inherit;
 }
 
 /* ===========================================================================
@@ -222,7 +311,14 @@ body {
   font-family: var(--font-hien);
   font-weight: 800;
   line-height: 1.04;
-  letter-spacing: -0.028em;
+
+  /* Nới từ -0.028em lên -0.015em.
+     HIG bảo phông hệ thống giãn DƯƠNG từ 24pt trở lên, nhưng con số ấy là để
+     bù cho việc SF có bản vẽ riêng cho cỡ lớn, vẽ sẵn chặt hơn. Be Vietnam Pro
+     không có bản vẽ riêng nên bê nguyên bảng giãn chữ của SF sang là chép máy
+     móc. Lấy đúng ý của luật thay vì con số: tiêu đề cỡ lớn cần thoáng hơn
+     thân chữ, nên siết ít lại chứ không siết nhiều như trước. */
+  letter-spacing: -0.015em;
 }
 
 /* Chữ máy chỉ dùng cho định danh thật: tên tầng, mã lỗi, tên công cụ, câu lệnh.
@@ -271,7 +367,7 @@ body {
     transparent 70%
   );
   opacity: var(--do-sang-quang);
-  transition: opacity 260ms ease;
+  transition: opacity var(--lau-vua) var(--nhip-ra);
 }
 
 /* ===========================================================================
@@ -297,15 +393,6 @@ body {
   to {
     opacity: 1;
     transform: none;
-  }
-}
-
-@keyframes dung-cot {
-  from {
-    transform: scaleY(0);
-  }
-  to {
-    transform: scaleY(1);
   }
 }
 
@@ -340,7 +427,7 @@ body {
 }
 
 .mo-man {
-  animation: dung-len 760ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: dung-len var(--lau-cham) var(--nhip-lo-xo) both;
 }
 
 /* Đường nối giữa hai chặng của dây chuyền. Chạy từ trái sang, mỗi chặng lệch
@@ -348,11 +435,11 @@ body {
    chấm rời nhau. Chạy đúng một lần rồi đứng yên. */
 .duong-chay {
   transform-origin: left;
-  animation: chay-ngang 620ms cubic-bezier(0.33, 1, 0.68, 1) both;
+  animation: chay-ngang var(--lau-cham) var(--nhip-ra) both;
 }
 
 .nut-tang {
-  animation: hien-dan 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation: hien-dan var(--lau-vua) var(--nhip-lo-xo) both;
 }
 
 .nhip-song {
@@ -365,8 +452,8 @@ body {
   opacity: 0;
   transform: translateY(22px);
   transition:
-    opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+    opacity var(--lau-cham) var(--nhip-ra),
+    transform var(--lau-cham) var(--nhip-lo-xo);
 }
 
 .cho-hien.da-hien {
@@ -420,22 +507,249 @@ body {
 /* Thẻ nổi: nền bề mặt, viền mảnh, và một vệt sáng rất nhạt ở cạnh trên để khối
    tách khỏi nền mà không cần đổ bóng. Đổ bóng trên nền tối gần như vô hình,
    nên dùng ánh sáng cạnh là cách đúng ở đây. */
+/* ---------------------------------------------------------------------------
+   Tầng màu dưới cùng
+   ---------------------------------------------------------------------------
+   Cố định theo khung nhìn nên màu sau mỗi panel đổi dần khi cuộn, và đó là lý
+   do lớp kính trông sống chứ không trông dán. Nhoè rất mạnh để không còn nhận
+   ra hình khối, chỉ còn là vùng màu.
+   --------------------------------------------------------------------------- */
+.truong-mau {
+  position: fixed;
+  inset: -20%;
+  z-index: 0;
+  filter: blur(130px);
+  opacity: var(--kinh-do-dam-truong);
+  pointer-events: none;
+}
+
+.truong-mau span {
+  position: absolute;
+  border-radius: 50%;
+  /* Trên nền tối màu phải CỘNG vào nhau mới sáng lên; trên nền sáng phải NHÂN
+     vào nhau mới đậm xuống. Dùng nhầm một cái là tầng màu biến mất. */
+  mix-blend-mode: screen;
+}
+
+[data-giao-dien='sang'] .truong-mau span {
+  mix-blend-mode: multiply;
+}
+
+/* Tầng màu nằm ở lớp 0, nên mọi thứ có chữ phải được nâng lên lớp 1. Thiếu
+   dòng này thì tầng màu phủ lên trên và trang biến thành một mảng nhoè. */
+body > header,
+body > main,
+body > footer,
+body > a[href='#dau-trang'] {
+  position: relative;
+  z-index: 1;
+}
+
+/* Nền xen kẽ phải trong suốt, nếu không nó che mất tầng màu và những mục dùng
+   nó sẽ không còn thấy kính. Tô bằng lớp phủ rất nhạt thay cho màu đặc. */
+.nen-diu-kinh {
+  background-color: color-mix(in srgb, var(--nen-diu) 42%, transparent);
+}
+
+/* Người xin giảm chuyển động không phiền vì tầng màu đứng yên, nhưng người xin
+   giảm trong suốt thì phải tắt nó đi cùng với lớp kính. */
+@media (prefers-reduced-transparency: reduce) {
+  .truong-mau {
+    display: none;
+  }
+}
+
+[data-giam-trong-suot='true'] .truong-mau {
+  display: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Bề mặt kính
+   ---------------------------------------------------------------------------
+   Ba độ dày. Càng dày thì càng ít thấy nền sau nhưng chữ càng chắc, nên chỗ
+   nhiều chữ dùng bản dày, chỗ ít chữ dùng bản mỏng cho thấy màu.
+   --------------------------------------------------------------------------- */
 .the-noi {
-  background-color: var(--be-mat);
-  border: 1px solid var(--vien);
-  box-shadow: inset 0 1px 0 0 color-mix(in oklab, var(--chu) 6%, transparent);
-}
+  position: relative;
+  background-color: var(--kinh-nen);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
 
-/* Trên nền sáng, vệt sáng ở cạnh trên không nhìn thấy gì vì bề mặt vốn đã
-   trắng. Chiều sâu ở đây phải đến từ bóng đổ, và bóng phải ngả xanh theo nền
-   chứ không phải xám trung tính: bóng xám trên nền có sắc lam đọc ra thành
-   vết bẩn. */
-[data-giao-dien='sang'] .the-noi {
+  /* Đường kẻ nửa điểm ảnh, đúng thứ HIG gọi là hairline. Trên màn thường nó
+     rơi về một điểm ảnh, trên màn mật độ cao nó mảnh đúng nửa. */
+  border: 0.5px solid var(--kinh-vien);
+  border-radius: var(--r-xl);
   box-shadow:
-    0 1px 2px -1px color-mix(in oklab, #0b111d 10%, transparent),
-    0 6px 16px -8px color-mix(in oklab, #0b111d 14%, transparent);
+    inset 0 1px 0 0 var(--kinh-loe),
+    var(--bong-vua);
 }
 
+.the-noi-mong {
+  backdrop-filter: blur(18px) saturate(170%);
+  -webkit-backdrop-filter: blur(18px) saturate(170%);
+  background-color: color-mix(in srgb, var(--kinh-nen) 70%, transparent);
+}
+
+.the-noi-day {
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  background-color: color-mix(in srgb, var(--kinh-nen) 135%, transparent);
+}
+
+/* Trình duyệt không dựng được lớp mờ thì phải có nền đặc, nếu không chữ nằm
+   thẳng trên tầng màu và không đọc nổi. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .the-noi,
+  .the-noi-mong,
+  .the-noi-day {
+    background-color: var(--be-mat);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .the-noi,
+  .the-noi-mong,
+  .the-noi-day {
+    background-color: var(--be-mat);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+[data-giam-trong-suot='true'] .the-noi,
+[data-giam-trong-suot='true'] .the-noi-mong,
+[data-giam-trong-suot='true'] .the-noi-day {
+  background-color: var(--be-mat);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Lớp kính của thanh điều hướng
+   ---------------------------------------------------------------------------
+   HIG cho phép lớp kính ở ĐÚNG tầng điều khiển: thanh đầu trang, thanh đáy,
+   thanh bên. Không bao giờ trên thẻ hay khối nội dung. Rải kính khắp nơi là
+   cách chắc chắn nhất để một trang bắt chước Apple trông rẻ tiền, nên cả trang
+   này chỉ có đúng một bề mặt kính.
+
+   Nội dung phải TRÔI BÊN DƯỚI nó. Thanh có nền đặc mà nội dung dừng lại ở mép
+   thanh thì đó là thanh kiểu 2013, không phải kính.
+
+   backdrop-filter ăn GPU thật, nên phải có đường lui cho trình duyệt không
+   dựng được, và phải nghe cả lời người dùng xin giảm trong suốt.
+   --------------------------------------------------------------------------- */
+.kinh {
+  background-color: color-mix(in srgb, var(--kinh-nen) 135%, transparent);
+  backdrop-filter: saturate(200%) blur(40px);
+  -webkit-backdrop-filter: saturate(200%) blur(40px);
+  border-bottom: 0.5px solid var(--kinh-vien);
+  box-shadow: inset 0 1px 0 0 var(--kinh-loe);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .kinh {
+    background-color: var(--nen);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .kinh {
+    background-color: var(--nen);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* Người dùng tự tắt trong suốt thì cũng phải nghe, vì hỗ trợ của trình duyệt
+   cho prefers-reduced-transparency còn thủng nhiều chỗ. */
+[data-giam-trong-suot='true'] .kinh {
+  background-color: var(--nen);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Vùng chạm và trạng thái nhấn
+   ---------------------------------------------------------------------------
+   HIG đòi 44px cho vùng bắt ngón tay, và đó là VÙNG BẮT chứ không phải ô nhìn
+   thấy. Nới bằng pseudo-element nên hình của nút không to ra, chỉ vùng bắt to
+   ra. Trạng thái nhấn là bắt buộc với nút tự vẽ: mờ đi cộng thu nhỏ một chút
+   là thứ đọc ra đúng kiểu máy Apple.
+   --------------------------------------------------------------------------- */
+.cham-du {
+  position: relative;
+}
+
+.cham-du::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100%, var(--cham));
+  height: max(100%, var(--cham));
+  transform: translate(-50%, -50%);
+}
+
+.nhan-duoc {
+  transition:
+    opacity var(--lau-nhanh) var(--nhip-ra),
+    transform var(--lau-nhanh) var(--nhip-ra);
+}
+
+.nhan-duoc:active {
+  opacity: 0.6;
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nhan-duoc {
+    transition: opacity var(--lau-nhanh) linear;
+  }
+
+  .nhan-duoc:active {
+    transform: none;
+  }
+}
+
+
+/* Đường kẻ chia ô của dải chỉ số.
+   Hai cột trên màn hẹp, bốn cột từ 640px. Viền phải bỏ ở ô cuối mỗi hàng và
+   viền dưới bỏ ở hàng cuối, nếu không sẽ thừa một đường kẻ chạy sát mép thẻ. */
+.dai-chi-so > * {
+  border-right: 0.5px solid var(--kinh-vien);
+  border-bottom: 0.5px solid var(--kinh-vien);
+}
+
+.dai-chi-so > *:nth-child(2n) {
+  border-right: 0;
+}
+
+.dai-chi-so > *:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+@media (min-width: 40rem) {
+  .dai-chi-so > * {
+    border-right: 0.5px solid var(--kinh-vien);
+    border-bottom: 0.5px solid var(--kinh-vien);
+  }
+
+  .dai-chi-so > *:nth-child(2n) {
+    border-right: 0.5px solid var(--kinh-vien);
+  }
+
+  .dai-chi-so > *:nth-child(4n) {
+    border-right: 0;
+  }
+
+  .dai-chi-so > *:nth-last-child(-n + 2) {
+    border-bottom: 0.5px solid var(--kinh-vien);
+  }
+
+  .dai-chi-so > *:nth-last-child(-n + 4) {
+    border-bottom: 0;
+  }
+}
 
 /* Một ô của bảng chỉ số.
    Con trỏ đi tới thì cả ô sáng lên một nấc và quầng sáng sau con số đậm thêm.
@@ -444,12 +758,15 @@ body {
    thành hình bàn tay, vì ô này không bấm được và giả vờ bấm được là nói dối. */
 .o-chi-so {
   --do-sang-so: 40%;
-  transition: background-color 220ms ease;
+  transition: background-color var(--lau-nhanh) var(--nhip-ra);
 }
 
+/* Nền lúc rê chuột phải trong suốt, không dùng màu đặc. Màu đặc đặt lên kính
+   thì nó bịt luôn chỗ nhìn xuyên qua, và ô đang được chú ý lại là ô mất chất
+   kính đầu tiên. */
 .o-chi-so:hover {
   --do-sang-so: 75%;
-  background-color: var(--be-mat-cao);
+  background-color: color-mix(in srgb, var(--kinh-nen) 90%, transparent);
 }
 
 /* Con số của dải kết quả. Quầng sáng rất nhạt sau chữ, đủ để con số trông như
@@ -457,7 +774,7 @@ body {
    quầng ấy chỉ thành một vệt bẩn, nên tắt hẳn. */
 .so-noi-bat {
   text-shadow: 0 0 28px color-mix(in oklab, var(--nhan) var(--do-sang-so, 40%), transparent);
-  transition: text-shadow 220ms ease;
+  transition: text-shadow var(--lau-nhanh) var(--nhip-ra);
 }
 
 [data-giao-dien='sang'] .so-noi-bat {
@@ -578,7 +895,7 @@ body {
   text-decoration-thickness: 1px;
   text-underline-offset: 0.22em;
   text-decoration-color: color-mix(in oklab, var(--nhan) 45%, transparent);
-  transition: text-decoration-color 180ms ease;
+  transition: text-decoration-color var(--lau-nhanh) var(--nhip-ra);
 }
 
 .lien-ket:hover {

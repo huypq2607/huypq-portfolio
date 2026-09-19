@@ -1,5 +1,9 @@
-// Thanh đầu trang: tên, các mục nhảy nhanh, nút đổi nền, nút đổi ngôn ngữ, và
-// một vạch tiến độ cuộn tô bằng chính dải sáu tầng.
+// Thanh đầu trang: tên, các mục nhảy nhanh, nút đổi nền, và một vạch tiến độ
+// cuộn tô bằng chính dải sáu tầng.
+//
+// Đây là bề mặt kính DUY NHẤT của cả trang, và HIG chỉ cho phép kính ở đúng
+// tầng điều khiển như thanh này. Nội dung trôi bên dưới nó chứ không dừng lại ở
+// mép thanh, nên phần chữ đi qua được nhìn thấy mờ qua lớp kính.
 //
 // Vạch tiến độ vừa cho biết đang ở đâu trong trang, vừa nhắc lại bảng màu mà
 // không phải thêm một mảng trang trí nào. Nó chỉ tồn tại được vì dải màu ấy
@@ -45,9 +49,12 @@ export function ThanhTren() {
   }, [])
 
   return (
-    <header className="sticky top-0 z-50 border-b border-vien bg-nen/80 backdrop-blur-md">
+    <header className="kinh sticky top-0 z-50">
       <div className="mx-auto flex max-w-[78rem] items-center gap-4 px-5 py-3 sm:px-8">
-        <a href="#dau-trang" className="hien text-[0.95rem] font-semibold whitespace-nowrap">
+        <a
+          href="#dau-trang"
+          className="hien cham-du nhan-duoc rounded-md text-[0.95rem] font-semibold whitespace-nowrap"
+        >
           {TEN}
         </a>
 
@@ -57,7 +64,7 @@ export function ThanhTren() {
               <li key={muc.dia_chi}>
                 <a
                   href={muc.dia_chi}
-                  className="-my-2 inline-block py-2 text-[0.88rem] text-chu-mo transition-colors hover:text-nhan"
+                  className="cham-du nhan-duoc -my-2 inline-block rounded-md py-2 text-[0.88rem] text-chu-mo transition-colors hover:text-nhan"
                 >
                   {chu(muc.nhan)}
                 </a>
@@ -71,7 +78,7 @@ export function ThanhTren() {
             type="button"
             onClick={doi_nen}
             aria-label={chu_tho(nen === 'toi' ? NHAN.doi_sang_nen_sang : NHAN.doi_sang_nen_toi)}
-            className="flex h-10 w-10 items-center justify-center rounded-md border border-vien text-chu-mo transition-colors hover:border-vien-ro hover:text-nhan sm:h-8 sm:w-8"
+            className="cham-du nhan-duoc flex h-11 w-11 items-center justify-center rounded-full border-[0.5px] border-vien bg-be-mat text-chu-mo transition-colors hover:border-vien-ro hover:text-nhan sm:h-9 sm:w-9"
           >
             {nen === 'toi' ? <BieuTuongMatTroi /> : <BieuTuongTrang />}
           </button>

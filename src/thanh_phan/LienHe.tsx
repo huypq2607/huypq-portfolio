@@ -21,7 +21,7 @@ export function LienHe() {
           ngang, thứ hỏng mà chỉ người mở trên điện thoại mới thấy. */}
       <a
         href={`mailto:${LIEN_HE.email}`}
-        className="hien-lon lien-ket cho-hien mt-8 inline-block max-w-full break-words text-[clamp(1.05rem,5.6vw,3rem)]"
+        className="hien-lon lien-ket cho-hien nhan-duoc cham-du mt-8 inline-block max-w-full rounded-md break-words text-[clamp(1.05rem,5.6vw,3rem)]"
       >
         {LIEN_HE.email}
       </a>
@@ -35,7 +35,7 @@ export function LienHe() {
               href={kenh.dia_chi}
               target="_blank"
               rel="noreferrer"
-              className="the-noi block rounded-xl px-5 py-4 transition-colors hover:border-vien-ro"
+              className="the-noi nhan-duoc block px-5 py-4 transition-colors hover:border-vien-ro"
             >
               <span
                 className="ma block text-[0.72rem]"

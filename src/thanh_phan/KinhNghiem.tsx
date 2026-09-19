@@ -40,9 +40,12 @@ function MotNoi({ noi }: { noi: Kinh_nghiem }) {
       </p>
 
       {noi.so_lieu !== undefined && (
-        <dl className="the-noi mt-6 grid grid-cols-2 overflow-hidden rounded-xl sm:grid-cols-3">
+        <dl className="the-noi mt-6 grid grid-cols-1 overflow-hidden sm:grid-cols-3">
           {noi.so_lieu.map((muc) => (
-            <div key={muc.nhan.vi} className="border-vien px-4 py-4 not-last:border-r odd:border-r">
+            <div
+              key={muc.nhan.vi}
+              className="border-vien px-4 py-4 not-last:border-b sm:not-last:border-r sm:not-last:border-b-0"
+            >
               <dt className="sr-only">{chu_tho(muc.nhan)}</dt>
               <dd>
                 <DemSo dich={chu_tho(muc.so)} className="so-lieu block text-[1.7rem] leading-none" />
