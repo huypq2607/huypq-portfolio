@@ -22,13 +22,13 @@ export function ChuyenBien() {
   const { chu, chu_tho } = dung_ngon_ngu()
 
   return (
-    <div className="the-noi cho-hien overflow-hidden rounded-xl">
-      <dl
-        className="grid grid-cols-2 gap-px sm:grid-cols-4"
-        style={{ backgroundColor: 'var(--vien)' }}
-      >
+    <div className="the-noi cho-hien overflow-hidden">
+      {/* Đường kẻ giữa các ô vẽ bằng viền của chính ô, không phải bằng khe hở
+          để lộ nền phía dưới như trước. Cách cũ đòi cả lưới có nền đặc và mọi ô
+          cũng có nền đặc, mà nền đặc thì che mất lớp kính. */}
+      <dl className="dai-chi-so grid grid-cols-2 sm:grid-cols-4">
         {CHUYEN_BIEN.map((muc, thu_tu) => (
-          <div key={muc.nhan.vi} className="o-chi-so group min-w-0 bg-be-mat px-4 py-5 sm:px-5">
+          <div key={muc.nhan.vi} className="o-chi-so group min-w-0 px-4 py-5 sm:px-5">
             <div className="flex items-center justify-between gap-2">
               <p className="ma text-[0.66rem] text-chu-mo opacity-70 transition-opacity duration-200 group-hover:opacity-100">
                 {muc.noi}

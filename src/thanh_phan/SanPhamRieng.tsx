@@ -11,7 +11,7 @@ export function SanPhamRieng() {
   const { chu } = dung_ngon_ngu()
 
   return (
-    <div className="cho-hien the-noi mt-6 rounded-xl p-5 sm:p-6">
+    <div className="cho-hien the-noi mt-6 p-5 sm:p-6">
       <p className="ma text-[0.7rem] text-chu-mo">{chu(NHAN.nhan_san_pham_rieng)}</p>
       <div className="mt-2 flex flex-wrap items-baseline gap-x-4 gap-y-1">
         <h3 className="text-[1.15rem] font-semibold">{chu(DAPRACTICE.ten)}</h3>
@@ -19,7 +19,7 @@ export function SanPhamRieng() {
           href={DAPRACTICE.lien_ket.dia_chi}
           target="_blank"
           rel="noreferrer"
-          className="ma text-[0.8rem] underline underline-offset-4"
+          className="ma cham-du nhan-duoc rounded-md text-[0.8rem] underline underline-offset-4"
           style={{ color: 'var(--nhan)' }}
         >
           {chu(DAPRACTICE.lien_ket.nhan)}

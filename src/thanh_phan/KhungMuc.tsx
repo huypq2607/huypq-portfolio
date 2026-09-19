@@ -19,7 +19,7 @@ export function KhungMuc({ ma, tieu_de, children, nen_diu = false }: Tham_so) {
   const { chu } = dung_ngon_ngu()
 
   return (
-    <section id={ma} className={nen_diu ? 'bg-nen-diu' : undefined}>
+    <section id={ma} className={nen_diu ? 'nen-diu-kinh' : undefined}>
       <div className="mx-auto max-w-[78rem] px-5 py-16 sm:px-8 sm:py-24">
         <div className="cho-hien border-t border-vien pt-6">
           <h2 className="hien-lon text-[clamp(1.7rem,3.6vw,2.5rem)]">{chu(tieu_de)}</h2>

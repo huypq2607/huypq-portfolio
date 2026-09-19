@@ -21,21 +21,21 @@ export function LienHe() {
           ngang, thứ hỏng mà chỉ người mở trên điện thoại mới thấy. */}
       <a
         href={`mailto:${LIEN_HE.email}`}
-        className="hien-lon lien-ket cho-hien mt-8 inline-block max-w-full break-words text-[clamp(1.05rem,5.6vw,3rem)]"
+        className="hien-lon lien-ket cho-hien nhan-duoc cham-du mt-8 inline-block max-w-full rounded-md break-words text-[clamp(1.05rem,5.6vw,3rem)]"
       >
         {LIEN_HE.email}
       </a>
 
       <h3 className="ma cho-hien mt-14 text-[0.75rem] text-chu-mo">{chu(NHAN.nhan_theo_doi)}</h3>
 
-      <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {LIEN_HE.kenh.map((kenh, thu_tu) => (
           <li key={kenh.ten} className="cho-hien" style={{ transitionDelay: `${thu_tu * 80}ms` }}>
             <a
               href={kenh.dia_chi}
               target="_blank"
               rel="noreferrer"
-              className="the-noi block rounded-xl px-5 py-4 transition-colors hover:border-vien-ro"
+              className="the-noi nhan-duoc block px-5 py-4 transition-colors hover:border-vien-ro"
             >
               <span
                 className="ma block text-[0.72rem]"
