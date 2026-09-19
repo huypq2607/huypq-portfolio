@@ -594,9 +594,8 @@ export const LIEN_HE = {
   email: 'huypq2607@gmail.com',
 
   /** Các nơi khác có thể tìm thấy tôi. Thứ tự trong mảng là thứ tự hiển thị:
-   *  kho mã trước, rồi sản phẩm đang bán, rồi hai kênh chia sẻ kiến thức. */
+   *  sản phẩm tự làm trước, rồi hai kênh chia sẻ kiến thức. */
   kenh: [
-    { ten: 'GitHub', nhan: 'github.com/huypq2607', dia_chi: 'https://github.com/huypq2607' },
     { ten: 'dapractice', nhan: 'dapractice.site', dia_chi: 'https://dapractice.site' },
     { ten: 'Threads', nhan: '@huypq.data', dia_chi: 'https://www.threads.com/@huypq.data' },
     { ten: 'TikTok', nhan: '@huypq17b6', dia_chi: 'https://www.tiktok.com/@huypq17b6' },

@@ -28,7 +28,7 @@ export function LienHe() {
 
       <h3 className="ma cho-hien mt-14 text-[0.75rem] text-chu-mo">{chu(NHAN.nhan_theo_doi)}</h3>
 
-      <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {LIEN_HE.kenh.map((kenh, thu_tu) => (
           <li key={kenh.ten} className="cho-hien" style={{ transitionDelay: `${thu_tu * 80}ms` }}>
             <a
