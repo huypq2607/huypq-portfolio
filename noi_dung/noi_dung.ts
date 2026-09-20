@@ -127,7 +127,7 @@ export const KINH_NGHIEM: readonly Kinh_nghiem[] = [
             ket_qua: {
               vi: 'thời gian làm báo cáo mỗi tuần',
             },
-            so: { vi: '−30%' },
+            so: { vi: '−70%' },
             hinh: 'thoi-gian',
           },
           {
@@ -327,7 +327,7 @@ export const CHUYEN_BIEN: readonly Chuyen_bien[] = [
     noi: 'VETC',
     nhan: { vi: 'Giờ làm báo cáo tay mỗi tuần' },
     chieu: 'giam',
-    sau: { vi: '-30%' },
+    sau: { vi: '-70%' },
   },
   {
     noi: 'VETC',
@@ -469,7 +469,7 @@ export const DU_AN_NOI_BAT: readonly Du_an_noi_bat[] = [
       vi: 'Pipeline 6 chặng chạy theo lịch mỗi giờ, tự gửi báo cáo lúc 7:00 và bắn cảnh báo khi chỉ số lệch khỏi dải kỳ vọng.',
     },
     gia_tri: [
-      { vi: 'Giảm 30% giờ làm báo cáo tay mỗi tuần' },
+      { vi: 'Giảm 70% giờ làm báo cáo tay mỗi tuần' },
       { vi: 'Rút thời gian phát hiện sai lệch từ 5 ngày xuống trong ngày' },
     ],
   },

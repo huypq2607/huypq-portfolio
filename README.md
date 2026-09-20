@@ -227,7 +227,7 @@ con số là nắm được toàn bộ phần kết quả mà không phải đ�
 đọc khi muốn biết làm thế nào.
 
 **Con số đứng cột riêng nên câu kết quả không lặp lại nó nữa**, mà thành một
-mệnh đề đọc nối vào con số: `−30%` rồi `thời gian làm báo cáo mỗi tuần`. Cổng
+mệnh đề đọc nối vào con số: `−70%` rồi `thời gian làm báo cáo mỗi tuần`. Cổng
 canh gác so đúng chữ số ở cột với câu và chuyển đỏ khi thấy lặp. Việc nào không
 đo được thành một con số thì cột ấy để trống chứ không đặt dấu gạch, vì dấu
 gạch đọc ra thành "chỗ này chưa điền".
